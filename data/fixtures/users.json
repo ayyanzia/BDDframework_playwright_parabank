@@ -1,0 +1,66 @@
+{
+  "description": "Static test fixtures for the ParaBank automation suite.",
+  "note": "Used by DataFactory.fromFile() to load structured test data without relying on runtime faker generation.",
+  "users": [
+    {
+      "id": "static_user_001",
+      "type": "primary",
+      "description": "Standard valid user for positive-path login/registration tests",
+      "firstName": "Alice",
+      "lastName": "Testington",
+      "street": "123 Framework Lane",
+      "city": "Testville",
+      "state": "CA",
+      "zipCode": "90001",
+      "phone": "5550001234",
+      "ssn": "123-45-6789",
+      "username": "qa_alice_static",
+      "password": "QaAlice123#1"
+    },
+    {
+      "id": "static_user_002",
+      "type": "negative",
+      "description": "User with deliberately short password for negative-path testing",
+      "firstName": "Bob",
+      "lastName": "Badpass",
+      "username": "qa_bob_static",
+      "password": "abc"
+    },
+    {
+      "id": "static_user_003",
+      "type": "boundary",
+      "description": "User with 255-char username for boundary testing",
+      "firstName": "Charlie",
+      "lastName": "Boundary",
+      "username": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "password": "QaCharlie123#1"
+    }
+  ],
+  "payees": [
+    {
+      "id": "payee_001",
+      "name": "Acme Corp",
+      "street": "456 Vendor Ave",
+      "city": "Commerce City",
+      "state": "NY",
+      "zipCode": "10001",
+      "phone": "5559876543",
+      "accountNumber": "12345678"
+    },
+    {
+      "id": "payee_002",
+      "name": "Global Utilities",
+      "street": "789 Power Blvd",
+      "city": "Energytown",
+      "state": "TX",
+      "zipCode": "75001",
+      "phone": "5554445555",
+      "accountNumber": "87654321"
+    }
+  ],
+  "loanAmounts": [
+    { "amount": "1000", "downPayment": "100", "label": "small_loan" },
+    { "amount": "5000", "downPayment": "500", "label": "medium_loan" },
+    { "amount": "25000", "downPayment": "2500", "label": "large_loan" }
+  ]
+}

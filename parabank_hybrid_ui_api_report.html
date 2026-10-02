@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hybrid UI and API Cross-Validation Execution Report</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #ffffff;
+            color: #333333;
+            margin: 0;
+            padding: 30px;
+            line-height: 1.6;
+        }
+        h1, h2, h3, h4 {
+            color: #005f73;
+            margin-top: 0;
+        }
+        .header-panel {
+            background-color: #e0fbfc;
+            border-left: 8px solid #0a9396;
+            padding: 25px;
+            margin-bottom: 30px;
+            border-radius: 4px;
+        }
+        .metrics-container {
+            display: flex;
+            gap: 20px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        .metric-card {
+            background-color: #ffffff;
+            border: 1px solid #94d2bd;
+            border-top: 5px solid #0a9396;
+            padding: 15px 20px;
+            border-radius: 6px;
+            flex: 1;
+            min-width: 120px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .metric-title {
+            font-size: 0.85em;
+            color: #005f73;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+        .metric-value {
+            font-size: 2em;
+            font-weight: bold;
+            color: #0a9396;
+        }
+        .explanation-panel {
+            background-color: #f0fdfa;
+            border: 1px solid #ccfbf1;
+            border-left: 6px solid #14b8a6;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 4px;
+        }
+        details {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        summary {
+            background-color: #0a9396;
+            color: white;
+            padding: 15px 20px;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        summary:hover {
+            background-color: #005f73;
+        }
+        .module-content {
+            padding: 15px;
+        }
+        .test-case {
+            background-color: #ffffff;
+            border: 1px solid #e2e8f0;
+            margin-bottom: 15px;
+            padding: 20px;
+            border-radius: 6px;
+            border-left: 5px solid #10b981;
+        }
+        .test-title {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #005f73;
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .test-section {
+            margin-bottom: 12px;
+        }
+        .section-label {
+            font-weight: bold;
+            color: #0a9396;
+        }
+        ol {
+            margin-top: 5px;
+            margin-bottom: 0;
+            padding-left: 25px;
+        }
+        li {
+            margin-bottom: 4px;
+        }
+        .status-passed {
+            color: #10b981;
+            font-weight: bold;
+            background-color: #ecfdf5;
+            padding: 2px 8px;
+            border-radius: 4px;
+            border: 1px solid #a7f3d0;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header-panel">
+        <h1>Hybrid UI and API Cross-Validation Execution Report</h1>
+        <p>Formal execution report for automated validation of the Parabank system.</p>
+        
+        <div class="metrics-container">
+            <div class="metric-card">
+                <div class="metric-title">Total Tests</div>
+                <div class="metric-value">19</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-title">Passed</div>
+                <div class="metric-value" style="color: #10b981;">19</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-title">Failed</div>
+                <div class="metric-value">0</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-title">Pass Rate</div>
+                <div class="metric-value" style="color: #10b981;">100%</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-title">Duration</div>
+                <div class="metric-value">2.1m</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="explanation-panel">
+        <h2>What is Cross-Validation?</h2>
+        <p>In this context, <strong>Cross-Validation</strong> means that our testing system performs an action in the web browser (the frontend interface that a user sees) and then independently checks the server database via a direct API call (the backend) to confirm both sides agree.</p>
+        <p>This ensures that what the user sees on their screen perfectly matches the true data stored deep within the banking system, preventing display errors or hidden server failures.</p>
+    </div>
+
+    <details>
+        <summary>MODULE 1: User Registration (2 tests)</summary>
+        <div class="module-content">
+            <div class="test-case">
+                <div class="test-title">Test: UI Registration form creates valid backend record verified by REST API</div>
+                <div class="test-section">
+                    <span class="section-label">Description:</span> Verifies that when a person registers through the website's registration form, their account is genuinely created in the server's database and they can be found via the backend API.
+                </div>
+                <div class="test-section">
+                    <span class="section-label">Steps:</span>
+                    <ol>
+                        <li>Generate a random new user with unique name and credentials.</li>
+                        <li>Navigate to the registration page in the browser.</li>
+                        <li>Fill in all registration fields (first name, last name, username, password, etc.).</li>
+                        <li>Click the Register button.</li>
+                        <li>Verify the browser shows a success message (welcome, created, or account text).</li>
+                        <li>Independently query the server's login API using the new credentials.</li>
+                        <li>Compare the username, first name, and last name from the browser registration with the data returned by the server API.</li>
+                    </ol>
+                </div>
+                <div class="test-section">
+                    <span class="section-label">Expected Result:</span> The browser shows registration success AND the server API returns matching user data (same username, first name, last name).
+                </div>
+                <div class="test-section">
+                    <span class="section-label">Actual Result:</span> <span class="status-passed">PASSED</span>
+                </div>
+                <div class="test-section">
+                    <span class="section-label">What Was Cross-Validated:</span> UI username equals API username, UI firstName equals API firstName, UI lastName equals API lastName.
+                </div>
+            </div>
+
+            <div class="test-case">
+                <div class="test-title">Test: UI Registration with missing fields fails gracefully on UI and returns 400/500 on backend</div>
+                <div class="test-section">
+                    <span class="section-label">Description:</span> Ensures that submitting an incomplete registration form is rejected by both the website and the server independently.
+                </div>
+                <div class="test-section">
+                    <span class="section-label">Steps:</span>
+                    <ol>
+                        <li>Create a user profile with the first name intentionally left blank.</li>
+                        <li>Navigate to the registration page.</li>
+                        <li>Fill in only the username and password (leaving first name empty).</li>
+                        <li>Click Register.</li>
+                        <li>Verify the browser displays an error message mentioning 'is required' or 'error'.</li>
+                        <li>Independently submit the same incomplete data directly to the server.</li>
+                        <li>Verify the server also rejects it.</li>
+                    </ol>
+                </div>
+                <div class="test-section">
+                    <span class="section-label">Expected Result:</span> Browser shows a validation error AND server returns an error status.
+                </div>
+                <div class="test-section">
+                    <span class="section-label">Actual Result:</span> <span class="status-passed">PASSED</span>
+                </div>
+                <div class="test-section">
+                    <span class="section-label">What Was Cross-Validated:</span> Form rejection mechanism consistency across frontend and backend.
+                </div>
+            </div>
+        </div>
+    </details>
+
+    <details>
+        <summary>MODULE 2: Authentication and Login (2 tests)</summary>
+        <div class="module-content">
+            <div class="test-case">
+                <div class="test-title">Test: UI Login welcome header matches backend REST customer identity</div>
+                <div class="test-section">
+                    <span class="section-label">Description:</span> Verifies that the name shown on the welcome screen after login matches what the server has stored for that user.
+                </div>
+                <div class="test-section">
+                    <span class="section-label">Steps:</span>
+                    <ol>
+                        <li>Register a new user through the browser.</li>
+                        <li>Log in with the new credentials via the browser login form.</li>
+                        <li>Read the welcome heading displayed on the screen (e.g., 'Welcome John Smith').</li>
+                        <li>Independently query the server's login API with the same credentials.</li>
+                        <li>Compare the browser welcome name with the API response name.</li>
+                    </ol>
+                </div>
+                <div class="test-section">
+                    <span class="section-label">Expected Result:</span> The welcome message name matches the server's stored customer name.
+                </div>
+                <div class="test-section">
+                    <span class="section-label">Actual Result:</span> <span class="status-passed">PASSED</span>
+                </div>
+                <div class="test-section">
+                    <span class="section-label">What Was Cross-Validated:</span> UI displayed username matches API stored username.
+                </div>
+            </div>
+
+            <div class="test-case">
+                <div class="test-title">Test: Invalid UI Login fails on UI and corresponds to invalid REST API response</div>
+                <div class="test-section">
+                    <span class="section-label">Description:</span> Confirms that fake or wrong credentials are rejected by both the website interface and the server API independently.
+                </div>
+                <div class="test-section">
+                    <span class="section-label">Steps:</span>
+                    <ol>
+                        <li>Navigate to the login page.</li>
+                        <li>Enter a fake username ('invalid_user_hybrid_999') and wrong password.</li>
+                        <li>Click Log In.</li>
+                        <li>Verify the browser displays an error message about verification failure.</li>
+                        <li>Independently send the same fake credentials to the server's login API.</li>
+                        <li>Verify the server also rejects them.</li>
+                    </ol>
+                </div>
+                <div class="test-section">
+                    <span class="section-label">Expected Result:</span> Browser shows login error AND server returns error status.
+                </div>
+                <div class="test-section">
+                    <span class="section-label">Actual Result:</span> <span class="status-passed">PASSED</span>
+                </div>
+                <div class="test-section">
+                    <span class="section-label">What Was Cross-Validated:</span> Invalid credentials rejection consistency across frontend and backend.
+                </div>
+            </div>
+        </div>
+    </details>
+
+    <details>
+        <summary>MODULE 3: Accounts Overview (2 tests)</summary>
+        <div class="module-content">
+            <div class="test-case">
+                <div class="test-title">Test: UI Accounts Overview table rows match backend REST customer accounts list</div>
+                <div class="test-section">
+                    <span class="section-label">Description:</span> Compares the list of bank accounts and their balances shown on the website with what the server's API returns to ensure both sides show identical financial data.
+                </div>
+                <div class="test-section">
+                    <span class="section-label">Steps:</span>
+                    <ol>
+                        <li>Register and log in a new user through the browser.</li>
+                        <li>Navigate to the Accounts Overview page.</li>
+                        <li>Extract all account numbers shown in the browser's accounts table.</li>
+                        <li>Read the balance displayed for the first account in the browser.</li>
+                        <li>Independently query the server's API for the same customer's accounts.</li>
+                        <li>Find the matching account in the API response.</li>
+                        <li>Compare the browser-displayed balance with the API-reported balance.</li>
+                    </ol>
+                </div>
+                <div class="test-section">
+                    <span class="section-label">Expected Result:</span> Account numbers in the browser table match the API list, and the displayed balance matches the API balance within monetary tolerance.
+                </div>
+                <div class="test-section">
+                    <span class="section-label">Actual Result:</span> <span class="status-passed">PASSED</span>
+                </div>
+                <div class="test-section">
+                    <span class="section-label">What Was Cross-Validated:</span> UI balance matches API balance for each account.
+                </div>
+            </div>
+
+            <div class="test-case">
+                <div class="test-title">Test: Querying accounts for non-existent customer returns 400/404 on API</div>
+                <div class="test-section">
+                    <span class="section-label">Description:</span> Verifies that the server properly rejects requests for accounts belonging to a customer that does not exist in the system.
+                </div>
+                <div class="test-section">
+                    <span class="section-label">Steps:</span>
+                    <ol>
+                        <li>Send a direct API request for accounts belonging to customer ID 999999999 (non-existent).</li>
+                        <li>Check the server's response status.</li>
+                    </ol>
+                </div>
+                <div class="test-section">
+                    <span class="section-label">Expected Result:</span> Server returns an error status (not a success and not a crash).
+                </div>
+                <div class="test-section">
+                    <span class="section-label">Actual Result:</span> <span class="status-passed">PASSED</span>
+                </div>
+                <div class="test-section">
+                    <span class="section-label">What Was Cross-Validated:</span> Security handling of invalid customer IDs.
+                </div>
+            </div>
+        </div>
+    </details>
+
+    <details>
+        <summary>MODULE 4: Open New Account (2 tests)</summary>
+        <div class="module-content">
+            <div class="test-case">
+                <div class="test-title">Test: UI Open Account provisions new backend account verified via REST API</div>
+                <div class="test-section">
+                    <span class="section-label">Description:</span> Verifies that when a user opens a new bank account through the website's interface, the account genuinely exists in the server's database with the correct type and details.
+                </div>
+                <div class="test-section">
+                    <span class="section-label">Steps:</span>
+                    <ol>
+                        <li>Register and log in a new user.</li>
+                        <li>Navigate to the Open New Account page.</li>
+                        <li>Select 'SAVINGS' as the account type.</li>
+                        <li>Click Open New Account.</li>
+                        <li>Read the new account number displayed on screen.</li>
+                        <li>Independently query the server's API using that new account number.</li>
+                        <li>Verify the API confirms the account exists with the correct type (SAVINGS).</li>
+                    </ol>
+                </div>
+                <div class="test-section">
+                    <span class="section-label">Expected Result:</span> The new account number shown on screen exists in the server database as a SAVINGS account.
+                </div>
+                <div class="test-section">
+                    <span class="section-label">Actual Result:</span> <span class="status-passed">PASSED</span>
+                </div>
+                <div class="test-section">
+                    <span class="section-label">What Was Cross-Validated:</span> UI displayed account ID matches API account ID, account type is SAVINGS.
+                </div>
+            </div>
+
+            <div class="test-case">
+                <div class="test-title">Test: Backend POST /createAccount with invalid params returns 400/500</div>
+                <div class="test-section">
+                    <span class="section-label">Description:</span> Confirms the server properly rejects account creation requests with invalid customer IDs or account types.
+                </div>
+                <div class="test-section">
+                    <span class="section-label">Steps:</span>
+                    <ol>
+                        <li>Send a direct API request to create an account with fake customer ID (999999), invalid account type (99), and source account 0.</li>
+                        <li>Verify the server returns an error.</li>
+                    </ol>
+                </div>
+                <div class="test-section">
+                    <span class="section-label">Expected Result:</span> Server rejects the invalid request.
+                </div>
+                <div class="test-section">
+                    <span class="section-label">Actual Result:</span> <span class="status-passed">PASSED</span>
+                </div>
+                <div class="test-section">
+                    <span class="section-label">What Was Cross-Validated:</span> Server validation of account creation parameters.
+                </div>
+            </div>
+        </div>
+    </details>
+
+    <details>
+        <summary>MODULE 5: Transfer Funds (2 tests)</summary>
+        <div class="module-content">
+            <div class="test-case">
+                <div class="test-title">Test: UI Transfer Funds updates backend account balance and creates Debit transaction in REST API</div>
+                <div class="test-section">
+                    <span class="section-label">Description:</span> Transferring money through the website actually moves the funds in the server's database and creates a transaction record.
+                </div>
+                <div class="test-section">
+                    <span class="section-label">Steps:</span>
+                    <ol>
+                        <li>Register and log in a new user.</li>
+                        <li>Navigate to the Transfer Funds page.</li>
+                        <li>Enter $20 as the transfer amount.</li>
+                        <li>Note the source account number.</li>
+                        <li>Click Transfer.</li>
+                        <li>Verify the browser shows 'Transfer Complete'.</li>
+                        <li>Independently query the server's API for the source account's transactions.</li>
+                        <li>Find the latest transaction and verify it is a $20 debit.</li>
+                    </ol>
+                </div>
+                <div class="test-section">
+                    <span class="section-label">Expected Result:</span> Browser shows transfer complete AND server has a matching $20 Debit transaction on the source account.
+                </div>
+                <div class="test-section">
+                    <span class="section-label">Actual Result:</span> <span class="status-passed">PASSED</span>
+                </div>
+                <div class="test-section">
+                    <span class="section-label">What Was Cross-Validated:</span> Transfer amount of $20 matches the API transaction amount.
+                </div>
+            </div>
+
+            <div class="test-case">
+                <div class="test-title">Test: REST API POST /transfer with invalid params handles 400 status code</div>
+                <div class="test-section">
+                    <span class="section-label">Description:</span> Confirms the server rejects transfer requests with invalid account numbers and negative amounts.
+                </div>
+                <div class="test-section">
+                    <span class="section-label">Steps:</span>
+                    <ol>
+                        <li>Send a direct API transfer request with source account 0, target account 0, and amount -$50.</li>
+                        <li>Verify the server rejects it without crashing.</li>
+                    </ol>
+                </div>
+                <div class="test-section">
+                    <span class="section-label">Expected Result:</span> Server returns an error (not a crash).
+                </div>
+                <div class="test-section">
+                    <span class="section-label">Actual Result:</span> <span class="status-passed">PASSED</span>
+                </div>
+                <div class="test-section">
+                    <span class="section-label">What Was Cross-Validated:</span> Invalid transfer data properly constrained by backend rules.
+                </div>
+            </div>
+        </div>
+    </details>
+
+    <details>
+        <summary>MODULE 6: Deposit and Withdraw (1 test)</summary>
+        <div class="module-content">
+            <div class="test-case">
+                <div class="test-title">Test: REST API POST /deposit updates balance which is automatically rendered in UI table</div>
+                <div class="test-section">
+                    <span class="section-label">Description:</span> Tests the reverse direction - makes a deposit through the server API and then verifies the website automatically reflects the updated balance.
+                </div>
+                <div class="test-section">
+                    <span class="section-label">Steps:</span>
+                    <ol>
+                        <li>Register and log in a new user.</li>
+                        <li>Query the server API for the user's accounts and note the primary account and its balance.</li>
+                        <li>Deposit $35 into the account through the server API directly.</li>
+                        <li>Navigate to the Accounts Overview page in the browser.</li>
+                        <li>Read the balance displayed for the primary account.</li>
+                        <li>Compare the browser balance with the expected balance (original + $35).</li>
+                    </ol>
+                </div>
+                <div class="test-section">
+                    <span class="section-label">Expected Result:</span> The browser-displayed balance matches the original balance plus $35.
+                </div>
+                <div class="test-section">
+                    <span class="section-label">Actual Result:</span> <span class="status-passed">PASSED</span>
+                </div>
+                <div class="test-section">
+                    <span class="section-label">What Was Cross-Validated:</span> API deposit amount reflected in UI balance display.
+                </div>
+            </div>
+        </div>
+    </details>
+
+    <details>
+        <summary>MODULE 7: Bill Payment (2 tests)</summary>
+        <div class="module-content">
+            <div class="test-case">
+                <div class="test-title">Test: UI Bill Payment creates backend Debit transaction verified in REST API</div>
+                <div class="test-section">
+                    <span class="section-label">Description:</span> Verifies that a bill payment submitted through the website's bill pay form actually creates a debit transaction in the server's transaction records.
+                </div>
+                <div class="test-section">
+                    <span class="section-label">Steps:</span>
+                    <ol>
+                        <li>Register and log in a new user.</li>
+                        <li>Navigate to the Bill Pay page.</li>
+                        <li>Fill in payee details (name: 'Electric Power Utility', account number, amount: $45).</li>
+                        <li>Note the source account number.</li>
+                        <li>Click Send Payment.</li>
+                        <li>Verify the browser shows 'Bill Payment Complete'.</li>
+                        <li>Independently query the server's API for the source account's transactions.</li>
+                        <li>Verify a $45 debit transaction exists.</li>
+                    </ol>
+                </div>
+                <div class="test-section">
+                    <span class="section-label">Expected Result:</span> Browser confirms payment AND server has a matching $45 Debit transaction.
+                </div>
+                <div class="test-section">
+                    <span class="section-label">Actual Result:</span> <span class="status-passed">PASSED</span>
+                </div>
+                <div class="test-section">
+                    <span class="section-label">What Was Cross-Validated:</span> Bill pay amount of $45 matches the API transaction amount.
+                </div>
+            </div>
+
+            <div class="test-case">
+                <div class="test-title">Test: REST API POST /billpay missing payload returns 400 status code</div>
+                <div class="test-section">
+                    <span class="section-label">Description:</span> Confirms the server rejects bill payment requests that are missing the payee information.
+                </div>
+                <div class="test-section">
+                    <span class="section-label">Steps:</span>
+                    <ol>
+                        <li>Send a direct API bill payment request with account 0 and amount 0 (no payee details).</li>
+                        <li>Verify the server rejects it.</li>
+                    </ol>
+                </div>
+                <div class="test-section">
+                    <span class="section-label">Expected Result:</span> Server returns an error status.
+                </div>
+                <div class="test-section">
+                    <span class="section-label">Actual Result:</span> <span class="status-passed">PASSED</span>
+                </div>
+                <div class="test-section">
+                    <span class="section-label">What Was Cross-Validated:</span> Missing payload handling for bill payments.
+                </div>
+            </div>
+        </div>
+    </details>
+
+    <details>
+        <summary>MODULE 8: Loan Application (2 tests)</summary>
+        <div class="module-content">
+            <div class="test-case">
+                <div class="test-title">Test: UI Loan Request provisions new loan account verified in REST API</div>
+                <div class="test-section">
+                    <span class="section-label">Description:</span> Verifies that a loan application submitted through the website actually creates a new loan account in the server's database.
+                </div>
+                <div class="test-section">
+                    <span class="section-label">Steps:</span>
+                    <ol>
+                        <li>Register and log in a new user.</li>
+                        <li>Navigate to the Request Loan page.</li>
+                        <li>Enter loan amount $100 and down payment $10.</li>
+                        <li>Click Apply Now.</li>
+                        <li>Read the new loan account number from the screen.</li>
+                        <li>Independently query the server's API using that loan account number.</li>
+                        <li>Verify the loan account exists in the database.</li>
+                    </ol>
+                </div>
+                <div class="test-section">
+                    <span class="section-label">Expected Result:</span> The loan account number shown on screen exists in the server database.
+                </div>
+                <div class="test-section">
+                    <span class="section-label">Actual Result:</span> <span class="status-passed">PASSED</span>
+                </div>
+                <div class="test-section">
+                    <span class="section-label">What Was Cross-Validated:</span> UI displayed loan account ID matches API loan account ID.
+                </div>
+            </div>
+
+            <div class="test-case">
+                <div class="test-title">Test: REST API POST /requestLoan handles invalid loan parameters cleanly</div>
+                <div class="test-section">
+                    <span class="section-label">Description:</span> Confirms the server handles invalid loan applications (negative amounts, fake customer) without crashing.
+                </div>
+                <div class="test-section">
+                    <span class="section-label">Steps:</span>
+                    <ol>
+                        <li>Send a direct API loan request with customer ID 99999, amount -$500, $0 down payment, and source account 0.</li>
+                        <li>Verify the server handles it gracefully.</li>
+                    </ol>
+                </div>
+                <div class="test-section">
+                    <span class="section-label">Expected Result:</span> Server processes the request without crashing.
+                </div>
+                <div class="test-section">
+                    <span class="section-label">Actual Result:</span> <span class="status-passed">PASSED</span>
+                </div>
+                <div class="test-section">
+                    <span class="section-label">What Was Cross-Validated:</span> Invalid loan processing safely contained in backend.
+                </div>
+            </div>
+        </div>
+    </details>
+
+    <details>
+        <summary>MODULE 9: Update Contact Information (2 tests)</summary>
+        <div class="module-content">
+            <div class="test-case">
+                <div class="test-title">Test: UI Contact Update mutates backend customer record verified in REST API</div>
+                <div class="test-section">
+                    <span class="section-label">Description:</span> Verifies that when a user updates their contact details (street address, phone number) through the website, the changes are actually saved in the server's database.
+                </div>
+                <div class="test-section">
+                    <span class="section-label">Steps:</span>
+                    <ol>
+                        <li>Register and log in a new user.</li>
+                        <li>Navigate to the Update Contact Info page.</li>
+                        <li>Change the street address and phone number to new values.</li>
+                        <li>Click Update Profile.</li>
+                        <li>Verify the browser shows 'Profile Updated'.</li>
+                        <li>Independently query the server's API for the customer's profile.</li>
+                        <li>Compare the updated street and phone number in the browser with the API response.</li>
+                    </ol>
+                </div>
+                <div class="test-section">
+                    <span class="section-label">Expected Result:</span> Browser confirms the update AND the server API returns the new street address and phone number.
+                </div>
+                <div class="test-section">
+                    <span class="section-label">Actual Result:</span> <span class="status-passed">PASSED</span>
+                </div>
+                <div class="test-section">
+                    <span class="section-label">What Was Cross-Validated:</span> UI updated street matches API stored street, UI phone matches API phone.
+                </div>
+            </div>
+
+            <div class="test-case">
+                <div class="test-title">Test: REST API POST /customers/update/{id} with missing params handles status codes correctly</div>
+                <div class="test-section">
+                    <span class="section-label">Description:</span> Confirms the server rejects profile update requests for non-existent customers with missing information.
+                </div>
+                <div class="test-section">
+                    <span class="section-label">Steps:</span>
+                    <ol>
+                        <li>Send a direct API update request for customer 999999 with empty first name and last name.</li>
+                        <li>Verify the server handles it without crashing.</li>
+                    </ol>
+                </div>
+                <div class="test-section">
+                    <span class="section-label">Expected Result:</span> Server returns an error status.
+                </div>
+                <div class="test-section">
+                    <span class="section-label">Actual Result:</span> <span class="status-passed">PASSED</span>
+                </div>
+                <div class="test-section">
+                    <span class="section-label">What Was Cross-Validated:</span> Invalid contact update handling via backend response.
+                </div>
+            </div>
+        </div>
+    </details>
+
+    <details>
+        <summary>MODULE 10: Find Transactions (2 tests)</summary>
+        <div class="module-content">
+            <div class="test-case">
+                <div class="test-title">Test: UI Find Transactions by Amount matches REST API transactions by amount endpoint</div>
+                <div class="test-section">
+                    <span class="section-label">Description:</span> Compares transaction search results from the website's search form with the server API's transaction filter to ensure both return consistent data.
+                </div>
+                <div class="test-section">
+                    <span class="section-label">Steps:</span>
+                    <ol>
+                        <li>Register and log in a new user.</li>
+                        <li>Navigate to the Find Transactions page.</li>
+                        <li>Enter $50 in the amount search field.</li>
+                        <li>Click Find by Amount.</li>
+                        <li>Check if the browser displays a results table.</li>
+                        <li>Independently query the server's API for transactions matching $50.</li>
+                        <li>Compare the browser results with the API results.</li>
+                    </ol>
+                </div>
+                <div class="test-section">
+                    <span class="section-label">Expected Result:</span> Both the browser search and the API filter return the same transactions for $50.
+                </div>
+                <div class="test-section">
+                    <span class="section-label">Actual Result:</span> <span class="status-passed">PASSED</span>
+                </div>
+                <div class="test-section">
+                    <span class="section-label">What Was Cross-Validated:</span> Transaction amounts from UI search match API filter results.
+                </div>
+            </div>
+
+            <div class="test-case">
+                <div class="test-title">Test: REST API GET transactions by non-existent transaction ID returns 400/404 handling</div>
+                <div class="test-section">
+                    <span class="section-label">Description:</span> Confirms the server properly rejects requests for transaction IDs that do not exist.
+                </div>
+                <div class="test-section">
+                    <span class="section-label">Steps:</span>
+                    <ol>
+                        <li>Send a direct API request for transaction ID 99999999 (non-existent).</li>
+                        <li>Verify the server returns an error without crashing.</li>
+                    </ol>
+                </div>
+                <div class="test-section">
+                    <span class="section-label">Expected Result:</span> Server returns error status (not success and not crash).
+                </div>
+                <div class="test-section">
+                    <span class="section-label">Actual Result:</span> <span class="status-passed">PASSED</span>
+                </div>
+                <div class="test-section">
+                    <span class="section-label">What Was Cross-Validated:</span> Appropriate error handling when fetching invalid transactions.
+                </div>
+            </div>
+        </div>
+    </details>
+
+</body>
+</html>

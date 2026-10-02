@@ -1,0 +1,2045 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ParaBank Complete API Testing Report - 126 Test Cases</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+body{background:#f8fafc;color:#0f172a;line-height:1.6;padding:40px 20px}
+.container{max-width:1200px;margin:0 auto}
+.header{background:linear-gradient(135deg,#fff 0%,#f0fdf4 100%);border:1px solid #e2e8f0;border-left:6px solid #16a34a;border-radius:12px;padding:32px;margin-bottom:32px;box-shadow:0 4px 6px -1px rgba(0,0,0,0.04)}
+.header h1{font-size:28px;font-weight:700;margin-bottom:8px}
+.header p{font-size:16px;color:#334155;margin-bottom:24px}
+.metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px}
+.metric{background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:20px;text-align:center}
+.metric .val{font-size:32px;font-weight:800}
+.metric .val.green{color:#16a34a}
+.metric .lbl{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:#64748b;margin-top:4px}
+.section{background:#fff;border:1px solid #e2e8f0;border-radius:12px;margin-bottom:24px;overflow:hidden;box-shadow:0 2px 4px rgba(0,0,0,0.02)}
+.mod-summary{padding:20px 24px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #e2e8f0;transition:background .2s}
+.mod-summary:hover{background:#f8fafc}
+.mod-title{font-size:18px;font-weight:700;display:flex;align-items:center;gap:12px}
+.mod-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0}
+.mod-meta{display:flex;align-items:center;gap:12px}
+.badge{display:inline-flex;padding:3px 10px;border-radius:9999px;font-size:12px;font-weight:700}
+.badge-pass{background:#dcfce7;color:#15803d;border:1px solid #bbf7d0}
+.badge-file{background:#e0e7ff;color:#4338ca;border:1px solid #a5b4fc}
+.chevron{transition:transform .2s;font-size:14px;color:#64748b}
+details[open] .chevron{transform:rotate(90deg)}
+.mod-body{padding:0 24px 24px}
+.tc{border:1px solid #e2e8f0;border-radius:8px;margin-top:16px;overflow:hidden}
+.tc-header{padding:14px 20px;background:#f8fafc;border-bottom:1px solid #e2e8f0;display:flex;justify-content:space-between;align-items:center}
+.tc-name{font-weight:700;font-size:15px;color:#0f172a}
+.tc-tags{display:flex;gap:8px;align-items:center}
+.tag{display:inline-flex;padding:2px 8px;border-radius:6px;font-size:11px;font-weight:700}
+.tag-get{background:#dbeafe;color:#1d4ed8}
+.tag-post{background:#fce7f3;color:#be185d}
+.tag-na{background:#f1f5f9;color:#64748b}
+.tc-body{padding:20px}
+.tc-row{margin-bottom:14px}
+.tc-label{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#64748b;margin-bottom:4px}
+.tc-text{font-size:14px;color:#334155}
+.tc-steps{padding-left:20px;margin-top:4px}
+.tc-steps li{margin-bottom:4px;font-size:14px;color:#334155}
+.result-row{display:flex;gap:16px}
+.result-box{flex:1;padding:12px 16px;border-radius:8px;font-size:14px}
+.result-expected{background:#f0f9ff;border:1px solid #bae6fd;color:#0369a1}
+.result-actual{background:#f0fdf4;border:1px solid #bbf7d0;color:#15803d}
+.footer{text-align:center;padding:24px 0;color:#64748b;font-size:13px;border-top:1px solid #e2e8f0;margin-top:16px}
+summary::-webkit-details-marker{display:none!important}
+summary{list-style:none!important}
+</style>
+</head>
+<body>
+<div class="container">
+<div class="header">
+<h1>ParaBank Complete API Testing Report</h1>
+<p>Comprehensive REST Service Automation with JWT Session Management, Status Code Validation, and Full CRUD Operations</p>
+<div class="metrics">
+<div class="metric"><div class="val">126</div><div class="lbl">Total Test Cases</div></div>
+<div class="metric"><div class="val green">126</div><div class="lbl">Passed</div></div>
+<div class="metric"><div class="val">0</div><div class="lbl">Failed</div></div>
+<div class="metric"><div class="val green">100%</div><div class="lbl">Pass Rate</div></div>
+<div class="metric"><div class="val">12.5m</div><div class="lbl">Duration</div></div>
+<div class="metric"><div class="val">12</div><div class="lbl">Modules</div></div>
+</div>
+</div>
+<details class="section">
+<summary class="mod-summary">
+<span class="mod-title"><span class="mod-dot" style="background:#0284c7"></span>Accounts Management</span>
+<span class="mod-meta"><span class="badge badge-file">accounts.api.spec.js</span><span class="badge badge-pass">10/10 PASSED</span><span class="chevron">&#9654;</span></span>
+</summary>
+<div class="mod-body">
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Retrieve a Valid Account</span>
+<span class="tc-tags"><span class="tag tag-get">GET</span><span class="tag tag-na">200</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/accounts/{id}</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Sends a request to the banking server to retrieve the details of a specific bank account using its unique account number. This test confirms that when a valid account number is provided, the server successfully finds and returns the account information.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>The system sends a read request to the banking server, asking for the details of a known, valid bank account.</li><li>The server looks up the account in its database.</li><li>The server sends back the account information along with a success confirmation.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> The server responds with a success status (HTTP 200), confirming that the account exists and its data was successfully retrieved.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - The server returned HTTP 200 with the complete account data.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Response ID Matches Requested Account</span>
+<span class="tc-tags"><span class="tag tag-get">GET</span><span class="tag tag-na">200</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/accounts/{id}</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Verifies that when you ask for a specific account by its number, the server returns data for that exact account and not a different one. This is a data integrity check.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Send a request for account details using a known account number.</li><li>Receive the account data from the server.</li><li>Compare the account number in the server's response with the one that was originally requested.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> The account number in the response exactly matches the account number that was requested.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - The returned account ID matched the requested ID exactly.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Account Has All Required Fields</span>
+<span class="tc-tags"><span class="tag tag-get">GET</span><span class="tag tag-na">200</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/accounts/{id}</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Checks that every account record returned by the server contains all the essential information fields that a banking account must have: the owner's identity, the account type, and the current balance.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Request an account's details from the server.</li><li>Examine the response to verify the customer ID field exists and is a positive number.</li><li>Verify the account type field exists and is one of the valid types: CHECKING, SAVINGS, or LOAN.</li><li>Verify the balance field exists and contains a numeric value.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> All three mandatory fields (customer ID, account type, balance) are present with valid values.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - All required fields were present and correctly formatted.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Balance Is a Valid Finite Number</span>
+<span class="tc-tags"><span class="tag tag-get">GET</span><span class="tag tag-na">200</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/accounts/{id}</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Ensures the account balance is a real, usable number, not an infinite value, not undefined, and not a special error value. This prevents display or calculation errors in financial operations.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Request an account's details from the server.</li><li>Extract the balance field from the response.</li><li>Verify that the balance is a finite, real number.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> The balance is a valid finite number that can be used in calculations.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - Balance was a valid finite number.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Second Account Is Independently Retrievable</span>
+<span class="tc-tags"><span class="tag tag-get">GET</span><span class="tag tag-na">200</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/accounts/{id}</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Confirms that a different account belonging to the same customer can be retrieved independently, ensuring the server does not only serve the first account.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Send a request for a second, different account using its unique number.</li><li>Verify the server returns HTTP 200 success.</li><li>Verify the returned account number matches the second account requested.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> The second account is successfully retrieved with its correct, matching ID.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - Second account retrieved independently with correct ID.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Non-Existent Account Returns Error</span>
+<span class="tc-tags"><span class="tag tag-get">GET</span><span class="tag tag-na">400+</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/accounts/9999999</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Verifies that when someone requests an account number that does not exist in the system (account 9999999), the server properly responds with an error instead of returning fake or empty data.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Send a request for account number 9999999, which does not exist in the database.</li><li>Check the server's response status and body.</li><li>Verify the server returns an error status (400 or higher) or an empty result, rather than a false success.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> The server returns an error status code or an empty result for the non-existent account.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - Server correctly returned an error for the non-existent account.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Create a New CHECKING Account</span>
+<span class="tc-tags"><span class="tag tag-post">POST</span><span class="tag tag-na">200</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/createAccount</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Tests the ability to open a new checking (everyday transactions) account. The system sends a creation request and verifies the new account has the correct type, belongs to the right customer, and increases the total account count.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Count the customer's existing accounts before creation.</li><li>Send a request to create a new CHECKING type account, funded from an existing account.</li><li>Verify the server responds with a new account that has a positive ID number.</li><li>Verify the new account belongs to the correct customer.</li><li>Verify the account type is set to CHECKING.</li><li>Count the customer's accounts again to confirm the total increased by one.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> A new CHECKING account is successfully created with a unique ID, correct customer ownership, and correct type.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - New CHECKING account created with all correct attributes.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Create a New SAVINGS Account</span>
+<span class="tc-tags"><span class="tag tag-post">POST</span><span class="tag tag-na">200</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/createAccount</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Tests creating a savings (interest-bearing) account, ensuring it is properly categorized as SAVINGS and linked to the correct customer.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Send a request to create a new SAVINGS type account.</li><li>Verify the server confirms a SAVINGS account was created.</li><li>Verify the new account belongs to the correct customer.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> A new SAVINGS account is created with the correct type and customer ownership.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - New SAVINGS account created successfully.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">New Account Balance Is Non-Negative</span>
+<span class="tc-tags"><span class="tag tag-post">POST</span><span class="tag tag-na">200</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/createAccount</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Ensures that any newly created bank account starts with a zero or positive balance. A new account should never begin with a negative (overdrawn) balance.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Create a new account.</li><li>Check the starting balance of the new account.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> The new account's starting balance is zero or greater.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - New account started with a non-negative balance.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">New Account ID Is Unique</span>
+<span class="tc-tags"><span class="tag tag-post">POST</span><span class="tag tag-na">200</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/createAccount</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Verifies that when a new account is created from an existing source account, the new account receives its own unique identification number, different from the source.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Create a new account funded from an existing source account.</li><li>Compare the new account's ID with the source account's ID.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> The new account has a different, unique ID from the source account.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - New account received a unique ID.</div>
+</div>
+</div>
+</div>
+</div></details>
+<details class="section">
+<summary class="mod-summary">
+<span class="mod-title"><span class="mod-dot" style="background:#7c3aed"></span>Authentication and Login</span>
+<span class="mod-meta"><span class="badge badge-file">auth.api.spec.js</span><span class="badge badge-pass">8/8 PASSED</span><span class="chevron">&#9654;</span></span>
+</summary>
+<div class="mod-body">
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Valid Login Returns Success</span>
+<span class="tc-tags"><span class="tag tag-get">GET</span><span class="tag tag-na">200</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/login/{username}/{password}</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Tests the most fundamental operation: logging in with a correct username and password. The server should respond with a success status and return the customer's profile data in JSON format.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Send a login request with username 'john' and password 'demo' to the authentication service.</li><li>Verify the server responds with HTTP 200 (success).</li><li>Verify the response data is in JSON format.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> Login succeeds with HTTP 200 status and the response is in JSON format.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - Login returned HTTP 200 with JSON customer data.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Login Returns Valid Customer ID</span>
+<span class="tc-tags"><span class="tag tag-get">GET</span><span class="tag tag-na">200</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/login/{username}/{password}</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Confirms that after a successful login, the server returns a valid customer identification number that is a positive whole number, which is essential for all subsequent banking operations.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Log in with valid credentials.</li><li>Extract the customer ID from the response.</li><li>Verify the customer ID is a positive whole number.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> The customer ID is a positive integer.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - Customer ID was a valid positive integer.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Login Returns First and Last Name</span>
+<span class="tc-tags"><span class="tag tag-get">GET</span><span class="tag tag-na">200</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/login/{username}/{password}</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Verifies that the user's full name (first name and last name) is included in the login response, which is needed for display purposes such as welcome messages.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Log in with valid credentials.</li><li>Check that the firstName field is a non-empty text string.</li><li>Check that the lastName field is a non-empty text string.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> Both firstName and lastName are present and non-empty.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - Both name fields were present and populated.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Login Returns Complete Address</span>
+<span class="tc-tags"><span class="tag tag-get">GET</span><span class="tag tag-na">200</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/login/{username}/{password}</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Checks that the customer's full mailing address is included in the login response, containing street, city, state, and zip code.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Log in with valid credentials.</li><li>Verify the response includes an address object.</li><li>Check that the address contains street, city, state, and zipCode fields.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> A complete address with all four fields is present in the response.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - Complete address object with all four fields returned.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Demo User Has Non-Empty First Name</span>
+<span class="tc-tags"><span class="tag tag-get">GET</span><span class="tag tag-na">200</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/login/{username}/{password}</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Confirms that after the database has been reset and seeded with test data, the demo user (john/demo) still has a proper first name. This validates that the database initialization process works correctly.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Log in as the demo user (john/demo).</li><li>Check that the firstName field is not empty.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> The demo user's firstName is a non-empty string.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - Demo user's firstName was properly populated.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Wrong Password Is Rejected</span>
+<span class="tc-tags"><span class="tag tag-get">GET</span><span class="tag tag-na">400+</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/login/{username}/{password}</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Tests that the server properly rejects login attempts when the correct username is provided but with an incorrect password. The server must not return valid customer data for wrong passwords.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Attempt to log in with username 'john' but a completely wrong password.</li><li>Check the server's response.</li><li>Verify that no valid customer data is returned.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> Login fails and no valid customer information is returned.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - Wrong password was properly rejected.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Non-Existent Username Is Rejected</span>
+<span class="tc-tags"><span class="tag tag-get">GET</span><span class="tag tag-na">400+</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/login/{username}/{password}</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Tests that made-up, non-existent usernames cannot be used to log in. The server should not return any customer data for usernames that do not exist in the database.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Attempt to log in with a username that does not exist in the system.</li><li>Verify that no customer data is returned.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> Login fails for the non-existent username.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - Non-existent username was properly rejected.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Same User Gets Consistent Customer ID</span>
+<span class="tc-tags"><span class="tag tag-get">GET</span><span class="tag tag-na">200</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/login/{username}/{password}</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Verifies that when the same user logs in multiple times, they always receive the same customer ID. This ensures data consistency and prevents identity confusion.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Log in with the same valid credentials (john/demo) twice.</li><li>Extract the customer ID from both responses.</li><li>Compare the two customer IDs.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> Both login attempts return the identical customer ID.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - Customer ID was consistent across both logins.</div>
+</div>
+</div>
+</div>
+</div></details>
+<details class="section">
+<summary class="mod-summary">
+<span class="mod-title"><span class="mod-dot" style="background:#059669"></span>Bill Payment</span>
+<span class="mod-meta"><span class="badge badge-file">bill-pay.api.spec.js</span><span class="badge badge-pass">8/8 PASSED</span><span class="chevron">&#9654;</span></span>
+</summary>
+<div class="mod-body">
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Bill Payment Returns Success</span>
+<span class="tc-tags"><span class="tag tag-post">POST</span><span class="tag tag-na">200</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/billpay</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Tests the core bill payment functionality by sending a payment of $20 to a payee. The system first ensures there are sufficient funds in the account, then submits the payment and checks for a successful response.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Deposit funds into the source account to ensure sufficient balance.</li><li>Send a bill payment request for $20 to a named payee from the source account.</li><li>Verify the server responds with a success status.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> The bill payment request is accepted and processed successfully.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - Bill payment was accepted.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Bill Payment Response Has Required Fields</span>
+<span class="tc-tags"><span class="tag tag-post">POST</span><span class="tag tag-na">200</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/billpay</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Checks that the bill payment confirmation returned by the server contains all the necessary information: who was paid (payee name), how much (amount), and from which account (account ID).</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Submit a bill payment.</li><li>Verify the response contains a payeeName field (text).</li><li>Verify the response contains an amount field (number).</li><li>Verify the response contains an accountId field (number).</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> All three required fields are present with correct data types.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - All required fields were present and correctly typed.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Payee Name Matches Submission</span>
+<span class="tc-tags"><span class="tag tag-post">POST</span><span class="tag tag-na">200</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/billpay</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Confirms that the system correctly records and returns the name of the person or company that was paid, matching exactly what was submitted in the payment request.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Submit a payment to a specific payee.</li><li>Compare the payee name in the server's response with the name that was originally submitted.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> The payee name in the response exactly matches the submitted name.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - Payee names matched exactly.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Amount Matches Submission</span>
+<span class="tc-tags"><span class="tag tag-post">POST</span><span class="tag tag-na">200</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/billpay</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Verifies that the payment amount recorded by the server matches the amount that was submitted. This prevents discrepancies in financial transactions.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Submit a $20 bill payment.</li><li>Check the amount field in the server's response.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> The amount in the response equals exactly $20.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - Payment amount matched exactly.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Account ID Matches Source Account</span>
+<span class="tc-tags"><span class="tag tag-post">POST</span><span class="tag tag-na">200</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/billpay</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Confirms that the payment was charged to the correct source account by comparing the account ID in the response with the account ID from which the payment was made.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Submit a bill payment from a specific source account.</li><li>Verify the account ID in the response matches the source account.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> The account ID in the confirmation matches the source account.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - Account IDs matched.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Balance Decreases by Payment Amount</span>
+<span class="tc-tags"><span class="tag tag-post">POST</span><span class="tag tag-na">200</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/billpay</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Verifies that after a bill payment is processed, the source account's balance is reduced by exactly the payment amount. This is the core financial integrity check for bill payments.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Record the account balance before the payment.</li><li>Submit a $20 bill payment.</li><li>Record the account balance after the payment.</li><li>Calculate the difference and verify it equals exactly $20.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> The account balance decreases by exactly $20 after the bill payment.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - Balance decreased by the exact payment amount.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Small $1 Payment Is Accepted</span>
+<span class="tc-tags"><span class="tag tag-post">POST</span><span class="tag tag-na"><500</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/billpay</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Tests that very small payment amounts are handled correctly. Even a $1 payment should be processed without errors, ensuring there is no minimum payment threshold causing failures.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Submit a bill payment for $1.</li><li>Verify the server does not return a server error.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> The $1 payment is accepted without any server errors.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - Small payment was processed correctly.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Missing Payee Details Are Handled</span>
+<span class="tc-tags"><span class="tag tag-post">POST</span><span class="tag tag-na">varies</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/billpay</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Tests the server's error handling when a bill payment is submitted without the required payee information (empty payee object). The server should handle this gracefully.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Submit a bill payment with an empty payee object (no name, address, or account).</li><li>Verify the server returns a readable status without crashing.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> The server handles the missing payee data gracefully without crashing.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - Server handled missing payee data appropriately.</div>
+</div>
+</div>
+</div>
+</div></details>
+<details class="section">
+<summary class="mod-summary">
+<span class="mod-title"><span class="mod-dot" style="background:#d97706"></span>Customer Profile Management</span>
+<span class="mod-meta"><span class="badge badge-file">customers.api.spec.js</span><span class="badge badge-pass">10/10 PASSED</span><span class="chevron">&#9654;</span></span>
+</summary>
+<div class="mod-body">
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Retrieve Customer Profile</span>
+<span class="tc-tags"><span class="tag tag-get">GET</span><span class="tag tag-na">200</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/customers/{id}</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Retrieves a customer's complete profile information using their unique customer ID. This is used to display personal details and verify account ownership.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Send a request using the authenticated customer's ID.</li><li>Verify the server does not return a server error (status below 500).</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> Customer data is returned without any server errors.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - Customer profile retrieved successfully.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Customer ID Matches Request</span>
+<span class="tc-tags"><span class="tag tag-get">GET</span><span class="tag tag-na">200</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/customers/{id}</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Confirms that the customer profile returned by the server belongs to the correct person by comparing the returned ID with the one that was requested.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Request a customer profile using a known customer ID.</li><li>Compare the returned customer ID with the requested one.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> The returned customer ID exactly matches the requested ID.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - Customer IDs matched.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Customer Has First and Last Name</span>
+<span class="tc-tags"><span class="tag tag-get">GET</span><span class="tag tag-na">200</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/customers/{id}</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Verifies that the customer profile includes both first name and last name as non-empty text, which are essential for identification and personalization.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Request the customer profile.</li><li>Check that firstName is a non-empty text string.</li><li>Check that lastName is a non-empty text string.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> Both name fields are present and contain text.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - Both names were present and non-empty.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Customer Has Complete Address</span>
+<span class="tc-tags"><span class="tag tag-get">GET</span><span class="tag tag-na">200</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/customers/{id}</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Checks that the customer profile includes a complete mailing address with all four components: street, city, state, and zip code.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Request the customer profile.</li><li>Verify the address object exists.</li><li>Check that street, city, state, and zipCode are all present as text fields.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> A complete address with all four fields exists.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - Complete address was present.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Non-Existent Customer ID Returns Error</span>
+<span class="tc-tags"><span class="tag tag-get">GET</span><span class="tag tag-na">400+</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/customers/0</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Tests that requesting a customer profile with an invalid ID (zero) results in an error response, not fake or empty data.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Request customer profile using ID 0 (invalid).</li><li>Verify the server returns an error or empty result.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> Server rejects the invalid customer ID.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - Invalid customer ID was rejected.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Customer Accounts List Returns Successfully</span>
+<span class="tc-tags"><span class="tag tag-get">GET</span><span class="tag tag-na">200</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/customers/{id}/accounts</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Retrieves the list of all bank accounts belonging to a specific customer. This is used to display the accounts overview.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Request the list of accounts for a valid customer ID.</li><li>Verify the server returns a valid response without errors.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> A valid response is returned without server errors.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - Account list retrieved successfully.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Customer Has At Least One Account</span>
+<span class="tc-tags"><span class="tag tag-get">GET</span><span class="tag tag-na">200</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/customers/{id}/accounts</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Confirms that the demo test user (john/demo) has at least one bank account in the system after database initialization.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Request the demo user's account list.</li><li>Count the number of accounts returned.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> At least one account exists for the demo user.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - Demo user had at least one account.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Each Account Has Complete Data</span>
+<span class="tc-tags"><span class="tag tag-get">GET</span><span class="tag tag-na">200</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/customers/{id}/accounts</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Validates the structure of every account in the customer's account list, ensuring each one has an ID, customer ID, account type, and balance.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Retrieve all customer accounts.</li><li>For each account, verify it has a numeric ID.</li><li>Verify each account's customer ID matches the requesting customer.</li><li>Verify each account type is CHECKING, SAVINGS, or LOAN.</li><li>Verify each account has a numeric balance.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> All accounts have complete, valid data with correct field types.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - All accounts had complete and valid data.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">All Account IDs Are Positive</span>
+<span class="tc-tags"><span class="tag tag-get">GET</span><span class="tag tag-na">200</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/customers/{id}/accounts</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Ensures all account identification numbers are valid positive numbers. Negative or zero account IDs would indicate a system error.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Retrieve all customer accounts.</li><li>Verify each account's ID is a positive number.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> All account IDs are positive numbers.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - All account IDs were positive.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Update Phone Number Succeeds</span>
+<span class="tc-tags"><span class="tag tag-post">POST</span><span class="tag tag-na">200</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/customers/update/{id}</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Tests the ability to update a customer's contact information, specifically their phone number. This simulates a customer changing their phone number through their profile.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Retrieve the current customer profile.</li><li>Send an update request with a new phone number.</li><li>Verify the server accepts the update.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> The profile update is accepted by the server.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - Phone number update succeeded.</div>
+</div>
+</div>
+</div>
+</div></details>
+<details class="section">
+<summary class="mod-summary">
+<span class="mod-title"><span class="mod-dot" style="background:#0891b2"></span>Deposit and Withdrawal</span>
+<span class="mod-meta"><span class="badge badge-file">deposit-withdraw.api.spec.js</span><span class="badge badge-pass">9/9 PASSED</span><span class="chevron">&#9654;</span></span>
+</summary>
+<div class="mod-body">
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Deposit Returns Success</span>
+<span class="tc-tags"><span class="tag tag-post">POST</span><span class="tag tag-na"><500</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/deposit</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Tests the basic deposit functionality by sending $25 into a bank account. The server should accept the deposit without any errors.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Send a deposit request for $25 to a specific bank account.</li><li>Verify the server responds without a server error.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> The deposit is accepted and processed.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - Deposit was accepted.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Deposit Response Is a Success Message</span>
+<span class="tc-tags"><span class="tag tag-post">POST</span><span class="tag tag-na"><500</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/deposit</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Confirms that when money is deposited, the server returns a text confirmation message indicating the deposit was successful.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Submit a $25 deposit.</li><li>Verify the response body is a text string (confirmation message).</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> A text confirmation message is returned.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - Success message was returned.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Deposit Increases Balance Correctly</span>
+<span class="tc-tags"><span class="tag tag-post">POST</span><span class="tag tag-na">200</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/deposit</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">The most critical deposit test: verifies that the account balance actually increases by exactly the deposited amount. This is the core financial integrity check.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Record the account balance before the deposit.</li><li>Deposit $25 into the account.</li><li>Record the account balance after the deposit.</li><li>Calculate the difference and verify it equals exactly $25.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> The account balance increases by exactly $25.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - Balance increased by the exact deposit amount.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Deposit Creates Credit Transaction</span>
+<span class="tc-tags"><span class="tag tag-post">POST</span><span class="tag tag-na">200</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/deposit</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Checks that depositing money creates a proper Credit (incoming money) transaction record in the account's history, with the correct amount.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Count the number of transactions on the account before the deposit.</li><li>Deposit $25.</li><li>Count the transactions after the deposit.</li><li>Verify a new transaction appeared with type 'Credit' and amount $25.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> A new Credit transaction for $25 appears in the transaction history.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - Credit transaction was created correctly.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Large Deposit Is Handled Correctly</span>
+<span class="tc-tags"><span class="tag tag-post">POST</span><span class="tag tag-na">200</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/deposit</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Tests that the system correctly handles large deposit amounts ($1,000) without mathematical errors or overflow issues.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Record the account balance.</li><li>Deposit $1,000.</li><li>Verify the balance increased by exactly $1,000.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> The large deposit is processed correctly with accurate balance calculation.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - Large deposit handled correctly.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Withdrawal Returns Success</span>
+<span class="tc-tags"><span class="tag tag-post">POST</span><span class="tag tag-na"><500</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/withdraw</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Tests the basic withdrawal functionality by removing $25 from a bank account after ensuring sufficient funds exist.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Deposit funds to ensure sufficient balance.</li><li>Send a withdrawal request for $25.</li><li>Verify no server error occurs.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> The withdrawal is accepted and processed.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - Withdrawal was accepted.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Withdrawal Decreases Balance Correctly</span>
+<span class="tc-tags"><span class="tag tag-post">POST</span><span class="tag tag-na">200</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/withdraw</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Verifies that withdrawing money reduces the account balance by exactly the withdrawn amount. This is the core financial integrity check for withdrawals.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Record the balance before withdrawal.</li><li>Withdraw $25.</li><li>Record the balance after withdrawal.</li><li>Verify the balance decreased by exactly $25.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> The account balance decreases by exactly $25.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - Balance decreased by the exact withdrawal amount.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Withdrawal Creates Debit Transaction</span>
+<span class="tc-tags"><span class="tag tag-post">POST</span><span class="tag tag-na">200</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/withdraw</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Checks that withdrawing money creates a proper Debit (outgoing money) transaction record in the account's history.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Count transactions before withdrawal.</li><li>Withdraw $25.</li><li>Count transactions after withdrawal.</li><li>Verify a new Debit transaction appeared.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> A new Debit transaction appears in the transaction history.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - Debit transaction was created.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Deposit Then Withdraw Nets Zero Change</span>
+<span class="tc-tags"><span class="tag tag-post">POST</span><span class="tag tag-na">200</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/deposit + /withdraw</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Tests that depositing and immediately withdrawing the same amount results in no net change to the account balance. This validates the mathematical accuracy of both operations together.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Record the starting balance.</li><li>Deposit $25.</li><li>Immediately withdraw $25.</li><li>Record the final balance.</li><li>Verify the final balance equals the starting balance.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> The account balance returns to exactly the starting amount.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - Net balance change was zero.</div>
+</div>
+</div>
+</div>
+</div></details>
+<details class="section">
+<summary class="mod-summary">
+<span class="mod-title"><span class="mod-dot" style="background:#be185d"></span>HTTP Headers and Content Negotiation</span>
+<span class="mod-meta"><span class="badge badge-file">headers-content-type.api.spec.js</span><span class="badge badge-pass">13/13 PASSED</span><span class="chevron">&#9654;</span></span>
+</summary>
+<div class="mod-body">
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">JSON Accept Header Returns JSON Content-Type</span>
+<span class="tc-tags"><span class="tag tag-get">GET</span><span class="tag tag-na">200</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/accounts/{id}</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Tests that when the client requests data in JSON format (by setting the Accept header to application/json), the server responds with JSON-formatted data.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Send a request with the Accept header set to 'application/json'.</li><li>Check the Content-Type header in the server's response.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> The response Content-Type contains 'json'.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - JSON content type was returned.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">JSON Response Is Parseable</span>
+<span class="tc-tags"><span class="tag tag-get">GET</span><span class="tag tag-na">200</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/accounts/{id}</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Verifies that the JSON data returned by the server is valid and can be properly read and interpreted by applications.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Request data in JSON format.</li><li>Attempt to parse the response as JSON.</li><li>Verify the parsed data contains expected fields like account ID.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> The response is valid, parseable JSON with correct data.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - Response was valid parseable JSON.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">XML Accept Header Is Handled</span>
+<span class="tc-tags"><span class="tag tag-get">GET</span><span class="tag tag-na"><500</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/accounts/{id}</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Tests that the server properly handles requests for XML-formatted data, responding with either XML or JSON content without errors.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Send a request with the Accept header set to 'application/xml'.</li><li>Check the Content-Type header in the response.</li><li>Verify it indicates either XML or JSON format.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> The server responds with XML or JSON content type without errors.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - XML content negotiation handled correctly.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">XML Response Is Non-Empty</span>
+<span class="tc-tags"><span class="tag tag-get">GET</span><span class="tag tag-na"><500</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/accounts/{id}</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Confirms that when XML format is requested, the server returns a non-empty response body with actual content.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Request data in XML format.</li><li>Verify the response body is not empty.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> The response body contains content.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - Non-empty XML response returned.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Login Endpoint Handles XML Request</span>
+<span class="tc-tags"><span class="tag tag-get">GET</span><span class="tag tag-na"><500</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/login/{username}/{password}</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Tests that the login service properly handles requests for XML-formatted responses, returning either XML or JSON content type.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Send a login request with the Accept header set to XML.</li><li>Verify the response content type is either XML or JSON.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> The login service handles XML content negotiation.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - Login endpoint handled XML request.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">JWT Bearer Token Is Accepted</span>
+<span class="tc-tags"><span class="tag tag-get">GET</span><span class="tag tag-na">200</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/customers/{id}</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Tests that the server accepts requests that include a JWT (JSON Web Token) security token in the Authorization header. The server must not reject the request with authentication errors.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Send a request with a Bearer JWT token in the Authorization header.</li><li>Verify the server does not return HTTP 401 (Unauthorized).</li><li>Verify the server does not return HTTP 403 (Forbidden).</li><li>Verify the server returns HTTP 200 (Success).</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> The JWT token is accepted; no authentication errors occur.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - JWT Bearer token was accepted.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">JWT Request Returns True Success</span>
+<span class="tc-tags"><span class="tag tag-get">GET</span><span class="tag tag-na">200</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/customers/{id}</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Confirms that JWT-authenticated requests return genuinely successful responses, not responses that appear successful (HTTP 200) but contain hidden error messages in the body.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Send an authenticated request with a JWT token.</li><li>Verify the response is HTTP 200.</li><li>Examine the response body for hidden error messages.</li><li>Confirm no error content is present.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> A true success response with no hidden errors.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - Response was a genuine success.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Response Headers Are Present</span>
+<span class="tc-tags"><span class="tag tag-get">GET</span><span class="tag tag-na">200</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/customers/{id}</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Verifies that all API responses include proper HTTP headers, particularly the Content-Type header that tells applications what format the data is in.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Send a request to the server.</li><li>Check for the presence of the Content-Type header.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> The Content-Type header is present and non-empty.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - Content-Type header was present.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Session Cookie Is Accepted</span>
+<span class="tc-tags"><span class="tag tag-get">GET</span><span class="tag tag-na"><500</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/login/{username}/{password}</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Tests that the server properly accepts requests that include session cookies. Session cookies maintain user identity between requests.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Send a request with a session Cookie header.</li><li>Verify the server does not return HTTP 400 (Bad Request).</li><li>Verify the server does not return HTTP 401 (Unauthorized).</li><li>Verify no server error (5xx) occurs.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> Cookie-authenticated request is accepted without errors.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - Session cookie was accepted.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Custom Tracing Headers Are Handled</span>
+<span class="tc-tags"><span class="tag tag-get">GET</span><span class="tag tag-na"><500</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/accounts/{id}</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Verifies that including custom request tracking headers (X-Request-ID and X-Correlation-ID, commonly used for debugging and monitoring) does not cause the server to crash or return errors.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Send a request with custom X-Request-ID and X-Correlation-ID headers.</li><li>Verify the server does not return any error status.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> Custom headers are ignored gracefully without causing errors.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - Custom headers were handled without errors.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">JSON POST Request Is Accepted</span>
+<span class="tc-tags"><span class="tag tag-post">POST</span><span class="tag tag-na">200</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/billpay</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Tests that the server correctly accepts POST requests with Content-Type explicitly set to application/json, which is the standard format for sending structured data.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Submit a bill payment with Content-Type explicitly set to application/json.</li><li>Verify HTTP 200 is returned.</li><li>Verify no hidden error messages exist in the response body.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> The JSON POST request is accepted with a true success response.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - JSON POST was accepted correctly.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">False-200 Detection Catches Errors</span>
+<span class="tc-tags"><span class="tag tag-na">N/A</span><span class="tag tag-na">N/A</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">Internal Utility</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Tests the internal safety utility that detects when a server returns HTTP 200 (success) but the response body actually contains an error message. This prevents false-positive test results.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Present a response body that contains an error message despite HTTP 200 status.</li><li>Run the false-200 detection utility.</li><li>Verify it correctly identifies the hidden error.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> The utility detects the error hidden in the seemingly successful response.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - False-200 was correctly detected.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">False-200 Detection Passes Real Success</span>
+<span class="tc-tags"><span class="tag tag-na">N/A</span><span class="tag tag-na">N/A</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">Internal Utility</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Tests that the false-200 detection utility does not incorrectly flag genuine success responses as errors. It should only flag actual problems.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Present a genuine success response body.</li><li>Run the false-200 detection utility.</li><li>Verify it does not flag the genuine success.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> The genuine success is not incorrectly flagged.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - Genuine success was not flagged.</div>
+</div>
+</div>
+</div>
+</div></details>
+<details class="section">
+<summary class="mod-summary">
+<span class="mod-title"><span class="mod-dot" style="background:#4f46e5"></span>Loan Applications</span>
+<span class="mod-meta"><span class="badge badge-file">loans.api.spec.js</span><span class="badge badge-pass">8/8 PASSED</span><span class="chevron">&#9654;</span></span>
+</summary>
+<div class="mod-body">
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Small Loan Request Returns Success</span>
+<span class="tc-tags"><span class="tag tag-post">POST</span><span class="tag tag-na"><500</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/requestLoan</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Tests applying for a modest loan of $1,000 with a $100 down payment. The server should process the application without any errors.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Ensure sufficient funds in the funding account.</li><li>Submit a loan application for $1,000 with $100 down payment.</li><li>Verify the server processes the request without errors.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> The loan application is processed without server errors.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - Loan application processed successfully.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Loan Response Has Required Fields</span>
+<span class="tc-tags"><span class="tag tag-post">POST</span><span class="tag tag-na"><500</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/requestLoan</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Checks that the loan decision response includes all necessary information: the name of the lending institution and whether the loan was approved or denied.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Submit a loan application.</li><li>Verify the response includes a loanProviderName (text).</li><li>Verify the response includes an approved field (true or false).</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> Both the lender name and approval status are present.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - All required loan response fields were present.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Loan Response Date Is Valid</span>
+<span class="tc-tags"><span class="tag tag-post">POST</span><span class="tag tag-na"><500</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/requestLoan</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Confirms that the loan decision includes a valid timestamp showing when the decision was made, which is important for record-keeping and auditing.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Submit a loan application.</li><li>Extract the responseDate field.</li><li>Verify it can be parsed as a valid date.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> The response date is a valid, parseable date value.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - Response date was valid.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Approved Loan Has Message</span>
+<span class="tc-tags"><span class="tag tag-post">POST</span><span class="tag tag-na"><500</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/requestLoan</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Checks that when a loan is approved, the response includes a status message providing additional information about the approval.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Submit a small loan likely to be approved ($500, $100 down).</li><li>Verify a message field exists in the response.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> An approval message is included in the response.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - Approval message was present.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Approved Loan Creates New Account</span>
+<span class="tc-tags"><span class="tag tag-post">POST</span><span class="tag tag-na"><500</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/requestLoan</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Confirms that when a loan is approved, the system creates a new loan account and returns its unique account ID. This new account is where loan payments will be tracked.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Submit a loan that gets approved.</li><li>Verify the response includes an accountId that is a positive number.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> A new loan account ID is returned as a positive number.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - New loan account ID was returned.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Very Large Loan Returns Structured Response</span>
+<span class="tc-tags"><span class="tag tag-post">POST</span><span class="tag tag-na"><500</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/requestLoan</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Tests that even extreme loan requests (nearly $10 million with only $1 down) are handled gracefully by the server, returning a proper structured response rather than crashing.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Submit a loan for $9,999,999 with only $1 down payment.</li><li>Verify the server returns a structured response without crashing.</li><li>Verify the approved field is present as a true/false value.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> Server handles the extreme request gracefully with a structured response.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - Extreme loan request handled gracefully.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Denied Loan Shows Approved False</span>
+<span class="tc-tags"><span class="tag tag-post">POST</span><span class="tag tag-na"><500</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/requestLoan</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Verifies that when a loan is denied (due to unreasonable terms), the response clearly indicates the denial by setting the approved field to false.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Submit an unreasonably large loan ($9,999,999 with $1 down).</li><li>Check the approved field in the response.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> The approved field is set to false (loan denied).</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - Large loan was correctly denied.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Zero Down Payment Does Not Crash Server</span>
+<span class="tc-tags"><span class="tag tag-post">POST</span><span class="tag tag-na"><500</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/requestLoan</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Tests the edge case where a loan is requested with absolutely no down payment ($0). The server should handle this without crashing, even if the loan is denied.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Submit a loan with $0 down payment.</li><li>Verify the server does not return a server error.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> The server handles zero down payment without crashing.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - Zero down payment was handled gracefully.</div>
+</div>
+</div>
+</div>
+</div></details>
+<details class="section">
+<summary class="mod-summary">
+<span class="mod-title"><span class="mod-dot" style="background:#dc2626"></span>Negative and Boundary Testing</span>
+<span class="mod-meta"><span class="badge badge-file">negative.api.spec.js</span><span class="badge badge-pass">18/18 PASSED</span><span class="chevron">&#9654;</span></span>
+</summary>
+<div class="mod-body">
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Non-Existent Account Returns Error</span>
+<span class="tc-tags"><span class="tag tag-get">GET</span><span class="tag tag-na">400+</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/accounts/9999999</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Tests that requesting a bank account that does not exist (account 9999999) results in a proper error response rather than returning fake data.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Request account number 9999999 (non-existent).</li><li>Check the server's response.</li><li>Verify it returns an error status or empty result.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> Error response for the non-existent account.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - Non-existent account properly rejected.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Non-Existent Account Does Not Crash Server</span>
+<span class="tc-tags"><span class="tag tag-get">GET</span><span class="tag tag-na"><500</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/accounts/9999999</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Ensures that requesting a non-existent account number does not cause the server to crash with a 500-level error. The server should handle the invalid request gracefully.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Request non-existent account 9999999.</li><li>Verify the status code is below 500 (no server crash).</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> The server handles the request without crashing (status below 500).</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - No server crash occurred.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Account ID Zero Is Rejected</span>
+<span class="tc-tags"><span class="tag tag-get">GET</span><span class="tag tag-na">!=200</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/accounts/0</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Tests the boundary value of zero as an account ID. Account ID 0 is invalid and should be rejected by the server.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Request account with ID 0.</li><li>Verify the server does not return success (HTTP 200).</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> Account ID 0 is rejected (non-200 response).</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - Account ID 0 was rejected.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Negative Account ID Is Handled</span>
+<span class="tc-tags"><span class="tag tag-get">GET</span><span class="tag tag-na"><500</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/accounts/-1</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Tests that a negative account ID (-1) is handled by the server without causing a crash. Negative IDs are invalid but should not break the system.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Request account with ID -1.</li><li>Verify no server crash occurs.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> Negative ID is handled without server crash.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - Negative ID handled gracefully.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Customer ID Zero Is Rejected</span>
+<span class="tc-tags"><span class="tag tag-get">GET</span><span class="tag tag-na">!=200</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/customers/0</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Tests that customer ID 0 (invalid) is properly rejected by the customer profile service.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Request customer profile with ID 0.</li><li>Verify the server does not return success.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> Customer ID 0 is rejected.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - Customer ID 0 was rejected.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Non-Existent Customer Is Handled</span>
+<span class="tc-tags"><span class="tag tag-get">GET</span><span class="tag tag-na"><500</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/customers/9999999</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Tests that looking up a customer who does not exist does not crash the server.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Request customer 9999999 (non-existent).</li><li>Verify no server crash.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> Handled without server crash.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - Non-existent customer handled.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Non-Existent Customer Accounts Are Handled</span>
+<span class="tc-tags"><span class="tag tag-get">GET</span><span class="tag tag-na"><500</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/customers/9999999/accounts</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Tests that requesting the account list for a non-existent customer does not crash the server.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Request accounts for customer 9999999.</li><li>Verify no server crash.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> Handled without server crash.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - Handled gracefully.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Transaction ID Zero Is Rejected</span>
+<span class="tc-tags"><span class="tag tag-get">GET</span><span class="tag tag-na">!=200</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/transactions/0</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Tests that transaction ID 0 (invalid) is properly rejected.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Request transaction with ID 0.</li><li>Verify rejection (non-200 response).</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> Transaction ID 0 is rejected.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - Transaction ID 0 was rejected.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Non-Existent Transaction Is Handled</span>
+<span class="tc-tags"><span class="tag tag-get">GET</span><span class="tag tag-na"><500</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/transactions/9999999</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Tests that requesting a transaction that does not exist does not crash the server.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Request transaction 9999999 (non-existent).</li><li>Verify no server crash.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> Handled without server crash.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - Handled gracefully.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Empty Credentials Are Rejected</span>
+<span class="tc-tags"><span class="tag tag-get">GET</span><span class="tag tag-na">400+</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/login/ / </div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Tests that attempting to log in with completely empty (blank) username and password fields is properly rejected by the authentication system.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Attempt login with empty username and empty password.</li><li>Verify the server rejects the empty credentials.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> Empty credentials are rejected.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - Empty credentials were rejected.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Wrong Password Does Not Crash Server</span>
+<span class="tc-tags"><span class="tag tag-get">GET</span><span class="tag tag-na"><500</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/login/john/wrongpass</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Ensures that providing a wrong password causes a proper rejection, not a server crash. Security systems must handle authentication failures gracefully.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Attempt login with correct username but wrong password.</li><li>Verify no server crash occurs.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> Wrong password handled without server crash.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - Wrong password handled gracefully.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Missing Transfer Source Account Is Handled</span>
+<span class="tc-tags"><span class="tag tag-post">POST</span><span class="tag tag-na"><500</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/transfer</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Tests that submitting a transfer request without specifying which account to take money from is handled gracefully.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Submit a transfer request without the source account parameter.</li><li>Verify no server crash.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> Missing parameter handled gracefully.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - Missing parameter handled.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Missing Transfer Amount Is Rejected</span>
+<span class="tc-tags"><span class="tag tag-post">POST</span><span class="tag tag-na">!=200</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/transfer</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Tests that submitting a transfer without specifying the amount is properly rejected.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Submit a transfer request without the amount parameter.</li><li>Verify the server rejects it (non-200 response).</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> Missing amount is rejected.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - Missing amount was rejected.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Deposit to Fake Account Is Rejected</span>
+<span class="tc-tags"><span class="tag tag-post">POST</span><span class="tag tag-na">!=200</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/deposit</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Tests that depositing money into a non-existent account (9999999) is properly rejected.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Attempt to deposit into account 9999999.</li><li>Verify rejection.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> Non-existent account deposit is rejected.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - Deposit to fake account rejected.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Deposit Without Amount Is Rejected</span>
+<span class="tc-tags"><span class="tag tag-post">POST</span><span class="tag tag-na">!=200</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/deposit</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Tests that submitting a deposit request without specifying the amount is rejected.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Submit a deposit request without the amount parameter.</li><li>Verify rejection.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> Missing amount is rejected.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - Missing amount rejected.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Withdrawal from Fake Account Is Handled</span>
+<span class="tc-tags"><span class="tag tag-post">POST</span><span class="tag tag-na"><500</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/withdraw</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Tests that attempting to withdraw from a non-existent account does not crash the server.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Attempt withdrawal from account 9999999.</li><li>Verify no server crash.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> Handled without server crash.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - Handled gracefully.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Error Responses Hide Internal Details</span>
+<span class="tc-tags"><span class="tag tag-get">GET</span><span class="tag tag-na">varies</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/accounts/9999999</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Ensures that when the server returns an error, it does not accidentally expose internal technical details like Java stack traces, which could be a security vulnerability.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Trigger an error by requesting a non-existent account.</li><li>Examine the response body for Java exception text or stack trace information.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> No internal stack traces or technical details are exposed.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - No internal details were exposed.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">All Responses Include Content-Type</span>
+<span class="tc-tags"><span class="tag tag-get">GET</span><span class="tag tag-na">200</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/login/{username}/{password}</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Confirms that every API response includes a Content-Type header, which tells applications what format the data is in (JSON, XML, etc.).</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Send a request to the server.</li><li>Check for the Content-Type header.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> Content-Type header is always present.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - Content-Type was present.</div>
+</div>
+</div>
+</div>
+</div></details>
+<details class="section">
+<summary class="mod-summary">
+<span class="mod-title"><span class="mod-dot" style="background:#0d9488"></span>User Registration</span>
+<span class="mod-meta"><span class="badge badge-file">registration.api.spec.js</span><span class="badge badge-pass">7/7 PASSED</span><span class="chevron">&#9654;</span></span>
+</summary>
+<div class="mod-body">
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Valid Registration Returns Success</span>
+<span class="tc-tags"><span class="tag tag-post">POST</span><span class="tag tag-na">200/302</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/register.htm</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Tests registering a brand-new user account by first obtaining a session from the registration page and then submitting the registration form with complete, valid user data.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Visit the registration page to obtain a session cookie.</li><li>Submit the registration form with valid user data (name, address, username, password) along with the session cookie.</li><li>Verify the server responds with success (HTTP 200) or redirect (HTTP 302).</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> Registration is accepted (HTTP 200 or 302).</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - Registration succeeded.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">New User Can Log In After Registration</span>
+<span class="tc-tags"><span class="tag tag-na">POST + GET</span><span class="tag tag-na">200</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/register.htm + /login</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">The complete registration flow: register a new user, then immediately attempt to log in with their credentials to confirm the account was actually created and is functional.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Register a new user through the registration form.</li><li>Attempt to log in with the newly created credentials.</li><li>Verify the login succeeds and returns a valid customer ID.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> The newly registered user can successfully log in.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - New user logged in successfully.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Login Returns Consistent ID After Registration</span>
+<span class="tc-tags"><span class="tag tag-na">POST + GET</span><span class="tag tag-na">200</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/register.htm + /login</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">After registering a new user, logs in twice with the same credentials to verify the system assigns and maintains a consistent customer ID.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Register a new user.</li><li>Log in twice with the same credentials.</li><li>Compare the customer IDs from both logins.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> Both logins return the same customer ID.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - Customer ID was consistent.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Duplicate Username Is Rejected</span>
+<span class="tc-tags"><span class="tag tag-post">POST</span><span class="tag tag-na">400/500</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/register.htm</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Tests that the system prevents two users from registering with the same username. The second registration attempt should be rejected.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Register a user with a specific username.</li><li>Attempt to register again with the same username.</li><li>Verify the second attempt is rejected.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> The duplicate registration is rejected.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - Duplicate username was rejected.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Missing Fields Are Rejected</span>
+<span class="tc-tags"><span class="tag tag-post">POST</span><span class="tag tag-na">400/500</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/register.htm</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Tests that submitting a registration form with required fields missing (incomplete data) is properly rejected by the server.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Submit a registration form with several required fields left blank.</li><li>Verify the server returns an error.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> The incomplete form is rejected.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - Missing fields were rejected.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Registration Response Has Content-Type</span>
+<span class="tc-tags"><span class="tag tag-post">POST</span><span class="tag tag-na">varies</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/register.htm</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Verifies that registration responses include proper HTTP headers indicating the content format (HTML, JSON, or text).</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Submit a registration form.</li><li>Check the Content-Type header in the response.</li><li>Verify it indicates HTML, JSON, or text format.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> Content-Type header is present with a valid format.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - Content-Type header was present.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Registration Accepts JWT Header</span>
+<span class="tc-tags"><span class="tag tag-post">POST</span><span class="tag tag-na">100-599</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/register.htm</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Tests that including a JWT security token in the registration request does not cause any problems. The server should handle the extra header gracefully.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Submit a registration with a JWT Bearer token in the Authorization header.</li><li>Verify the server returns a valid HTTP status code (100-599 range).</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> Server handles the JWT header without crashing.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - JWT header was handled gracefully.</div>
+</div>
+</div>
+</div>
+</div></details>
+<details class="section">
+<summary class="mod-summary">
+<span class="mod-title"><span class="mod-dot" style="background:#9333ea"></span>JWT Session Token Lifecycle</span>
+<span class="mod-meta"><span class="badge badge-file">session-token.api.spec.js</span><span class="badge badge-pass">11/11 PASSED</span><span class="chevron">&#9654;</span></span>
+</summary>
+<div class="mod-body">
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Token Has Valid 3-Part Structure</span>
+<span class="tc-tags"><span class="tag tag-na">N/A</span><span class="tag tag-na">N/A</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">Internal JWT</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Verifies that the security session token follows the correct JWT (JSON Web Token) format: three parts separated by dots, representing the header, payload, and cryptographic signature.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Retrieve the session token from secure storage.</li><li>Verify the token exists and is a text string.</li><li>Split the token by dots and verify there are exactly 3 parts.</li><li>Verify each part is non-empty.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> Token has exactly 3 non-empty parts (header.payload.signature).</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - Token had valid 3-part structure.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Token Header Specifies Correct Algorithm</span>
+<span class="tc-tags"><span class="tag tag-na">N/A</span><span class="tag tag-na">N/A</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">Internal JWT</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Checks that the token's header correctly identifies the cryptographic algorithm (HS256) and token type (JWT) used for security.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Decode the first part (header) of the JWT token.</li><li>Verify the algorithm field is 'HS256'.</li><li>Verify the type field is 'JWT'.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> Header specifies algorithm HS256 and type JWT.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - Correct algorithm and type specified.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Token Contains User Identity Claims</span>
+<span class="tc-tags"><span class="tag tag-na">N/A</span><span class="tag tag-na">N/A</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">Internal JWT</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Verifies that the token's payload contains all required identity information: the customer ID (subject), username, when the token was issued, and when it expires.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Decode the middle part (payload) of the JWT token.</li><li>Verify the subject (sub) matches the logged-in customer's ID.</li><li>Verify the username is 'john'.</li><li>Verify the issued-at timestamp (iat) is a positive number.</li><li>Verify the expiration timestamp (exp) is after the issued-at time.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> All four identity claims are present and valid.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - All identity claims were valid.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Token Is Not Immediately Expired</span>
+<span class="tc-tags"><span class="tag tag-na">N/A</span><span class="tag tag-na">N/A</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">Internal JWT</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Ensures the token has a sufficient validity period after creation. A token that expires immediately would be unusable.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Decode the token's expiration timestamp.</li><li>Calculate the remaining validity time.</li><li>Verify at least 30 minutes of validity remain.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> Token has at least 30 minutes of remaining validity.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - Token had sufficient validity period.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Cryptographic Signature Is Valid</span>
+<span class="tc-tags"><span class="tag tag-na">N/A</span><span class="tag tag-na">N/A</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">Internal JWT</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Tests the core security mechanism: verifies that the token's HMAC-SHA256 cryptographic signature is valid, confirming the token has not been altered or forged.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Take the session token.</li><li>Run the cryptographic signature verification process using the secret key.</li><li>Verify the verification succeeds and returns the decoded user information.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> The signature verification passes successfully.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - Cryptographic signature was valid.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Tampered Token Is Rejected</span>
+<span class="tc-tags"><span class="tag tag-na">N/A</span><span class="tag tag-na">N/A</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">Internal JWT</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Ensures that if anyone modifies (tampers with) the token's signature, the verification process detects the tampering and rejects the token. This is critical for security.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Take a valid token and modify part of its cryptographic signature.</li><li>Attempt to verify the tampered token.</li><li>Verify the verification process rejects it with an error.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> The tampered token is detected and rejected.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - Tampered token was correctly rejected.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Token Can Be Decoded Without Verification</span>
+<span class="tc-tags"><span class="tag tag-na">N/A</span><span class="tag tag-na">N/A</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">Internal JWT</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Tests the basic ability to read (decode) a token's contents without performing full cryptographic verification. This is useful for quickly inspecting token data.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Decode the token without verifying the signature.</li><li>Verify both the header and payload objects are returned.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> Header and payload are successfully decoded.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - Token was decoded successfully.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Each Token Signing Is Unique</span>
+<span class="tc-tags"><span class="tag tag-na">N/A</span><span class="tag tag-na">N/A</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">Internal JWT</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Confirms that signing a token twice (even with the same user data) produces two different tokens because each includes a unique timestamp, preventing token reuse attacks.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Sign a token with user data.</li><li>Wait briefly.</li><li>Sign another token with the same user data.</li><li>Compare the two tokens.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> The two tokens are different due to different timestamps.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - Each token was unique.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">JWT-Authenticated Request Returns Success</span>
+<span class="tc-tags"><span class="tag tag-get">GET</span><span class="tag tag-na">200</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/customers/{id}</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Tests that the JWT token actually works in practice by sending a real API request with the token in the Authorization header and verifying the server returns valid customer data.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Send a request with the JWT token in the Authorization: Bearer header.</li><li>Verify HTTP 200 is returned.</li><li>Verify the response contains valid customer data.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> The authenticated request succeeds with valid data.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - JWT-authenticated request succeeded.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">JWT Request Does Not Crash Server</span>
+<span class="tc-tags"><span class="tag tag-get">GET</span><span class="tag tag-na"><500</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/customers/{id}</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Ensures that including a JWT token in requests never causes the server to crash, regardless of whether the server fully processes the token.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Send an authenticated request with the JWT token.</li><li>Verify the status code is below 500.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> No server crash from JWT authentication.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - No server crash occurred.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Stored Token Matches Verified JWT</span>
+<span class="tc-tags"><span class="tag tag-na">N/A</span><span class="tag tag-na">N/A</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">Internal JWT</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Validates that the token saved in secure private storage is still valid, has a correct signature, matches the current user, and has not expired.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Retrieve the token from secure storage.</li><li>Verify its cryptographic signature.</li><li>Confirm the user claims match the current logged-in user (customer ID, username).</li><li>Verify the token has not expired.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> The stored token is valid, matches the current user, and is not expired.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - Stored token was valid and current.</div>
+</div>
+</div>
+</div>
+</div></details>
+<details class="section">
+<summary class="mod-summary">
+<span class="mod-title"><span class="mod-dot" style="background:#2563eb"></span>Transaction Queries and Filters</span>
+<span class="mod-meta"><span class="badge badge-file">transactions.api.spec.js</span><span class="badge badge-pass">17/17 PASSED</span><span class="chevron">&#9654;</span></span>
+</summary>
+<div class="mod-body">
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Retrieve Transaction List</span>
+<span class="tc-tags"><span class="tag tag-get">GET</span><span class="tag tag-na"><500</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/accounts/{id}/transactions</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Tests retrieving the complete transaction history for a specific bank account, which shows all deposits, withdrawals, transfers, and payments.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Request the transaction list for a specific account.</li><li>Verify the server returns a valid response without errors.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> Transaction list is returned successfully.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - Transaction list retrieved.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Account Has At Least One Transaction</span>
+<span class="tc-tags"><span class="tag tag-get">GET</span><span class="tag tag-na">200</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/accounts/{id}/transactions</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Confirms that the demo test account has at least one transaction in its history after database initialization.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Request transactions for the primary account.</li><li>Count the number of transactions.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> At least one transaction exists.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - Account had transactions.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Transaction Records Have Correct Structure</span>
+<span class="tc-tags"><span class="tag tag-get">GET</span><span class="tag tag-na">200</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/accounts/{id}/transactions</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Validates that every transaction record contains all required fields: a unique ID, the account it belongs to, the type (Credit or Debit), a date, a dollar amount, and a description.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Retrieve the transaction list.</li><li>For each transaction, verify it has a positive numeric ID.</li><li>Verify each has a numeric account ID.</li><li>Verify each type is either 'Credit' or 'Debit'.</li><li>Verify each has a date value.</li><li>Verify each has a numeric amount.</li><li>Verify each has a text description.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> All transactions have complete, correctly-typed data.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - All transactions had correct structure.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Transactions Belong to Correct Account</span>
+<span class="tc-tags"><span class="tag tag-get">GET</span><span class="tag tag-na">200</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/accounts/{id}/transactions</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Ensures there is no data leakage between accounts. Every transaction returned for a specific account must actually belong to that account.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Retrieve transactions for a specific account.</li><li>For each transaction, verify its account ID matches the requested account.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> All transactions belong to the correct account.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - No cross-account data leakage.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">All Transaction Amounts Are Valid</span>
+<span class="tc-tags"><span class="tag tag-get">GET</span><span class="tag tag-na">200</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/accounts/{id}/transactions</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Checks that every transaction amount is a real number, not NaN (Not a Number) or any other invalid value that could cause calculation errors.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Retrieve transactions.</li><li>For each transaction, verify the amount is a real number.</li><li>Verify no amounts are NaN (Not a Number).</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> All transaction amounts are valid real numbers.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - All amounts were valid numbers.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Retrieve Single Transaction by ID</span>
+<span class="tc-tags"><span class="tag tag-get">GET</span><span class="tag tag-na"><500</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/transactions/{id}</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Tests retrieving a specific, individual transaction using its unique transaction ID, and verifies the correct transaction is returned.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Get the transaction list to find a valid transaction ID.</li><li>Request that specific transaction by its ID.</li><li>Verify the returned transaction ID matches the requested one.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> The correct single transaction is returned.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - Correct transaction retrieved by ID.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Single Transaction Has All Fields</span>
+<span class="tc-tags"><span class="tag tag-get">GET</span><span class="tag tag-na"><500</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/transactions/{id}</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Validates that a single transaction retrieved by ID contains all required fields with valid values.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Retrieve a specific transaction.</li><li>Verify it has a positive ID.</li><li>Verify it has a valid type (Credit or Debit).</li><li>Verify it has a non-negative amount.</li><li>Verify it has a date.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> The transaction has all required fields.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - All fields were present.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Filter by Amount Returns Success</span>
+<span class="tc-tags"><span class="tag tag-get">GET</span><span class="tag tag-na">200</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/accounts/{id}/transactions/amount/{amount}</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Tests the ability to search for transactions by a specific dollar amount, which helps users find particular payments or deposits.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Request transactions matching a specific dollar amount.</li><li>Verify the server returns HTTP 200.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> The amount filter query succeeds.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - Amount filter succeeded.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Amount Filter Returns Correct Results</span>
+<span class="tc-tags"><span class="tag tag-get">GET</span><span class="tag tag-na">200</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/accounts/{id}/transactions/amount/{amount}</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Verifies that when filtering transactions by amount, every returned transaction actually has the exact amount that was searched for.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Filter transactions by a specific amount.</li><li>For each returned transaction, verify its amount matches the filter.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> All filtered transactions have the exact matching amount.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - All results matched the filter amount.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Date Range Filter Returns Success</span>
+<span class="tc-tags"><span class="tag tag-get">GET</span><span class="tag tag-na"><500</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/accounts/{id}/transactions/fromDate/{from}/toDate/{to}</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Tests the ability to search for transactions within a specific date range, useful for monthly statements or period-specific reviews.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Request transactions within a date range.</li><li>Verify no server error occurs.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> The date range query succeeds.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - Date range filter succeeded.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Date Range Returns Valid Arrays</span>
+<span class="tc-tags"><span class="tag tag-get">GET</span><span class="tag tag-na"><500</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/accounts/{id}/transactions/fromDate/{from}/toDate/{to}</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Validates that date range queries return properly formatted arrays of transactions.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Request transactions by date range.</li><li>Verify the result is a valid array.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> Results are properly formatted arrays.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - Valid arrays returned.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Single Day Filter Returns Success</span>
+<span class="tc-tags"><span class="tag tag-get">GET</span><span class="tag tag-na"><500</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/accounts/{id}/transactions/fromDate/{today}/toDate/{today}</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Tests that filtering for a single day (today only) works correctly, which is a common use case for daily transaction reviews.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Request transactions for today only (same start and end date).</li><li>Verify no server error.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> Single-day filter works correctly.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - Single day filter succeeded.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Specific Date Query Returns Success</span>
+<span class="tc-tags"><span class="tag tag-get">GET</span><span class="tag tag-na"><500</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/accounts/{id}/transactions/onDate/{date}</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Tests retrieving transactions that occurred on a specific date.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Request transactions on a specific date.</li><li>Verify no server error.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> Specific date query succeeds.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - Date query succeeded.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Specific Date Returns Array</span>
+<span class="tc-tags"><span class="tag tag-get">GET</span><span class="tag tag-na"><500</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/accounts/{id}/transactions/onDate/{date}</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Validates that date-specific queries return properly formatted arrays.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Request transactions on a specific date.</li><li>Verify the result is an array.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> Result is an array.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - Array was returned.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Monthly Credit Filter Returns Success</span>
+<span class="tc-tags"><span class="tag tag-get">GET</span><span class="tag tag-na"><500</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/accounts/{id}/transactions/month/{month}/type/Credit</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Tests filtering transactions by both month and type (Credit - incoming money) simultaneously.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Request Credit transactions for January.</li><li>Verify no server error.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> Monthly Credit filter succeeds.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - Monthly Credit filter succeeded.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Monthly Debit Filter Returns Success</span>
+<span class="tc-tags"><span class="tag tag-get">GET</span><span class="tag tag-na"><500</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/accounts/{id}/transactions/month/{month}/type/Debit</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Tests filtering transactions by both month and type (Debit - outgoing money) simultaneously.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Request Debit transactions for January.</li><li>Verify no server error.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> Monthly Debit filter succeeds.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - Monthly Debit filter succeeded.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Credit Filter Only Returns Credits</span>
+<span class="tc-tags"><span class="tag tag-get">GET</span><span class="tag tag-na">200</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/accounts/{id}/transactions/month/{month}/type/Credit</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Verifies that when filtering for Credit transactions only, no Debit transactions are incorrectly included in the results.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Filter for Credit transactions only.</li><li>For each returned transaction, verify its type is 'Credit'.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> Only Credit transactions are returned (no Debit transactions).</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - Only Credit transactions were returned.</div>
+</div>
+</div>
+</div>
+</div></details>
+<details class="section">
+<summary class="mod-summary">
+<span class="mod-title"><span class="mod-dot" style="background:#ea580c"></span>Fund Transfers</span>
+<span class="mod-meta"><span class="badge badge-file">transfer.api.spec.js</span><span class="badge badge-pass">7/7 PASSED</span><span class="chevron">&#9654;</span></span>
+</summary>
+<div class="mod-body">
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Transfer Returns Success</span>
+<span class="tc-tags"><span class="tag tag-post">POST</span><span class="tag tag-na"><500</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/transfer</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Tests the basic fund transfer functionality by sending $10 from one bank account to another. The server should process the transfer without errors.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Send a transfer request for $10 from a source account to a target account.</li><li>Verify the server responds without a server error.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> The transfer is processed successfully.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - Transfer was processed.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Source Balance Decreases Correctly</span>
+<span class="tc-tags"><span class="tag tag-post">POST</span><span class="tag tag-na">200</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/transfer</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Verifies that after a transfer, the sender's account balance is reduced by exactly the transfer amount. This is one half of the double-entry bookkeeping verification.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Record the sender's balance before the transfer.</li><li>Transfer $10.</li><li>Record the sender's balance after the transfer.</li><li>Verify the balance decreased by exactly $10.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> The source account balance decreases by exactly $10.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - Source balance decreased correctly.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Target Balance Increases Correctly</span>
+<span class="tc-tags"><span class="tag tag-post">POST</span><span class="tag tag-na">200</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/transfer</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Verifies that after a transfer, the receiver's account balance increases by exactly the transfer amount. This is the other half of the double-entry bookkeeping verification.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Record the receiver's balance before the transfer.</li><li>Transfer $10.</li><li>Record the receiver's balance after the transfer.</li><li>Verify the balance increased by exactly $10.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> The target account balance increases by exactly $10.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - Target balance increased correctly.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Source Gets Debit Transaction Record</span>
+<span class="tc-tags"><span class="tag tag-post">POST</span><span class="tag tag-na">200</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/transfer</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Confirms that the transfer creates a proper Debit (money sent) transaction record on the sender's account, with the correct amount.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Count the sender's transactions before the transfer.</li><li>Transfer $10.</li><li>Count transactions after the transfer.</li><li>Verify a new Debit transaction for $10 was created.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> A Debit transaction for $10 appears on the source account.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - Debit transaction created on source.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Target Gets Credit Transaction Record</span>
+<span class="tc-tags"><span class="tag tag-post">POST</span><span class="tag tag-na">200</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/transfer</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Confirms that the transfer creates a proper Credit (money received) transaction record on the receiver's account, with the correct amount.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Count the receiver's transactions before the transfer.</li><li>Transfer $10.</li><li>Count transactions after the transfer.</li><li>Verify a new Credit transaction for $10 was created.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> A Credit transaction for $10 appears on the target account.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - Credit transaction created on target.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Self-Transfer Does Not Crash Server</span>
+<span class="tc-tags"><span class="tag tag-post">POST</span><span class="tag tag-na"><500</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/transfer</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Tests the edge case of transferring money from an account to itself. While unusual, this should not cause the server to crash.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Transfer $1 from an account to itself.</li><li>Verify no server crash occurs.</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> Self-transfer is handled without server crash.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - Self-transfer handled gracefully.</div>
+</div>
+</div>
+</div>
+<div class="tc">
+<div class="tc-header">
+<span class="tc-name">Multiple Transfers Maintain Correct Totals</span>
+<span class="tc-tags"><span class="tag tag-post">POST</span><span class="tag tag-na">200</span></span>
+</div>
+<div class="tc-body">
+<div class="tc-row"><div class="tc-label">Endpoint</div><div class="tc-text">/transfer</div></div>
+<div class="tc-row"><div class="tc-label">Description</div><div class="tc-text">Tests that executing multiple transfers in sequence maintains accurate running totals. Three consecutive transfers of $5 each should reduce the balance by exactly $15.</div></div>
+<div class="tc-row"><div class="tc-label">Steps</div><ol class="tc-steps"><li>Record the starting balance.</li><li>Execute 3 consecutive transfers of $5 each.</li><li>Record the final balance.</li><li>Verify the balance decreased by exactly $15 ($5 x 3).</li></ol></div>
+<div class="result-row">
+<div class="result-box result-expected"><strong>Expected Result:</strong> After 3 transfers of $5, the balance is exactly $15 less.</div>
+<div class="result-box result-actual"><strong>Actual Result:</strong> PASSED - Running totals maintained correctly.</div>
+</div>
+</div>
+</div>
+</div></details>
+<div class="footer">ParaBank API Testing Report | 126 Test Cases Verified</div>
+</div>
+</body>
+</html>

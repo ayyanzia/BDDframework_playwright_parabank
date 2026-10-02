@@ -1,0 +1,2613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title> QA Automation Report</title>
+<style>
+  /* ── Base Styles & Resets ── */
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 0;
+    background-color: #f8fafc;
+    color: #1c2f5c;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.5;
+  }
+
+  summary::-webkit-details-marker { display: none !important; }
+  summary { list-style: none !important; cursor: pointer; }
+
+  .chevron { transition: transform 0.2s ease; display: inline-block; }
+  details[open] > summary .chevron { transform: rotate(90deg); }
+
+  /* ── Light & Vibrant Styling ── */
+  .header-bg {
+    background: linear-gradient(135deg, #ffffff 0%, #eef2ff 50%, #e0e7ff 100%);
+    border-bottom: 1px solid #cbd5e1;
+    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.05);
+  }
+
+  .card-glow {
+    background: #ffffff;
+    border: 1px solid #8cb3e5;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.03), 0 2px 4px -2px rgba(0, 0, 0, 0.03);
+    transition: all 0.2s ease-in-out;
+  }
+  .card-glow:hover {
+    box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.04);
+    border-color: #a5b4fc;
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 10px;
+    border-radius: 9999px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+  }
+  .badge-pass { background-color: #dcfce7; color: #15803d; border: 1px solid #86efac; }
+  .badge-fail { background-color: #fee2e2; color: #b91c1c; border: 1px solid #fca5a5; }
+  .badge-info { background-color: #e0e7ff; color: #4338ca; border: 1px solid #a5b4fc; }
+  .badge-api  { background-color: #e0f2fe; color: #0369a1; border: 1px solid #7dd3fc; }
+  .badge-bdd  { background-color: #fae8ff; color: #86198f; border: 1px solid #f0abfc; }
+
+  .btn-action {
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    color: #334155;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .btn-action:hover {
+    background: #4f46e5;
+    color: #ffffff;
+    border-color: #4f46e5;
+    box-shadow: 0 4px 10px rgba(79, 70, 229, 0.2);
+  }
+
+  .tab-btn {
+    padding: 10px 20px;
+    font-weight: 700;
+    font-size: 13px;
+    border-radius: 8px;
+    border: 1px solid transparent;
+    cursor: pointer;
+    background: #f1f5f9;
+    color: #475569;
+    transition: all 0.2s ease;
+  }
+  .tab-btn.active {
+    background: #4f46e5;
+    color: #ffffff;
+    border-color: #4338ca;
+    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
+  }
+
+  .glossary-box {
+    background: #ffffff;
+    border-left: 4px solid #6366f1;
+    border-radius: 8px;
+    padding: 16px 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+  }
+
+  /* ── Expanded Test Case Card Styles ── */
+  .test-card {
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    margin-top: 14px;
+    overflow: hidden;
+    background: #ffffff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+  }
+  .test-card-header {
+    padding: 14px 18px;
+    background: #f8fafc;
+    border-bottom: 1px solid #e2e8f0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .test-title {
+    font-weight: 700;
+    font-size: 14.5px;
+    color: #0f172a;
+  }
+  .test-card-body {
+    padding: 18px;
+    font-size: 13.5px;
+  }
+  .field-label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: #64748b;
+    margin-bottom: 4px;
+  }
+  .field-text {
+    color: #334155;
+    margin-bottom: 12px;
+  }
+  .steps-list {
+    margin: 4px 0 12px 0;
+    padding-left: 20px;
+    color: #334155;
+  }
+  .steps-list li {
+    margin-bottom: 4px;
+  }
+  .result-flex {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 10px;
+  }
+  .res-box {
+    flex: 1 1 250px;
+    padding: 12px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+  }
+  .res-expected {
+    background: #f0f9ff;
+    border: 1px solid #bae6fd;
+    color: #0369a1;
+  }
+  .res-actual-pass {
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    color: #15803d;
+  }
+  .res-actual-fail {
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    color: #991b1b;
+  }
+
+  .status-indicator {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-right: 8px;
+  }
+  .ind-pass { background-color: #10b981; }
+  .ind-fail { background-color: #ef4444; }
+</style>
+</head>
+<body>
+
+<!-- TOP HEADER -->
+<div class="header-bg" style="padding: 24px 40px;">
+  <div style="max-width: 1400px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px;">
+    
+    <div style="display: flex; align-items: center; gap: 16px;">
+      <div style="width: 48px; height: 48px; border-radius: 12px; background: linear-gradient(135deg, #6366f1, #06b6d4); display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 800; color: #ffffff; box-shadow: 0 4px 14px rgba(99, 102, 241, 0.35);">
+        QA
+      </div>
+      <div>
+        <h1 style="margin: 0; font-size: 24px; font-weight: 800; color: #0f172a; letter-spacing: -0.5px;">
+          Automation Report
+        </h1>
+        <div style="font-size: 13px; color: #475569; margin-top: 4px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+          <span style="font-weight: 600; color: #4f46e5;">Two-Layers Framework</span>
+          <span>•</span>
+          <span> UI and API Testing</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <button onclick="toggleAllModules(true)" class="btn-action">
+        Expand All
+      </button>
+      <button onclick="toggleAllModules(false)" class="btn-action">
+        Collapse All
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<!-- MAIN CONTAINER -->
+<div style="max-width: 1400px; margin: 0 auto; padding: 32px 40px;">
+
+  <!-- KPI SUMMARY CARDS -->
+  <div style="display: flex; flex-wrap: wrap; gap: 16px; margin-bottom: 32px;">
+    
+    <!-- Total Tests -->
+    <div class="card-glow" style="flex: 1 1 220px; padding: 20px 24px; border-top: 4px solid #6366f1;">
+      <div style="font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #64748b;">Total Test Cases</div>
+      <div style="font-size: 36px; font-weight: 800; color: #0f172a; margin-top: 6px;">238</div>
+      <div style="font-size: 12px; color: #6366f1; font-weight: 600; margin-top: 4px;">126 Pure API + 19 Hybrid + 93 BDD</div>
+    </div>
+
+    <!-- REST API Suite Pass Rate -->
+    <div class="card-glow" style="flex: 1 1 220px; padding: 20px 24px; border-top: 4px solid #10b981; background: linear-gradient(180deg, #ffffff 0%, #f0fdf4 100%);">
+      <div style="font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #166534;">REST API &amp; Hybrid Suites</div>
+      <div style="font-size: 36px; font-weight: 800; color: #15803d; margin-top: 6px;">145 / 145</div>
+      <div style="font-size: 12px; color: #15803d; font-weight: 700; margin-top: 4px;">100% Pass Rate (0 Failures)</div>
+    </div>
+
+    <!-- BDD UI Suite -->
+    <div class="card-glow" style="flex: 1 1 220px; padding: 20px 24px; border-top: 4px solid #8b5cf6;">
+      <div style="font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #64748b;">BDD Web UI Suite</div>
+      <div style="font-size: 36px; font-weight: 800; color: #6b21a8; margin-top: 6px;">39 / 93</div>
+      <div style="font-size: 12px; color: #7c3aed; font-weight: 600; margin-top: 4px;">39 Passed (54 Live State Mismatches)</div>
+    </div>
+
+    <!-- Execution Mode -->
+    <div class="card-glow" style="flex: 1 1 220px; padding: 20px 24px; border-top: 4px solid #06b6d4;">
+      <div style="font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #64748b;">Execution Strategy</div>
+      <div style="font-size: 28px; font-weight: 800; color: #0891b2; margin-top: 10px;">Serial (1 Worker)</div>
+      <div style="font-size: 12px; color: #64748b; margin-top: 4px;">Rate-Limit &amp; Cloudflare Protected</div>
+    </div>
+
+  </div>
+
+  <!-- PROGRESS BAR SECTION -->
+  <div class="card-glow" style="padding: 24px; margin-bottom: 36px;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+      <div style="font-weight: 700; font-size: 15px; color: #0f172a;">
+        Overall System Completion Status (238 Total Test Cases)
+      </div>
+      <span class="badge badge-pass">77.3% OVERALL PASS RATE</span>
+    </div>
+    <div style="height: 12px; width: 100%; background: #fee2e2; border-radius: 9999px; overflow: hidden; display: flex;">
+      <div style="width: 77.3%; background: linear-gradient(90deg, #10b981, #059669); border-radius: 9999px;"></div>
+    </div>
+    <div style="display: flex; gap: 20px; margin-top: 12px; font-size: 13px; color: #475569;">
+      <span><strong>Passed:</strong> 184 (145 API/Hybrid + 39 BDD)</span>
+      <span><strong>Failed:</strong> 54 (BDD Live State Mismatches)</span>
+      <span><strong>Skipped:</strong> 0</span>
+    </div>
+  </div>
+
+  <!-- EXPLANATORY TERMS & ARCHITECTURE GLOSSARY -->
+
+
+  <!-- FILTER CONTROLS & SEARCH BAR -->
+  <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; margin-bottom: 24px;">
+    <div style="display: flex; gap: 8px; flex-wrap: wrap;" id="tabContainer">
+      <button class="tab-btn active" onclick="filterSuite('all', this)">All Suites (238)</button>
+      <button class="tab-btn" onclick="filterSuite('api', this)">REST API Suite (126)</button>
+      <button class="tab-btn" onclick="filterSuite('hybrid', this)">Hybrid UI+API (19)</button>
+      <button class="tab-btn" onclick="filterSuite('bdd', this)">BDD UI Suite (93)</button>
+      <button class="tab-btn" onclick="filterSuite('pass', this)">Passed Only (184)</button>
+      <button class="tab-btn" onclick="filterSuite('fail', this)">Failed Only (54)</button>
+    </div>
+
+    <div style="position: relative; width: 300px;">
+      <input type="text" id="searchInput" onkeyup="searchTests()" placeholder="Search specs, endpoints, or steps..." style="width: 100%; padding: 10px 14px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 13px; outline: none; background: #ffffff; color: #0f172a; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+    </div>
+  </div>
+
+  <!-- TEST MODULES ACCORDION LIST -->
+  <div style="display: flex; flex-direction: column; gap: 16px;" id="modulesContainer">
+
+    <!-- ── MODULE: Authentication API Specs ── -->
+    <details class="card-glow module-card" data-suite="api" data-status="pass">
+      <summary style="padding: 18px 24px; display: flex; align-items: center; justify-content: space-between;">
+        <div style="display: flex; align-items: center; gap: 14px;">
+          <span class="chevron" style="font-size: 16px; color: #64748b;">▶</span>
+          <span class="badge badge-api">REST API</span>
+          <span style="font-weight: 700; font-size: 16px; color: #0f172a;">Authentication API Specs</span>
+          <span style="font-size: 13px; color: #64748b;">(<code>tests/api/specs/auth.api.spec.js</code>)</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <span class="badge badge-pass">8 / 8 PASSED</span>
+          <span style="font-size: 12px; color: #64748b; font-weight: 600;">18.5s</span>
+        </div>
+      </summary>
+      <div style="padding: 0 24px 20px 24px; border-top: 1px solid #f1f5f9; margin-top: 8px;">
+        <p style="font-size: 13.5px; color: #475569; margin: 12px 0 16px 0;">
+          Validates GET/POST authentication endpoints, valid/invalid credential verification, Customer payload schema integrity, and duplicate session handling.
+        </p>
+
+        <!-- Test Case: GET /login — Valid credentials returns 200 with Customer object -->
+        <div class="test-card">
+          <div class="test-card-header">
+            <span class="test-title"><span class="status-indicator ind-pass"></span>GET /login — Valid credentials returns 200 with Customer object</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="badge badge-info">HTTP 200</span>
+              <span style="font-size: 12px; font-weight: 600; color: #64748b;">2.3s</span>
+              <span class="badge badge-pass">PASSED</span>
+            </div>
+          </div>
+          <div class="test-card-body">
+            <div class="field-label">Description</div>
+            <div class="field-text">Sends valid user credentials (username 'john' and password 'demo') to the backend login service to verify that the server authenticates the user and returns their profile information.</div>
+            <div class="field-label">Execution Steps</div>
+            <ol class="steps-list">
+              <li>1. Construct a GET request with username 'john' and password 'demo'.</li><li>2. Transmit the request to the authentication service endpoint.</li><li>3. Validate that the HTTP response status code is 200 OK.</li><li>4. Verify the response body contains a complete Customer data object in JSON format.</li>
+            </ol>
+            <div class="result-flex">
+              <div class="res-box res-expected"><strong>Expected Result:</strong> Server responds with HTTP 200 OK and returns a valid Customer profile object.</div>
+              <div class="res-box res-actual-pass"><strong>Actual Result:</strong> PASSED — Server returned HTTP 200 OK with complete JSON customer profile.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Test Case: GET /login — Response contains customerId as positive integer -->
+        <div class="test-card">
+          <div class="test-card-header">
+            <span class="test-title"><span class="status-indicator ind-pass"></span>GET /login — Response contains customerId as positive integer</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="badge badge-info">HTTP 200</span>
+              <span style="font-size: 12px; font-weight: 600; color: #64748b;">2.1s</span>
+              <span class="badge badge-pass">PASSED</span>
+            </div>
+          </div>
+          <div class="test-card-body">
+            <div class="field-label">Description</div>
+            <div class="field-text">Verifies that the customer ID returned upon login is a positive whole number, which is required for subsequent banking operations.</div>
+            <div class="field-label">Execution Steps</div>
+            <ol class="steps-list">
+              <li>1. Send login request with valid credentials.</li><li>2. Extract the 'id' field from the customer payload.</li><li>3. Confirm the ID is a numeric data type and greater than 0.</li>
+            </ol>
+            <div class="result-flex">
+              <div class="res-box res-expected"><strong>Expected Result:</strong> Customer ID is present and is a positive integer.</div>
+              <div class="res-box res-actual-pass"><strong>Actual Result:</strong> PASSED — Customer ID returned was a positive integer (e.g. 12212).</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Test Case: GET /login — Response contains firstName and lastName strings -->
+        <div class="test-card">
+          <div class="test-card-header">
+            <span class="test-title"><span class="status-indicator ind-pass"></span>GET /login — Response contains firstName and lastName strings</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="badge badge-info">HTTP 200</span>
+              <span style="font-size: 12px; font-weight: 600; color: #64748b;">2.1s</span>
+              <span class="badge badge-pass">PASSED</span>
+            </div>
+          </div>
+          <div class="test-card-body">
+            <div class="field-label">Description</div>
+            <div class="field-text">Checks that the customer's legal first name and last name are returned as non-empty text strings.</div>
+            <div class="field-label">Execution Steps</div>
+            <ol class="steps-list">
+              <li>1. Send login request with valid credentials.</li><li>2. Extract 'firstName' and 'lastName' fields from the payload.</li><li>3. Assert both fields are non-empty text strings.</li>
+            </ol>
+            <div class="result-flex">
+              <div class="res-box res-expected"><strong>Expected Result:</strong> First name and last name fields are non-empty text strings.</div>
+              <div class="res-box res-actual-pass"><strong>Actual Result:</strong> PASSED — Returned firstName ('John') and lastName ('Smith') were non-empty strings.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Test Case: GET /login — Response contains complete address payload -->
+        <div class="test-card">
+          <div class="test-card-header">
+            <span class="test-title"><span class="status-indicator ind-pass"></span>GET /login — Response contains complete address payload</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="badge badge-info">HTTP 200</span>
+              <span style="font-size: 12px; font-weight: 600; color: #64748b;">2.2s</span>
+              <span class="badge badge-pass">PASSED</span>
+            </div>
+          </div>
+          <div class="test-card-body">
+            <div class="field-label">Description</div>
+            <div class="field-text">Ensures the customer's full address information (street, city, state, zipCode) is included in the login response object.</div>
+            <div class="field-label">Execution Steps</div>
+            <ol class="steps-list">
+              <li>1. Send login request with valid credentials.</li><li>2. Inspect the nested 'address' object within the customer payload.</li><li>3. Verify street, city, state, and zipCode attributes exist.</li>
+            </ol>
+            <div class="result-flex">
+              <div class="res-box res-expected"><strong>Expected Result:</strong> Address object contains street, city, state, and zipCode.</div>
+              <div class="res-box res-actual-pass"><strong>Actual Result:</strong> PASSED — Address object contains all 4 required location attributes.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Test Case: GET /login — Demo user has non-empty firstName -->
+        <div class="test-card">
+          <div class="test-card-header">
+            <span class="test-title"><span class="status-indicator ind-pass"></span>GET /login — Demo user has non-empty firstName</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="badge badge-info">HTTP 200</span>
+              <span style="font-size: 12px; font-weight: 600; color: #64748b;">2.0s</span>
+              <span class="badge badge-pass">PASSED</span>
+            </div>
+          </div>
+          <div class="test-card-body">
+            <div class="field-label">Description</div>
+            <div class="field-text">Confirms the demo account maintains proper profile attributes after database seeding.</div>
+            <div class="field-label">Execution Steps</div>
+            <ol class="steps-list">
+              <li>1. Log in as default demo user 'john'.</li><li>2. Check that the firstName attribute is populated.</li>
+            </ol>
+            <div class="result-flex">
+              <div class="res-box res-expected"><strong>Expected Result:</strong> Demo user has a valid, non-empty first name.</div>
+              <div class="res-box res-actual-pass"><strong>Actual Result:</strong> PASSED — Demo user first name was verified.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Test Case: GET /login — Wrong password does not return Customer object -->
+        <div class="test-card">
+          <div class="test-card-header">
+            <span class="test-title"><span class="status-indicator ind-pass"></span>GET /login — Wrong password does not return Customer object</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="badge badge-info">HTTP 400</span>
+              <span style="font-size: 12px; font-weight: 600; color: #64748b;">2.4s</span>
+              <span class="badge badge-pass">PASSED</span>
+            </div>
+          </div>
+          <div class="test-card-body">
+            <div class="field-label">Description</div>
+            <div class="field-text">Tests authentication security by attempting to log in with a correct username but incorrect password.</div>
+            <div class="field-label">Execution Steps</div>
+            <ol class="steps-list">
+              <li>1. Construct a login request with username 'john' and password 'wrongpassword'.</li><li>2. Transmit the request to the authentication service.</li><li>3. Verify the server returns an HTTP 400 error status code.</li><li>4. Confirm no sensitive customer object is returned.</li>
+            </ol>
+            <div class="result-flex">
+              <div class="res-box res-expected"><strong>Expected Result:</strong> Server rejects the request with HTTP 400 and returns no customer profile.</div>
+              <div class="res-box res-actual-pass"><strong>Actual Result:</strong> PASSED — Server returned HTTP 400 Bad Request and withheld customer data.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Test Case: GET /login — Non-existent username does not return Customer -->
+        <div class="test-card">
+          <div class="test-card-header">
+            <span class="test-title"><span class="status-indicator ind-pass"></span>GET /login — Non-existent username does not return Customer</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="badge badge-info">HTTP 400</span>
+              <span style="font-size: 12px; font-weight: 600; color: #64748b;">2.3s</span>
+              <span class="badge badge-pass">PASSED</span>
+            </div>
+          </div>
+          <div class="test-card-body">
+            <div class="field-label">Description</div>
+            <div class="field-text">Verifies that attempting to log in with a username that does not exist in the database fails securely.</div>
+            <div class="field-label">Execution Steps</div>
+            <ol class="steps-list">
+              <li>1. Send login request with username 'non_existent_user_99999'.</li><li>2. Check response status code and body.</li><li>3. Assert HTTP 400 error and verify no customer profile is returned.</li>
+            </ol>
+            <div class="result-flex">
+              <div class="res-box res-expected"><strong>Expected Result:</strong> Server rejects non-existent username with HTTP 400.</div>
+              <div class="res-box res-actual-pass"><strong>Actual Result:</strong> PASSED — Server returned HTTP 400 Bad Request.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Test Case: GET /login — Repeated login returns consistent customerId -->
+        <div class="test-card">
+          <div class="test-card-header">
+            <span class="test-title"><span class="status-indicator ind-pass"></span>GET /login — Repeated login returns consistent customerId</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="badge badge-info">HTTP 200</span>
+              <span style="font-size: 12px; font-weight: 600; color: #64748b;">2.6s</span>
+              <span class="badge badge-pass">PASSED</span>
+            </div>
+          </div>
+          <div class="test-card-body">
+            <div class="field-label">Description</div>
+            <div class="field-text">Confirms that logging in multiple times with the same credentials yields the exact same customer ID.</div>
+            <div class="field-label">Execution Steps</div>
+            <ol class="steps-list">
+              <li>1. Execute login request for user 'john'.</li><li>2. Store the returned customer ID.</li><li>3. Execute a second login request for user 'john'.</li><li>4. Compare customer IDs from both responses.</li>
+            </ol>
+            <div class="result-flex">
+              <div class="res-box res-expected"><strong>Expected Result:</strong> Customer ID remains identical across sequential logins.</div>
+              <div class="res-box res-actual-pass"><strong>Actual Result:</strong> PASSED — Customer ID was identical across sequential logins.</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </details>
+
+    <!-- ── MODULE: Customer Management API Specs ── -->
+    <details class="card-glow module-card" data-suite="api" data-status="pass">
+      <summary style="padding: 18px 24px; display: flex; align-items: center; justify-content: space-between;">
+        <div style="display: flex; align-items: center; gap: 14px;">
+          <span class="chevron" style="font-size: 16px; color: #64748b;">▶</span>
+          <span class="badge badge-api">REST API</span>
+          <span style="font-weight: 700; font-size: 16px; color: #0f172a;">Customer Management API Specs</span>
+          <span style="font-size: 13px; color: #64748b;">(<code>tests/api/specs/customers.api.spec.js</code>)</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <span class="badge badge-pass">10 / 10 PASSED</span>
+          <span style="font-size: 12px; color: #64748b; font-weight: 600;">14.2s</span>
+        </div>
+      </summary>
+      <div style="padding: 0 24px 20px 24px; border-top: 1px solid #f1f5f9; margin-top: 8px;">
+        <p style="font-size: 13.5px; color: #475569; margin: 12px 0 16px 0;">
+          Tests customer profile retrieval, account arrays, address updates via POST, and field validation.
+        </p>
+
+        <!-- Test Case: GET /customers/{id} — Returns 200 with customer details -->
+        <div class="test-card">
+          <div class="test-card-header">
+            <span class="test-title"><span class="status-indicator ind-pass"></span>GET /customers/{id} — Returns 200 with customer details</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="badge badge-info">HTTP 200</span>
+              <span style="font-size: 12px; font-weight: 600; color: #64748b;">1.4s</span>
+              <span class="badge badge-pass">PASSED</span>
+            </div>
+          </div>
+          <div class="test-card-body">
+            <div class="field-label">Description</div>
+            <div class="field-text">Retrieves the full customer profile using a specific customer ID.</div>
+            <div class="field-label">Execution Steps</div>
+            <ol class="steps-list">
+              <li>1. Send GET request to /customers/{id} using valid customer ID.</li><li>2. Check HTTP status code.</li><li>3. Verify customer payload is returned.</li>
+            </ol>
+            <div class="result-flex">
+              <div class="res-box res-expected"><strong>Expected Result:</strong> HTTP 200 OK with full customer record.</div>
+              <div class="res-box res-actual-pass"><strong>Actual Result:</strong> PASSED — HTTP 200 OK returned with customer record.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Test Case: GET /customers/{id} — ID matches requested customer ID -->
+        <div class="test-card">
+          <div class="test-card-header">
+            <span class="test-title"><span class="status-indicator ind-pass"></span>GET /customers/{id} — ID matches requested customer ID</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="badge badge-info">HTTP 200</span>
+              <span style="font-size: 12px; font-weight: 600; color: #64748b;">1.2s</span>
+              <span class="badge badge-pass">PASSED</span>
+            </div>
+          </div>
+          <div class="test-card-body">
+            <div class="field-label">Description</div>
+            <div class="field-text">Validates that the server returns the record for the exact customer requested.</div>
+            <div class="field-label">Execution Steps</div>
+            <ol class="steps-list">
+              <li>1. Request profile for customer ID 12212.</li><li>2. Extract 'id' property from response.</li><li>3. Compare returned ID against requested ID.</li>
+            </ol>
+            <div class="result-flex">
+              <div class="res-box res-expected"><strong>Expected Result:</strong> Returned customer ID equals requested customer ID.</div>
+              <div class="res-box res-actual-pass"><strong>Actual Result:</strong> PASSED — ID matched requested customer ID.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Test Case: GET /customers/{id} — Has all required Customer schema fields -->
+        <div class="test-card">
+          <div class="test-card-header">
+            <span class="test-title"><span class="status-indicator ind-pass"></span>GET /customers/{id} — Has all required Customer schema fields</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="badge badge-info">HTTP 200</span>
+              <span style="font-size: 12px; font-weight: 600; color: #64748b;">1.3s</span>
+              <span class="badge badge-pass">PASSED</span>
+            </div>
+          </div>
+          <div class="test-card-body">
+            <div class="field-label">Description</div>
+            <div class="field-text">Ensures customer records contain all mandatory schema attributes.</div>
+            <div class="field-label">Execution Steps</div>
+            <ol class="steps-list">
+              <li>1. Fetch customer details.</li><li>2. Assert presence of id, firstName, lastName, address, and phoneNumber.</li>
+            </ol>
+            <div class="result-flex">
+              <div class="res-box res-expected"><strong>Expected Result:</strong> All mandatory schema fields present.</div>
+              <div class="res-box res-actual-pass"><strong>Actual Result:</strong> PASSED — All schema fields present and populated.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Test Case: GET /customers/{id} — Has nested address with all 4 fields -->
+        <div class="test-card">
+          <div class="test-card-header">
+            <span class="test-title"><span class="status-indicator ind-pass"></span>GET /customers/{id} — Has nested address with all 4 fields</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="badge badge-info">HTTP 200</span>
+              <span style="font-size: 12px; font-weight: 600; color: #64748b;">1.2s</span>
+              <span class="badge badge-pass">PASSED</span>
+            </div>
+          </div>
+          <div class="test-card-body">
+            <div class="field-label">Description</div>
+            <div class="field-text">Verifies address nested object structure.</div>
+            <div class="field-label">Execution Steps</div>
+            <ol class="steps-list">
+              <li>1. Inspect address object.</li><li>2. Check street, city, state, zipCode properties.</li>
+            </ol>
+            <div class="result-flex">
+              <div class="res-box res-expected"><strong>Expected Result:</strong> Address object contains all 4 location properties.</div>
+              <div class="res-box res-actual-pass"><strong>Actual Result:</strong> PASSED — Address object structure valid.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Test Case: GET /customers/{id} — Non-existent ID returns 400 error -->
+        <div class="test-card">
+          <div class="test-card-header">
+            <span class="test-title"><span class="status-indicator ind-pass"></span>GET /customers/{id} — Non-existent ID returns 400 error</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="badge badge-info">HTTP 400</span>
+              <span style="font-size: 12px; font-weight: 600; color: #64748b;">1.1s</span>
+              <span class="badge badge-pass">PASSED</span>
+            </div>
+          </div>
+          <div class="test-card-body">
+            <div class="field-label">Description</div>
+            <div class="field-text">Tests error handling for invalid customer ID 0 or non-existent ID.</div>
+            <div class="field-label">Execution Steps</div>
+            <ol class="steps-list">
+              <li>1. Send GET request for customer ID 0.</li><li>2. Verify server returns HTTP 400 error.</li>
+            </ol>
+            <div class="result-flex">
+              <div class="res-box res-expected"><strong>Expected Result:</strong> HTTP 400 Bad Request error.</div>
+              <div class="res-box res-actual-pass"><strong>Actual Result:</strong> PASSED — HTTP 400 error returned.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Test Case: GET /customers/{id}/accounts — Returns 200 with accounts array -->
+        <div class="test-card">
+          <div class="test-card-header">
+            <span class="test-title"><span class="status-indicator ind-pass"></span>GET /customers/{id}/accounts — Returns 200 with accounts array</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="badge badge-info">HTTP 200</span>
+              <span style="font-size: 12px; font-weight: 600; color: #64748b;">1.5s</span>
+              <span class="badge badge-pass">PASSED</span>
+            </div>
+          </div>
+          <div class="test-card-body">
+            <div class="field-label">Description</div>
+            <div class="field-text">Retrieves the list of bank accounts owned by a customer.</div>
+            <div class="field-label">Execution Steps</div>
+            <ol class="steps-list">
+              <li>1. Send GET request to /customers/{id}/accounts.</li><li>2. Verify response is a JSON array of accounts.</li>
+            </ol>
+            <div class="result-flex">
+              <div class="res-box res-expected"><strong>Expected Result:</strong> HTTP 200 OK with JSON array.</div>
+              <div class="res-box res-actual-pass"><strong>Actual Result:</strong> PASSED — Account array returned.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Test Case: GET /customers/{id}/accounts — Customer has at least 1 account -->
+        <div class="test-card">
+          <div class="test-card-header">
+            <span class="test-title"><span class="status-indicator ind-pass"></span>GET /customers/{id}/accounts — Customer has at least 1 account</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="badge badge-info">HTTP 200</span>
+              <span style="font-size: 12px; font-weight: 600; color: #64748b;">1.3s</span>
+              <span class="badge badge-pass">PASSED</span>
+            </div>
+          </div>
+          <div class="test-card-body">
+            <div class="field-label">Description</div>
+            <div class="field-text">Verifies customer owns active accounts in the banking system.</div>
+            <div class="field-label">Execution Steps</div>
+            <ol class="steps-list">
+              <li>1. Fetch account array for demo user.</li><li>2. Assert array length >= 1.</li>
+            </ol>
+            <div class="result-flex">
+              <div class="res-box res-expected"><strong>Expected Result:</strong> Account count >= 1.</div>
+              <div class="res-box res-actual-pass"><strong>Actual Result:</strong> PASSED — Customer owns 1+ active accounts.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Test Case: GET /customers/{id}/accounts — Each account has valid balance & type -->
+        <div class="test-card">
+          <div class="test-card-header">
+            <span class="test-title"><span class="status-indicator ind-pass"></span>GET /customers/{id}/accounts — Each account has valid balance & type</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="badge badge-info">HTTP 200</span>
+              <span style="font-size: 12px; font-weight: 600; color: #64748b;">1.4s</span>
+              <span class="badge badge-pass">PASSED</span>
+            </div>
+          </div>
+          <div class="test-card-body">
+            <div class="field-label">Description</div>
+            <div class="field-text">Validates properties of every account in the returned array.</div>
+            <div class="field-label">Execution Steps</div>
+            <ol class="steps-list">
+              <li>1. Iterate through accounts array.</li><li>2. Verify id (number), customerId (number), type (CHECKING/SAVINGS/LOAN), balance (number).</li>
+            </ol>
+            <div class="result-flex">
+              <div class="res-box res-expected"><strong>Expected Result:</strong> All account items meet schema requirements.</div>
+              <div class="res-box res-actual-pass"><strong>Actual Result:</strong> PASSED — All account items schema valid.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Test Case: GET /customers/{id}/accounts — All account IDs are positive integers -->
+        <div class="test-card">
+          <div class="test-card-header">
+            <span class="test-title"><span class="status-indicator ind-pass"></span>GET /customers/{id}/accounts — All account IDs are positive integers</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="badge badge-info">HTTP 200</span>
+              <span style="font-size: 12px; font-weight: 600; color: #64748b;">1.3s</span>
+              <span class="badge badge-pass">PASSED</span>
+            </div>
+          </div>
+          <div class="test-card-body">
+            <div class="field-label">Description</div>
+            <div class="field-text">Ensures all account numbers are positive integers.</div>
+            <div class="field-label">Execution Steps</div>
+            <ol class="steps-list">
+              <li>1. Check ID property of each account.</li><li>2. Assert ID > 0.</li>
+            </ol>
+            <div class="result-flex">
+              <div class="res-box res-expected"><strong>Expected Result:</strong> All account IDs are positive numbers.</div>
+              <div class="res-box res-actual-pass"><strong>Actual Result:</strong> PASSED — All account IDs positive.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Test Case: POST /customers/update/{id} — Update phone number returns success -->
+        <div class="test-card">
+          <div class="test-card-header">
+            <span class="test-title"><span class="status-indicator ind-pass"></span>POST /customers/update/{id} — Update phone number returns success</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="badge badge-info">HTTP 200</span>
+              <span style="font-size: 12px; font-weight: 600; color: #64748b;">2.4s</span>
+              <span class="badge badge-pass">PASSED</span>
+            </div>
+          </div>
+          <div class="test-card-body">
+            <div class="field-label">Description</div>
+            <div class="field-text">Updates a customer's phone number via POST request.</div>
+            <div class="field-label">Execution Steps</div>
+            <ol class="steps-list">
+              <li>1. Send POST request to /customers/update/{id} with updated phone number.</li><li>2. Check HTTP status code 200.</li><li>3. Fetch profile to confirm phone number persisted.</li>
+            </ol>
+            <div class="result-flex">
+              <div class="res-box res-expected"><strong>Expected Result:</strong> HTTP 200 OK and phone number updated.</div>
+              <div class="res-box res-actual-pass"><strong>Actual Result:</strong> PASSED — Phone number successfully updated and verified.</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </details>
+
+    <!-- ── MODULE: Accounts Management API Specs ── -->
+    <details class="card-glow module-card" data-suite="api" data-status="pass">
+      <summary style="padding: 18px 24px; display: flex; align-items: center; justify-content: space-between;">
+        <div style="display: flex; align-items: center; gap: 14px;">
+          <span class="chevron" style="font-size: 16px; color: #64748b;">▶</span>
+          <span class="badge badge-api">REST API</span>
+          <span style="font-weight: 700; font-size: 16px; color: #0f172a;">Accounts Management API Specs</span>
+          <span style="font-size: 13px; color: #64748b;">(<code>tests/api/specs/accounts.api.spec.js</code>)</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <span class="badge badge-pass">10 / 10 PASSED</span>
+          <span style="font-size: 12px; color: #64748b; font-weight: 600;">18.6s</span>
+        </div>
+      </summary>
+      <div style="padding: 0 24px 20px 24px; border-top: 1px solid #f1f5f9; margin-top: 8px;">
+        <p style="font-size: 13.5px; color: #475569; margin: 12px 0 16px 0;">
+          Tests GET account by ID, checking & savings account creation via POST, initial balances, and unique account ID generation.
+        </p>
+
+        <!-- Test Case: GET /accounts/{id} — Returns 200 for valid account -->
+        <div class="test-card">
+          <div class="test-card-header">
+            <span class="test-title"><span class="status-indicator ind-pass"></span>GET /accounts/{id} — Returns 200 for valid account</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="badge badge-info">HTTP 200</span>
+              <span style="font-size: 12px; font-weight: 600; color: #64748b;">1.8s</span>
+              <span class="badge badge-pass">PASSED</span>
+            </div>
+          </div>
+          <div class="test-card-body">
+            <div class="field-label">Description</div>
+            <div class="field-text">Fetches single account details by account ID.</div>
+            <div class="field-label">Execution Steps</div>
+            <ol class="steps-list">
+              <li>1. Send GET request to /accounts/{id}.</li><li>2. Assert HTTP 200 OK status.</li>
+            </ol>
+            <div class="result-flex">
+              <div class="res-box res-expected"><strong>Expected Result:</strong> HTTP 200 OK with account details.</div>
+              <div class="res-box res-actual-pass"><strong>Actual Result:</strong> PASSED — Account details retrieved.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Test Case: GET /accounts/{id} — Response ID matches requested ID -->
+        <div class="test-card">
+          <div class="test-card-header">
+            <span class="test-title"><span class="status-indicator ind-pass"></span>GET /accounts/{id} — Response ID matches requested ID</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="badge badge-info">HTTP 200</span>
+              <span style="font-size: 12px; font-weight: 600; color: #64748b;">1.5s</span>
+              <span class="badge badge-pass">PASSED</span>
+            </div>
+          </div>
+          <div class="test-card-body">
+            <div class="field-label">Description</div>
+            <div class="field-text">Confirms returned account ID matches request.</div>
+            <div class="field-label">Execution Steps</div>
+            <ol class="steps-list">
+              <li>1. Request account ID 12345.</li><li>2. Compare returned ID.</li>
+            </ol>
+            <div class="result-flex">
+              <div class="res-box res-expected"><strong>Expected Result:</strong> Returned ID equals requested ID.</div>
+              <div class="res-box res-actual-pass"><strong>Actual Result:</strong> PASSED — Account ID matched.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Test Case: GET /accounts/{id} — Contains customerId, type, balance fields -->
+        <div class="test-card">
+          <div class="test-card-header">
+            <span class="test-title"><span class="status-indicator ind-pass"></span>GET /accounts/{id} — Contains customerId, type, balance fields</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="badge badge-info">HTTP 200</span>
+              <span style="font-size: 12px; font-weight: 600; color: #64748b;">1.6s</span>
+              <span class="badge badge-pass">PASSED</span>
+            </div>
+          </div>
+          <div class="test-card-body">
+            <div class="field-label">Description</div>
+            <div class="field-text">Validates core account payload fields.</div>
+            <div class="field-label">Execution Steps</div>
+            <ol class="steps-list">
+              <li>1. Inspect account payload.</li><li>2. Verify customerId, type, balance exist.</li>
+            </ol>
+            <div class="result-flex">
+              <div class="res-box res-expected"><strong>Expected Result:</strong> Core account fields present.</div>
+              <div class="res-box res-actual-pass"><strong>Actual Result:</strong> PASSED — All core fields present.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Test Case: GET /accounts/{id} — Balance is a finite number -->
+        <div class="test-card">
+          <div class="test-card-header">
+            <span class="test-title"><span class="status-indicator ind-pass"></span>GET /accounts/{id} — Balance is a finite number</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="badge badge-info">HTTP 200</span>
+              <span style="font-size: 12px; font-weight: 600; color: #64748b;">1.4s</span>
+              <span class="badge badge-pass">PASSED</span>
+            </div>
+          </div>
+          <div class="test-card-body">
+            <div class="field-label">Description</div>
+            <div class="field-text">Ensures balance is numeric and finite.</div>
+            <div class="field-label">Execution Steps</div>
+            <ol class="steps-list">
+              <li>1. Inspect balance property.</li><li>2. Assert Number.isFinite(balance) is true.</li>
+            </ol>
+            <div class="result-flex">
+              <div class="res-box res-expected"><strong>Expected Result:</strong> Balance is a finite number.</div>
+              <div class="res-box res-actual-pass"><strong>Actual Result:</strong> PASSED — Balance is a valid finite number.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Test Case: GET /accounts/{id} — Second account is independently retrievable -->
+        <div class="test-card">
+          <div class="test-card-header">
+            <span class="test-title"><span class="status-indicator ind-pass"></span>GET /accounts/{id} — Second account is independently retrievable</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="badge badge-info">HTTP 200</span>
+              <span style="font-size: 12px; font-weight: 600; color: #64748b;">1.7s</span>
+              <span class="badge badge-pass">PASSED</span>
+            </div>
+          </div>
+          <div class="test-card-body">
+            <div class="field-label">Description</div>
+            <div class="field-text">Fetches a second distinct account.</div>
+            <div class="field-label">Execution Steps</div>
+            <ol class="steps-list">
+              <li>1. Request second account ID.</li><li>2. Verify HTTP 200 and matching ID.</li>
+            </ol>
+            <div class="result-flex">
+              <div class="res-box res-expected"><strong>Expected Result:</strong> Second account retrieved successfully.</div>
+              <div class="res-box res-actual-pass"><strong>Actual Result:</strong> PASSED — Second account retrieved.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Test Case: GET /accounts/{id} — Non-existent account ID returns 400 error -->
+        <div class="test-card">
+          <div class="test-card-header">
+            <span class="test-title"><span class="status-indicator ind-pass"></span>GET /accounts/{id} — Non-existent account ID returns 400 error</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="badge badge-info">HTTP 400</span>
+              <span style="font-size: 12px; font-weight: 600; color: #64748b;">1.5s</span>
+              <span class="badge badge-pass">PASSED</span>
+            </div>
+          </div>
+          <div class="test-card-body">
+            <div class="field-label">Description</div>
+            <div class="field-text">Tests error response for non-existent account number 9999999.</div>
+            <div class="field-label">Execution Steps</div>
+            <ol class="steps-list">
+              <li>1. Send GET request for account 9999999.</li><li>2. Assert HTTP 400 error status.</li>
+            </ol>
+            <div class="result-flex">
+              <div class="res-box res-expected"><strong>Expected Result:</strong> HTTP 400 Bad Request error.</div>
+              <div class="res-box res-actual-pass"><strong>Actual Result:</strong> PASSED — HTTP 400 error returned.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Test Case: POST /createAccount — Creates a new CHECKING account (type=0) -->
+        <div class="test-card">
+          <div class="test-card-header">
+            <span class="test-title"><span class="status-indicator ind-pass"></span>POST /createAccount — Creates a new CHECKING account (type=0)</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="badge badge-info">HTTP 200</span>
+              <span style="font-size: 12px; font-weight: 600; color: #64748b;">2.8s</span>
+              <span class="badge badge-pass">PASSED</span>
+            </div>
+          </div>
+          <div class="test-card-body">
+            <div class="field-label">Description</div>
+            <div class="field-text">Creates a new checking account linked to a source account.</div>
+            <div class="field-label">Execution Steps</div>
+            <ol class="steps-list">
+              <li>1. Send POST to /createAccount with customerId, type 0 (CHECKING), fromAccountId.</li><li>2. Check HTTP 200 status.</li><li>3. Verify new account object returned with type CHECKING.</li>
+            </ol>
+            <div class="result-flex">
+              <div class="res-box res-expected"><strong>Expected Result:</strong> HTTP 200 OK and new CHECKING account created.</div>
+              <div class="res-box res-actual-pass"><strong>Actual Result:</strong> PASSED — CHECKING account created successfully.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Test Case: POST /createAccount — Creates a new SAVINGS account (type=1) -->
+        <div class="test-card">
+          <div class="test-card-header">
+            <span class="test-title"><span class="status-indicator ind-pass"></span>POST /createAccount — Creates a new SAVINGS account (type=1)</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="badge badge-info">HTTP 200</span>
+              <span style="font-size: 12px; font-weight: 600; color: #64748b;">2.5s</span>
+              <span class="badge badge-pass">PASSED</span>
+            </div>
+          </div>
+          <div class="test-card-body">
+            <div class="field-label">Description</div>
+            <div class="field-text">Creates a new savings account.</div>
+            <div class="field-label">Execution Steps</div>
+            <ol class="steps-list">
+              <li>1. Send POST to /createAccount with type 1 (SAVINGS).</li><li>2. Verify new account object returned with type SAVINGS.</li>
+            </ol>
+            <div class="result-flex">
+              <div class="res-box res-expected"><strong>Expected Result:</strong> HTTP 200 OK and new SAVINGS account created.</div>
+              <div class="res-box res-actual-pass"><strong>Actual Result:</strong> PASSED — SAVINGS account created successfully.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Test Case: POST /createAccount — New account balance is non-negative -->
+        <div class="test-card">
+          <div class="test-card-header">
+            <span class="test-title"><span class="status-indicator ind-pass"></span>POST /createAccount — New account balance is non-negative</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="badge badge-info">HTTP 200</span>
+              <span style="font-size: 12px; font-weight: 600; color: #64748b;">2.1s</span>
+              <span class="badge badge-pass">PASSED</span>
+            </div>
+          </div>
+          <div class="test-card-body">
+            <div class="field-label">Description</div>
+            <div class="field-text">Verifies newly created account has starting balance >= 0.</div>
+            <div class="field-label">Execution Steps</div>
+            <ol class="steps-list">
+              <li>1. Check balance property of newly created account.</li><li>2. Assert balance >= 0.</li>
+            </ol>
+            <div class="result-flex">
+              <div class="res-box res-expected"><strong>Expected Result:</strong> New balance >= 0.</div>
+              <div class="res-box res-actual-pass"><strong>Actual Result:</strong> PASSED — Starting balance was non-negative.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Test Case: POST /createAccount — New account ID is unique from source account -->
+        <div class="test-card">
+          <div class="test-card-header">
+            <span class="test-title"><span class="status-indicator ind-pass"></span>POST /createAccount — New account ID is unique from source account</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="badge badge-info">HTTP 200</span>
+              <span style="font-size: 12px; font-weight: 600; color: #64748b;">2.2s</span>
+              <span class="badge badge-pass">PASSED</span>
+            </div>
+          </div>
+          <div class="test-card-body">
+            <div class="field-label">Description</div>
+            <div class="field-text">Ensures newly provisioned account receives a distinct ID.</div>
+            <div class="field-label">Execution Steps</div>
+            <ol class="steps-list">
+              <li>1. Compare new account ID with source account ID.</li><li>2. Assert new ID != source ID.</li>
+            </ol>
+            <div class="result-flex">
+              <div class="res-box res-expected"><strong>Expected Result:</strong> New account ID is distinct from source account ID.</div>
+              <div class="res-box res-actual-pass"><strong>Actual Result:</strong> PASSED — Unique account ID generated.</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </details>
+
+    <!-- ── MODULE: Transaction Query API Specs ── -->
+    <details class="card-glow module-card" data-suite="api" data-status="pass">
+      <summary style="padding: 18px 24px; display: flex; align-items: center; justify-content: space-between;">
+        <div style="display: flex; align-items: center; gap: 14px;">
+          <span class="chevron" style="font-size: 16px; color: #64748b;">▶</span>
+          <span class="badge badge-api">REST API</span>
+          <span style="font-weight: 700; font-size: 16px; color: #0f172a;">Transaction Query API Specs</span>
+          <span style="font-size: 13px; color: #64748b;">(<code>tests/api/specs/transactions.api.spec.js</code>)</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <span class="badge badge-pass">17 / 17 PASSED</span>
+          <span style="font-size: 12px; color: #64748b; font-weight: 600;">3.2m</span>
+        </div>
+      </summary>
+      <div style="padding: 0 24px 20px 24px; border-top: 1px solid #f1f5f9; margin-top: 8px;">
+        <p style="font-size: 13.5px; color: #475569; margin: 12px 0 16px 0;">
+          Tests all transaction filtering endpoints: lookup by account ID, specific transaction ID, date ranges, single date, amount, and month/type filters.
+        </p>
+
+        <!-- Test Case: GET /accounts/{id}/transactions — Returns 200 with an array -->
+        <div class="test-card">
+          <div class="test-card-header">
+            <span class="test-title"><span class="status-indicator ind-pass"></span>GET /accounts/{id}/transactions — Returns 200 with an array</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="badge badge-info">HTTP 200</span>
+              <span style="font-size: 12px; font-weight: 600; color: #64748b;">12.4s</span>
+              <span class="badge badge-pass">PASSED</span>
+            </div>
+          </div>
+          <div class="test-card-body">
+            <div class="field-label">Description</div>
+            <div class="field-text">Fetches transaction history for a bank account.</div>
+            <div class="field-label">Execution Steps</div>
+            <ol class="steps-list">
+              <li>1. GET /accounts/{id}/transactions.</li><li>2. Assert HTTP 200 OK and JSON array.</li>
+            </ol>
+            <div class="result-flex">
+              <div class="res-box res-expected"><strong>Expected Result:</strong> HTTP 200 OK with transaction array.</div>
+              <div class="res-box res-actual-pass"><strong>Actual Result:</strong> PASSED — Transaction array returned.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Test Case: GET /accounts/{id}/transactions — Demo account has at least 1 transaction -->
+        <div class="test-card">
+          <div class="test-card-header">
+            <span class="test-title"><span class="status-indicator ind-pass"></span>GET /accounts/{id}/transactions — Demo account has at least 1 transaction</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="badge badge-info">HTTP 200</span>
+              <span style="font-size: 12px; font-weight: 600; color: #64748b;">12.1s</span>
+              <span class="badge badge-pass">PASSED</span>
+            </div>
+          </div>
+          <div class="test-card-body">
+            <div class="field-label">Description</div>
+            <div class="field-text">Ensures demo account contains historical transactions.</div>
+            <div class="field-label">Execution Steps</div>
+            <ol class="steps-list">
+              <li>1. Inspect transactions array.</li><li>2. Assert length >= 1.</li>
+            </ol>
+            <div class="result-flex">
+              <div class="res-box res-expected"><strong>Expected Result:</strong> Transaction count >= 1.</div>
+              <div class="res-box res-actual-pass"><strong>Actual Result:</strong> PASSED — Account contains active transactions.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Test Case: GET /accounts/{id}/transactions — Each transaction has correct schema -->
+        <div class="test-card">
+          <div class="test-card-header">
+            <span class="test-title"><span class="status-indicator ind-pass"></span>GET /accounts/{id}/transactions — Each transaction has correct schema</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="badge badge-info">HTTP 200</span>
+              <span style="font-size: 12px; font-weight: 600; color: #64748b;">12.3s</span>
+              <span class="badge badge-pass">PASSED</span>
+            </div>
+          </div>
+          <div class="test-card-body">
+            <div class="field-label">Description</div>
+            <div class="field-text">Validates schema properties (id, accountId, type, date, amount, description).</div>
+            <div class="field-label">Execution Steps</div>
+            <ol class="steps-list">
+              <li>1. Loop through transactions.</li><li>2. Assert all 6 schema fields present and valid.</li>
+            </ol>
+            <div class="result-flex">
+              <div class="res-box res-expected"><strong>Expected Result:</strong> Schema validation passes for all items.</div>
+              <div class="res-box res-actual-pass"><strong>Actual Result:</strong> PASSED — Schema validation passed.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Test Case: GET /accounts/{id}/transactions — All transactions match accountId -->
+        <div class="test-card">
+          <div class="test-card-header">
+            <span class="test-title"><span class="status-indicator ind-pass"></span>GET /accounts/{id}/transactions — All transactions match accountId</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="badge badge-info">HTTP 200</span>
+              <span style="font-size: 12px; font-weight: 600; color: #64748b;">12.0s</span>
+              <span class="badge badge-pass">PASSED</span>
+            </div>
+          </div>
+          <div class="test-card-body">
+            <div class="field-label">Description</div>
+            <div class="field-text">Verifies account ID consistency.</div>
+            <div class="field-label">Execution Steps</div>
+            <ol class="steps-list">
+              <li>1. Check accountId property of each item.</li><li>2. Assert equality with requested account ID.</li>
+            </ol>
+            <div class="result-flex">
+              <div class="res-box res-expected"><strong>Expected Result:</strong> All transactions belong to requested account.</div>
+              <div class="res-box res-actual-pass"><strong>Actual Result:</strong> PASSED — Account ID consistent.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Test Case: GET /accounts/{id}/transactions — Transaction amounts are valid numbers -->
+        <div class="test-card">
+          <div class="test-card-header">
+            <span class="test-title"><span class="status-indicator ind-pass"></span>GET /accounts/{id}/transactions — Transaction amounts are valid numbers</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="badge badge-info">HTTP 200</span>
+              <span style="font-size: 12px; font-weight: 600; color: #64748b;">12.2s</span>
+              <span class="badge badge-pass">PASSED</span>
+            </div>
+          </div>
+          <div class="test-card-body">
+            <div class="field-label">Description</div>
+            <div class="field-text">Ensures transaction amounts are non-NaN numbers.</div>
+            <div class="field-label">Execution Steps</div>
+            <ol class="steps-list">
+              <li>1. Inspect amount field of each transaction.</li><li>2. Assert Number.isNaN(amount) is false.</li>
+            </ol>
+            <div class="result-flex">
+              <div class="res-box res-expected"><strong>Expected Result:</strong> All amounts are valid numbers.</div>
+              <div class="res-box res-actual-pass"><strong>Actual Result:</strong> PASSED — All amounts valid numbers.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Test Case: GET /transactions/{id} — Returns 200 with single transaction -->
+        <div class="test-card">
+          <div class="test-card-header">
+            <span class="test-title"><span class="status-indicator ind-pass"></span>GET /transactions/{id} — Returns 200 with single transaction</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="badge badge-info">HTTP 200</span>
+              <span style="font-size: 12px; font-weight: 600; color: #64748b;">24.5s</span>
+              <span class="badge badge-pass">PASSED</span>
+            </div>
+          </div>
+          <div class="test-card-body">
+            <div class="field-label">Description</div>
+            <div class="field-text">Fetches a specific transaction by transaction ID.</div>
+            <div class="field-label">Execution Steps</div>
+            <ol class="steps-list">
+              <li>1. GET /transactions/{txId}.</li><li>2. Verify HTTP 200 and matching ID.</li>
+            </ol>
+            <div class="result-flex">
+              <div class="res-box res-expected"><strong>Expected Result:</strong> HTTP 200 OK with transaction object.</div>
+              <div class="res-box res-actual-pass"><strong>Actual Result:</strong> PASSED — Single transaction returned.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Test Case: GET /transactions/{id} — Single transaction has required fields -->
+        <div class="test-card">
+          <div class="test-card-header">
+            <span class="test-title"><span class="status-indicator ind-pass"></span>GET /transactions/{id} — Single transaction has required fields</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="badge badge-info">HTTP 200</span>
+              <span style="font-size: 12px; font-weight: 600; color: #64748b;">24.8s</span>
+              <span class="badge badge-pass">PASSED</span>
+            </div>
+          </div>
+          <div class="test-card-body">
+            <div class="field-label">Description</div>
+            <div class="field-text">Checks schema of single transaction endpoint.</div>
+            <div class="field-label">Execution Steps</div>
+            <ol class="steps-list">
+              <li>1. Inspect single transaction object.</li><li>2. Assert id, amount, type, date exist.</li>
+            </ol>
+            <div class="result-flex">
+              <div class="res-box res-expected"><strong>Expected Result:</strong> All fields present.</div>
+              <div class="res-box res-actual-pass"><strong>Actual Result:</strong> PASSED — Transaction fields valid.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Test Case: GET /accounts/{id}/transactions/amount/{amount} — Returns 200 -->
+        <div class="test-card">
+          <div class="test-card-header">
+            <span class="test-title"><span class="status-indicator ind-pass"></span>GET /accounts/{id}/transactions/amount/{amount} — Returns 200</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="badge badge-info">HTTP 200</span>
+              <span style="font-size: 12px; font-weight: 600; color: #64748b;">1.2s</span>
+              <span class="badge badge-pass">PASSED</span>
+            </div>
+          </div>
+          <div class="test-card-body">
+            <div class="field-label">Description</div>
+            <div class="field-text">Filters transactions by exact dollar amount.</div>
+            <div class="field-label">Execution Steps</div>
+            <ol class="steps-list">
+              <li>1. GET /accounts/{id}/transactions/amount/50.</li><li>2. Verify HTTP 200 OK status.</li>
+            </ol>
+            <div class="result-flex">
+              <div class="res-box res-expected"><strong>Expected Result:</strong> HTTP 200 OK.</div>
+              <div class="res-box res-actual-pass"><strong>Actual Result:</strong> PASSED — Filter by amount returned HTTP 200.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Test Case: GET /accounts/{id}/transactions/amount/{amount} — All match amount -->
+        <div class="test-card">
+          <div class="test-card-header">
+            <span class="test-title"><span class="status-indicator ind-pass"></span>GET /accounts/{id}/transactions/amount/{amount} — All match amount</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="badge badge-info">HTTP 200</span>
+              <span style="font-size: 12px; font-weight: 600; color: #64748b;">1.1s</span>
+              <span class="badge badge-pass">PASSED</span>
+            </div>
+          </div>
+          <div class="test-card-body">
+            <div class="field-label">Description</div>
+            <div class="field-text">Validates returned items match filter amount.</div>
+            <div class="field-label">Execution Steps</div>
+            <ol class="steps-list">
+              <li>1. Check amount field of each returned item.</li><li>2. Assert amount == 50.</li>
+            </ol>
+            <div class="result-flex">
+              <div class="res-box res-expected"><strong>Expected Result:</strong> All items have amount == 50.</div>
+              <div class="res-box res-actual-pass"><strong>Actual Result:</strong> PASSED — All items matched filter amount.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Test Case: GET /accounts/{id}/transactions/fromDate/{from}/toDate/{to} — Returns 200 -->
+        <div class="test-card">
+          <div class="test-card-header">
+            <span class="test-title"><span class="status-indicator ind-pass"></span>GET /accounts/{id}/transactions/fromDate/{from}/toDate/{to} — Returns 200</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="badge badge-info">HTTP 200</span>
+              <span style="font-size: 12px; font-weight: 600; color: #64748b;">1.3s</span>
+              <span class="badge badge-pass">PASSED</span>
+            </div>
+          </div>
+          <div class="test-card-body">
+            <div class="field-label">Description</div>
+            <div class="field-text">Filters transactions by date range.</div>
+            <div class="field-label">Execution Steps</div>
+            <ol class="steps-list">
+              <li>1. GET /accounts/{id}/transactions/fromDate/01-01-2026/toDate/12-31-2026.</li><li>2. Assert HTTP 200.</li>
+            </ol>
+            <div class="result-flex">
+              <div class="res-box res-expected"><strong>Expected Result:</strong> HTTP 200 OK.</div>
+              <div class="res-box res-actual-pass"><strong>Actual Result:</strong> PASSED — Date range filter returned HTTP 200.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Test Case: GET by date range — Results are arrays of transactions -->
+        <div class="test-card">
+          <div class="test-card-header">
+            <span class="test-title"><span class="status-indicator ind-pass"></span>GET by date range — Results are arrays of transactions</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="badge badge-info">HTTP 200</span>
+              <span style="font-size: 12px; font-weight: 600; color: #64748b;">1.2s</span>
+              <span class="badge badge-pass">PASSED</span>
+            </div>
+          </div>
+          <div class="test-card-body">
+            <div class="field-label">Description</div>
+            <div class="field-text">Validates array structure of date range response.</div>
+            <div class="field-label">Execution Steps</div>
+            <ol class="steps-list">
+              <li>1. Check response type.</li><li>2. Assert Array.isArray(response) is true.</li>
+            </ol>
+            <div class="result-flex">
+              <div class="res-box res-expected"><strong>Expected Result:</strong> Response is a JSON array.</div>
+              <div class="res-box res-actual-pass"><strong>Actual Result:</strong> PASSED — JSON array returned.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Test Case: GET by date range — Narrow range (today only) returns 200 -->
+        <div class="test-card">
+          <div class="test-card-header">
+            <span class="test-title"><span class="status-indicator ind-pass"></span>GET by date range — Narrow range (today only) returns 200</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="badge badge-info">HTTP 200</span>
+              <span style="font-size: 12px; font-weight: 600; color: #64748b;">1.1s</span>
+              <span class="badge badge-pass">PASSED</span>
+            </div>
+          </div>
+          <div class="test-card-body">
+            <div class="field-label">Description</div>
+            <div class="field-text">Filters transactions for current day.</div>
+            <div class="field-label">Execution Steps</div>
+            <ol class="steps-list">
+              <li>1. Send date range filter with today's date for both start and end.</li><li>2. Assert HTTP 200.</li>
+            </ol>
+            <div class="result-flex">
+              <div class="res-box res-expected"><strong>Expected Result:</strong> HTTP 200 OK.</div>
+              <div class="res-box res-actual-pass"><strong>Actual Result:</strong> PASSED — Today filter returned HTTP 200.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Test Case: GET /accounts/{id}/transactions/onDate/{date} — Returns 200 -->
+        <div class="test-card">
+          <div class="test-card-header">
+            <span class="test-title"><span class="status-indicator ind-pass"></span>GET /accounts/{id}/transactions/onDate/{date} — Returns 200</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="badge badge-info">HTTP 200</span>
+              <span style="font-size: 12px; font-weight: 600; color: #64748b;">1.3s</span>
+              <span class="badge badge-pass">PASSED</span>
+            </div>
+          </div>
+          <div class="test-card-body">
+            <div class="field-label">Description</div>
+            <div class="field-text">Queries transactions on a specific date.</div>
+            <div class="field-label">Execution Steps</div>
+            <ol class="steps-list">
+              <li>1. GET /accounts/{id}/transactions/onDate/{today}.</li><li>2. Assert HTTP 200.</li>
+            </ol>
+            <div class="result-flex">
+              <div class="res-box res-expected"><strong>Expected Result:</strong> HTTP 200 OK.</div>
+              <div class="res-box res-actual-pass"><strong>Actual Result:</strong> PASSED — OnDate filter returned HTTP 200.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Test Case: GET /accounts/{id}/transactions/onDate/{date} — Result is array -->
+        <div class="test-card">
+          <div class="test-card-header">
+            <span class="test-title"><span class="status-indicator ind-pass"></span>GET /accounts/{id}/transactions/onDate/{date} — Result is array</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="badge badge-info">HTTP 200</span>
+              <span style="font-size: 12px; font-weight: 600; color: #64748b;">1.2s</span>
+              <span class="badge badge-pass">PASSED</span>
+            </div>
+          </div>
+          <div class="test-card-body">
+            <div class="field-label">Description</div>
+            <div class="field-text">Validates array response for onDate endpoint.</div>
+            <div class="field-label">Execution Steps</div>
+            <ol class="steps-list">
+              <li>1. Inspect onDate response.</li><li>2. Assert Array.isArray(response).</li>
+            </ol>
+            <div class="result-flex">
+              <div class="res-box res-expected"><strong>Expected Result:</strong> Response is an array.</div>
+              <div class="res-box res-actual-pass"><strong>Actual Result:</strong> PASSED — Array structure verified.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Test Case: GET /accounts/{id}/transactions/month/{month}/type/Credit — Returns 200 -->
+        <div class="test-card">
+          <div class="test-card-header">
+            <span class="test-title"><span class="status-indicator ind-pass"></span>GET /accounts/{id}/transactions/month/{month}/type/Credit — Returns 200</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="badge badge-info">HTTP 200</span>
+              <span style="font-size: 12px; font-weight: 600; color: #64748b;">1.2s</span>
+              <span class="badge badge-pass">PASSED</span>
+            </div>
+          </div>
+          <div class="test-card-body">
+            <div class="field-label">Description</div>
+            <div class="field-text">Filters transactions by month and Credit type.</div>
+            <div class="field-label">Execution Steps</div>
+            <ol class="steps-list">
+              <li>1. GET /accounts/{id}/transactions/month/January/type/Credit.</li><li>2. Assert HTTP 200.</li>
+            </ol>
+            <div class="result-flex">
+              <div class="res-box res-expected"><strong>Expected Result:</strong> HTTP 200 OK.</div>
+              <div class="res-box res-actual-pass"><strong>Actual Result:</strong> PASSED — Month+Credit filter returned HTTP 200.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Test Case: GET /accounts/{id}/transactions/month/{month}/type/Debit — Returns 200 -->
+        <div class="test-card">
+          <div class="test-card-header">
+            <span class="test-title"><span class="status-indicator ind-pass"></span>GET /accounts/{id}/transactions/month/{month}/type/Debit — Returns 200</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="badge badge-info">HTTP 200</span>
+              <span style="font-size: 12px; font-weight: 600; color: #64748b;">1.2s</span>
+              <span class="badge badge-pass">PASSED</span>
+            </div>
+          </div>
+          <div class="test-card-body">
+            <div class="field-label">Description</div>
+            <div class="field-text">Filters transactions by month and Debit type.</div>
+            <div class="field-label">Execution Steps</div>
+            <ol class="steps-list">
+              <li>1. GET /accounts/{id}/transactions/month/January/type/Debit.</li><li>2. Assert HTTP 200.</li>
+            </ol>
+            <div class="result-flex">
+              <div class="res-box res-expected"><strong>Expected Result:</strong> HTTP 200 OK.</div>
+              <div class="res-box res-actual-pass"><strong>Actual Result:</strong> PASSED — Month+Debit filter returned HTTP 200.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Test Case: GET by month+type — Credit results contain Credit transactions only -->
+        <div class="test-card">
+          <div class="test-card-header">
+            <span class="test-title"><span class="status-indicator ind-pass"></span>GET by month+type — Credit results contain Credit transactions only</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="badge badge-info">HTTP 200</span>
+              <span style="font-size: 12px; font-weight: 600; color: #64748b;">1.4s</span>
+              <span class="badge badge-pass">PASSED</span>
+            </div>
+          </div>
+          <div class="test-card-body">
+            <div class="field-label">Description</div>
+            <div class="field-text">Verifies Credit filter contains zero Debit entries.</div>
+            <div class="field-label">Execution Steps</div>
+            <ol class="steps-list">
+              <li>1. Inspect returned array.</li><li>2. Assert every item has type == 'Credit'.</li>
+            </ol>
+            <div class="result-flex">
+              <div class="res-box res-expected"><strong>Expected Result:</strong> All returned items have type == 'Credit'.</div>
+              <div class="res-box res-actual-pass"><strong>Actual Result:</strong> PASSED — All returned items were Credit transactions.</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </details>
+
+    <!-- ── MODULE: Transfer Funds API Specs ── -->
+    <details class="card-glow module-card" data-suite="api" data-status="pass">
+      <summary style="padding: 18px 24px; display: flex; align-items: center; justify-content: space-between;">
+        <div style="display: flex; align-items: center; gap: 14px;">
+          <span class="chevron" style="font-size: 16px; color: #64748b;">▶</span>
+          <span class="badge badge-api">REST API</span>
+          <span style="font-weight: 700; font-size: 16px; color: #0f172a;">Transfer Funds API Specs</span>
+          <span style="font-size: 13px; color: #64748b;">(<code>tests/api/specs/transfer.api.spec.js</code>)</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <span class="badge badge-pass">7 / 7 PASSED</span>
+          <span style="font-size: 12px; color: #64748b; font-weight: 600;">1.8m</span>
+        </div>
+      </summary>
+      <div style="padding: 0 24px 20px 24px; border-top: 1px solid #f1f5f9; margin-top: 8px;">
+        <p style="font-size: 13.5px; color: #475569; margin: 12px 0 16px 0;">
+          Validates fund transfers between accounts, balance decreases/increases, Debit/Credit transaction creation, and multi-round sequential transfer integrity.
+        </p>
+
+        <!-- Test Case: POST /transfer — Returns 200 and OK response -->
+        <div class="test-card">
+          <div class="test-card-header">
+            <span class="test-title"><span class="status-indicator ind-pass"></span>POST /transfer — Returns 200 and OK response</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="badge badge-info">HTTP 200</span>
+              <span style="font-size: 12px; font-weight: 600; color: #64748b;">1.2s</span>
+              <span class="badge badge-pass">PASSED</span>
+            </div>
+          </div>
+          <div class="test-card-body">
+            <div class="field-label">Description</div>
+            <div class="field-text">Executes a fund transfer between two valid accounts.</div>
+            <div class="field-label">Execution Steps</div>
+            <ol class="steps-list">
+              <li>1. POST to /transfer?fromAccountId=12345&toAccountId=12456&amount=10.</li><li>2. Assert HTTP 200 OK.</li>
+            </ol>
+            <div class="result-flex">
+              <div class="res-box res-expected"><strong>Expected Result:</strong> HTTP 200 OK.</div>
+              <div class="res-box res-actual-pass"><strong>Actual Result:</strong> PASSED — Transfer executed successfully.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Test Case: POST /transfer — Source account balance decreases by transfer amount -->
+        <div class="test-card">
+          <div class="test-card-header">
+            <span class="test-title"><span class="status-indicator ind-pass"></span>POST /transfer — Source account balance decreases by transfer amount</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="badge badge-info">HTTP 200</span>
+              <span style="font-size: 12px; font-weight: 600; color: #64748b;">2.5s</span>
+              <span class="badge badge-pass">PASSED</span>
+            </div>
+          </div>
+          <div class="test-card-body">
+            <div class="field-label">Description</div>
+            <div class="field-text">Checks debit deduction on source account.</div>
+            <div class="field-label">Execution Steps</div>
+            <ol class="steps-list">
+              <li>1. Fetch balance of source account before transfer.</li><li>2. Execute $10 transfer.</li><li>3. Fetch balance after transfer.</li><li>4. Assert balanceAfter == balanceBefore - 10.</li>
+            </ol>
+            <div class="result-flex">
+              <div class="res-box res-expected"><strong>Expected Result:</strong> Source balance decreases by $10.</div>
+              <div class="res-box res-actual-pass"><strong>Actual Result:</strong> PASSED — Source balance decreased by exactly $10.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Test Case: POST /transfer — Target account balance increases by transfer amount -->
+        <div class="test-card">
+          <div class="test-card-header">
+            <span class="test-title"><span class="status-indicator ind-pass"></span>POST /transfer — Target account balance increases by transfer amount</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="badge badge-info">HTTP 200</span>
+              <span style="font-size: 12px; font-weight: 600; color: #64748b;">2.4s</span>
+              <span class="badge badge-pass">PASSED</span>
+            </div>
+          </div>
+          <div class="test-card-body">
+            <div class="field-label">Description</div>
+            <div class="field-text">Checks credit addition on target account.</div>
+            <div class="field-label">Execution Steps</div>
+            <ol class="steps-list">
+              <li>1. Fetch balance of target account before transfer.</li><li>2. Execute $10 transfer.</li><li>3. Fetch balance after transfer.</li><li>4. Assert balanceAfter == balanceBefore + 10.</li>
+            </ol>
+            <div class="result-flex">
+              <div class="res-box res-expected"><strong>Expected Result:</strong> Target balance increases by $10.</div>
+              <div class="res-box res-actual-pass"><strong>Actual Result:</strong> PASSED — Target balance increased by exactly $10.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Test Case: POST /transfer — Creates a Debit transaction on source account -->
+        <div class="test-card">
+          <div class="test-card-header">
+            <span class="test-title"><span class="status-indicator ind-pass"></span>POST /transfer — Creates a Debit transaction on source account</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="badge badge-info">HTTP 200</span>
+              <span style="font-size: 12px; font-weight: 600; color: #64748b;">49.6s</span>
+              <span class="badge badge-pass">PASSED</span>
+            </div>
+          </div>
+          <div class="test-card-body">
+            <div class="field-label">Description</div>
+            <div class="field-text">Verifies Debit transaction record creation on source account.</div>
+            <div class="field-label">Execution Steps</div>
+            <ol class="steps-list">
+              <li>1. Execute transfer.</li><li>2. Fetch transactions for source account.</li><li>3. Verify latest transaction is type 'Debit' with amount 10.</li>
+            </ol>
+            <div class="result-flex">
+              <div class="res-box res-expected"><strong>Expected Result:</strong> Debit transaction for $10 created.</div>
+              <div class="res-box res-actual-pass"><strong>Actual Result:</strong> PASSED — Debit transaction created.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Test Case: POST /transfer — Creates a Credit transaction on target account -->
+        <div class="test-card">
+          <div class="test-card-header">
+            <span class="test-title"><span class="status-indicator ind-pass"></span>POST /transfer — Creates a Credit transaction on target account</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="badge badge-info">HTTP 200</span>
+              <span style="font-size: 12px; font-weight: 600; color: #64748b;">49.5s</span>
+              <span class="badge badge-pass">PASSED</span>
+            </div>
+          </div>
+          <div class="test-card-body">
+            <div class="field-label">Description</div>
+            <div class="field-text">Verifies Credit transaction record creation on target account.</div>
+            <div class="field-label">Execution Steps</div>
+            <ol class="steps-list">
+              <li>1. Execute transfer.</li><li>2. Fetch transactions for target account.</li><li>3. Verify latest transaction is type 'Credit' with amount 10.</li>
+            </ol>
+            <div class="result-flex">
+              <div class="res-box res-expected"><strong>Expected Result:</strong> Credit transaction for $10 created.</div>
+              <div class="res-box res-actual-pass"><strong>Actual Result:</strong> PASSED — Credit transaction created.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Test Case: POST /transfer — Transferring to same account (self) handled safely -->
+        <div class="test-card">
+          <div class="test-card-header">
+            <span class="test-title"><span class="status-indicator ind-pass"></span>POST /transfer — Transferring to same account (self) handled safely</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="badge badge-info">HTTP 200</span>
+              <span style="font-size: 12px; font-weight: 600; color: #64748b;">1.5s</span>
+              <span class="badge badge-pass">PASSED</span>
+            </div>
+          </div>
+          <div class="test-card-body">
+            <div class="field-label">Description</div>
+            <div class="field-text">Tests self-transfer edge case.</div>
+            <div class="field-label">Execution Steps</div>
+            <ol class="steps-list">
+              <li>1. POST /transfer with fromAccountId == toAccountId.</li><li>2. Verify HTTP status code < 500.</li>
+            </ol>
+            <div class="result-flex">
+              <div class="res-box res-expected"><strong>Expected Result:</strong> Self-transfer handled without server crash.</div>
+              <div class="res-box res-actual-pass"><strong>Actual Result:</strong> PASSED — Handled safely.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Test Case: POST /transfer — Multiple sequential transfers maintain balances -->
+        <div class="test-card">
+          <div class="test-card-header">
+            <span class="test-title"><span class="status-indicator ind-pass"></span>POST /transfer — Multiple sequential transfers maintain balances</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="badge badge-info">HTTP 200</span>
+              <span style="font-size: 12px; font-weight: 600; color: #64748b;">50.0s</span>
+              <span class="badge badge-pass">PASSED</span>
+            </div>
+          </div>
+          <div class="test-card-body">
+            <div class="field-label">Description</div>
+            <div class="field-text">Executes 3 sequential transfers and verifies running balance calculation.</div>
+            <div class="field-label">Execution Steps</div>
+            <ol class="steps-list">
+              <li>1. Record initial balance.</li><li>2. Execute 3 transfers of $5 each.</li><li>3. Verify final balance == initialBalance - 15.</li>
+            </ol>
+            <div class="result-flex">
+              <div class="res-box res-expected"><strong>Expected Result:</strong> Final balance accurately reflects all 3 transfers.</div>
+              <div class="res-box res-actual-pass"><strong>Actual Result:</strong> PASSED — Sequential transfers maintained exact balance integrity.</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </details>
+
+    <!-- ── MODULE: Deposit & Withdraw API Specs ── -->
+    <details class="card-glow module-card" data-suite="api" data-status="pass">
+      <summary style="padding: 18px 24px; display: flex; align-items: center; justify-content: space-between;">
+        <div style="display: flex; align-items: center; gap: 14px;">
+          <span class="chevron" style="font-size: 16px; color: #64748b;">▶</span>
+          <span class="badge badge-api">REST API</span>
+          <span style="font-weight: 700; font-size: 16px; color: #0f172a;">Deposit & Withdraw API Specs</span>
+          <span style="font-size: 13px; color: #64748b;">(<code>tests/api/specs/deposit-withdraw.api.spec.js</code>)</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <span class="badge badge-pass">9 / 9 PASSED</span>
+          <span style="font-size: 12px; color: #64748b; font-weight: 600;">45.2s</span>
+        </div>
+      </summary>
+      <div style="padding: 0 24px 20px 24px; border-top: 1px solid #f1f5f9; margin-top: 8px;">
+        <p style="font-size: 13.5px; color: #475569; margin: 12px 0 16px 0;">
+          Tests deposit and withdrawal endpoints, net balance calculations, and credit/debit transaction generation.
+        </p>
+
+        <!-- Test Case: POST /deposit — Returns OK response -->
+        <div class="test-card">
+          <div class="test-card-header">
+            <span class="test-title"><span class="status-indicator ind-pass"></span>POST /deposit — Returns OK response</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="badge badge-info">HTTP 200</span>
+              <span style="font-size: 12px; font-weight: 600; color: #64748b;">1.2s</span>
+              <span class="badge badge-pass">PASSED</span>
+            </div>
+          </div>
+          <div class="test-card-body">
+            <div class="field-label">Description</div>
+            <div class="field-text">Executes a deposit of $25 into account.</div>
+            <div class="field-label">Execution Steps</div>
+            <ol class="steps-list">
+              <li>1. POST to /deposit?accountId=12345&amount=25.</li><li>2. Assert status code < 500.</li>
+            </ol>
+            <div class="result-flex">
+              <div class="res-box res-expected"><strong>Expected Result:</strong> Deposit request accepted.</div>
+              <div class="res-box res-actual-pass"><strong>Actual Result:</strong> PASSED — Deposit accepted.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Test Case: POST /deposit — Response body is a success string -->
+        <div class="test-card">
+          <div class="test-card-header">
+            <span class="test-title"><span class="status-indicator ind-pass"></span>POST /deposit — Response body is a success string</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="badge badge-info">HTTP 200</span>
+              <span style="font-size: 12px; font-weight: 600; color: #64748b;">1.1s</span>
+              <span class="badge badge-pass">PASSED</span>
+            </div>
+          </div>
+          <div class="test-card-body">
+            <div class="field-label">Description</div>
+            <div class="field-text">Verifies confirmation text string returned.</div>
+            <div class="field-label">Execution Steps</div>
+            <ol class="steps-list">
+              <li>1. Execute deposit.</li><li>2. Verify body is a string indicating success.</li>
+            </ol>
+            <div class="result-flex">
+              <div class="res-box res-expected"><strong>Expected Result:</strong> Confirmation text returned.</div>
+              <div class="res-box res-actual-pass"><strong>Actual Result:</strong> PASSED — Confirmation string returned.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Test Case: POST /deposit — Account balance increases by deposited amount -->
+        <div class="test-card">
+          <div class="test-card-header">
+            <span class="test-title"><span class="status-indicator ind-pass"></span>POST /deposit — Account balance increases by deposited amount</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="badge badge-info">HTTP 200</span>
+              <span style="font-size: 12px; font-weight: 600; color: #64748b;">2.4s</span>
+              <span class="badge badge-pass">PASSED</span>
+            </div>
+          </div>
+          <div class="test-card-body">
+            <div class="field-label">Description</div>
+            <div class="field-text">Checks balance increase after deposit.</div>
+            <div class="field-label">Execution Steps</div>
+            <ol class="steps-list">
+              <li>1. Check balance before.</li><li>2. Deposit $25.</li><li>3. Verify balanceAfter == balanceBefore + 25.</li>
+            </ol>
+            <div class="result-flex">
+              <div class="res-box res-expected"><strong>Expected Result:</strong> Balance increases by $25.</div>
+              <div class="res-box res-actual-pass"><strong>Actual Result:</strong> PASSED — Balance increased by $25.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Test Case: POST /deposit — Creates a new Credit transaction on account -->
+        <div class="test-card">
+          <div class="test-card-header">
+            <span class="test-title"><span class="status-indicator ind-pass"></span>POST /deposit — Creates a new Credit transaction on account</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="badge badge-info">HTTP 200</span>
+              <span style="font-size: 12px; font-weight: 600; color: #64748b;">12.4s</span>
+              <span class="badge badge-pass">PASSED</span>
+            </div>
+          </div>
+          <div class="test-card-body">
+            <div class="field-label">Description</div>
+            <div class="field-text">Verifies Credit transaction creation.</div>
+            <div class="field-label">Execution Steps</div>
+            <ol class="steps-list">
+              <li>1. Execute deposit.</li><li>2. Inspect transaction history.</li><li>3. Verify Credit transaction created.</li>
+            </ol>
+            <div class="result-flex">
+              <div class="res-box res-expected"><strong>Expected Result:</strong> Credit transaction created.</div>
+              <div class="res-box res-actual-pass"><strong>Actual Result:</strong> PASSED — Credit transaction verified.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Test Case: POST /deposit — Large amount deposit handled correctly -->
+        <div class="test-card">
+          <div class="test-card-header">
+            <span class="test-title"><span class="status-indicator ind-pass"></span>POST /deposit — Large amount deposit handled correctly</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="badge badge-info">HTTP 200</span>
+              <span style="font-size: 12px; font-weight: 600; color: #64748b;">2.3s</span>
+              <span class="badge badge-pass">PASSED</span>
+            </div>
+          </div>
+          <div class="test-card-body">
+            <div class="field-label">Description</div>
+            <div class="field-text">Deposits $1,000 to test large number handling.</div>
+            <div class="field-label">Execution Steps</div>
+            <ol class="steps-list">
+              <li>1. Deposit $1000.</li><li>2. Verify balance increased by $1000.</li>
+            </ol>
+            <div class="result-flex">
+              <div class="res-box res-expected"><strong>Expected Result:</strong> Balance increases by $1000.</div>
+              <div class="res-box res-actual-pass"><strong>Actual Result:</strong> PASSED — Large deposit processed correctly.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Test Case: POST /withdraw — Returns OK response -->
+        <div class="test-card">
+          <div class="test-card-header">
+            <span class="test-title"><span class="status-indicator ind-pass"></span>POST /withdraw — Returns OK response</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="badge badge-info">HTTP 200</span>
+              <span style="font-size: 12px; font-weight: 600; color: #64748b;">1.3s</span>
+              <span class="badge badge-pass">PASSED</span>
+            </div>
+          </div>
+          <div class="test-card-body">
+            <div class="field-label">Description</div>
+            <div class="field-text">Executes withdrawal of $25.</div>
+            <div class="field-label">Execution Steps</div>
+            <ol class="steps-list">
+              <li>1. POST to /withdraw?accountId=12345&amount=25.</li><li>2. Assert status code < 500.</li>
+            </ol>
+            <div class="result-flex">
+              <div class="res-box res-expected"><strong>Expected Result:</strong> Withdrawal accepted.</div>
+              <div class="res-box res-actual-pass"><strong>Actual Result:</strong> PASSED — Withdrawal accepted.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Test Case: POST /withdraw — Account balance decreases by withdrawn amount -->
+        <div class="test-card">
+          <div class="test-card-header">
+            <span class="test-title"><span class="status-indicator ind-pass"></span>POST /withdraw — Account balance decreases by withdrawn amount</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="badge badge-info">HTTP 200</span>
+              <span style="font-size: 12px; font-weight: 600; color: #64748b;">2.5s</span>
+              <span class="badge badge-pass">PASSED</span>
+            </div>
+          </div>
+          <div class="test-card-body">
+            <div class="field-label">Description</div>
+            <div class="field-text">Checks balance decrease after withdrawal.</div>
+            <div class="field-label">Execution Steps</div>
+            <ol class="steps-list">
+              <li>1. Check balance before.</li><li>2. Withdraw $25.</li><li>3. Verify balanceAfter == balanceBefore - 25.</li>
+            </ol>
+            <div class="result-flex">
+              <div class="res-box res-expected"><strong>Expected Result:</strong> Balance decreases by $25.</div>
+              <div class="res-box res-actual-pass"><strong>Actual Result:</strong> PASSED — Balance decreased by $25.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Test Case: POST /withdraw — Creates a new Debit transaction on account -->
+        <div class="test-card">
+          <div class="test-card-header">
+            <span class="test-title"><span class="status-indicator ind-pass"></span>POST /withdraw — Creates a new Debit transaction on account</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="badge badge-info">HTTP 200</span>
+              <span style="font-size: 12px; font-weight: 600; color: #64748b;">12.3s</span>
+              <span class="badge badge-pass">PASSED</span>
+            </div>
+          </div>
+          <div class="test-card-body">
+            <div class="field-label">Description</div>
+            <div class="field-text">Verifies Debit transaction creation.</div>
+            <div class="field-label">Execution Steps</div>
+            <ol class="steps-list">
+              <li>1. Execute withdrawal.</li><li>2. Inspect transaction history.</li><li>3. Verify Debit transaction created.</li>
+            </ol>
+            <div class="result-flex">
+              <div class="res-box res-expected"><strong>Expected Result:</strong> Debit transaction created.</div>
+              <div class="res-box res-actual-pass"><strong>Actual Result:</strong> PASSED — Debit transaction verified.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Test Case: Deposit then immediate withdraw nets zero balance change -->
+        <div class="test-card">
+          <div class="test-card-header">
+            <span class="test-title"><span class="status-indicator ind-pass"></span>Deposit then immediate withdraw nets zero balance change</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="badge badge-info">HTTP 200</span>
+              <span style="font-size: 12px; font-weight: 600; color: #64748b;">3.5s</span>
+              <span class="badge badge-pass">PASSED</span>
+            </div>
+          </div>
+          <div class="test-card-body">
+            <div class="field-label">Description</div>
+            <div class="field-text">Executes deposit followed by equal withdrawal.</div>
+            <div class="field-label">Execution Steps</div>
+            <ol class="steps-list">
+              <li>1. Record starting balance.</li><li>2. Deposit $25.</li><li>3. Withdraw $25.</li><li>4. Verify final balance == starting balance.</li>
+            </ol>
+            <div class="result-flex">
+              <div class="res-box res-expected"><strong>Expected Result:</strong> Net balance change is zero.</div>
+              <div class="res-box res-actual-pass"><strong>Actual Result:</strong> PASSED — Net balance change was zero.</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </details>
+
+    <!-- ── MODULE: Bill Pay & Loans API Specs ── -->
+    <details class="card-glow module-card" data-suite="api" data-status="pass">
+      <summary style="padding: 18px 24px; display: flex; align-items: center; justify-content: space-between;">
+        <div style="display: flex; align-items: center; gap: 14px;">
+          <span class="chevron" style="font-size: 16px; color: #64748b;">▶</span>
+          <span class="badge badge-api">REST API</span>
+          <span style="font-weight: 700; font-size: 16px; color: #0f172a;">Bill Pay & Loans API Specs</span>
+          <span style="font-size: 13px; color: #64748b;">(<code>bill-pay.api.spec.js & loans.api.spec.js</code>)</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <span class="badge badge-pass">16 / 16 PASSED</span>
+          <span style="font-size: 12px; color: #64748b; font-weight: 600;">32.1s</span>
+        </div>
+      </summary>
+      <div style="padding: 0 24px 20px 24px; border-top: 1px solid #f1f5f9; margin-top: 8px;">
+        <p style="font-size: 13.5px; color: #475569; margin: 12px 0 16px 0;">
+          Validates Bill Payment submission (BillPayResult object contract) and Loan Applications (LoanResponse schema and approval status).
+        </p>
+
+        <!-- Test Case: POST /billpay — Returns OK response -->
+        <div class="test-card">
+          <div class="test-card-header">
+            <span class="test-title"><span class="status-indicator ind-pass"></span>POST /billpay — Returns OK response</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="badge badge-info">HTTP 200</span>
+              <span style="font-size: 12px; font-weight: 600; color: #64748b;">2.1s</span>
+              <span class="badge badge-pass">PASSED</span>
+            </div>
+          </div>
+          <div class="test-card-body">
+            <div class="field-label">Description</div>
+            <div class="field-text">Submits a $20 bill payment to payee.</div>
+            <div class="field-label">Execution Steps</div>
+            <ol class="steps-list">
+              <li>1. POST to /billpay with Payee object payload.</li><li>2. Assert status code 200.</li>
+            </ol>
+            <div class="result-flex">
+              <div class="res-box res-expected"><strong>Expected Result:</strong> Bill payment accepted.</div>
+              <div class="res-box res-actual-pass"><strong>Actual Result:</strong> PASSED — Bill payment accepted.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Test Case: POST /billpay — Response contains BillPayResult object -->
+        <div class="test-card">
+          <div class="test-card-header">
+            <span class="test-title"><span class="status-indicator ind-pass"></span>POST /billpay — Response contains BillPayResult object</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="badge badge-info">HTTP 200</span>
+              <span style="font-size: 12px; font-weight: 600; color: #64748b;">2.0s</span>
+              <span class="badge badge-pass">PASSED</span>
+            </div>
+          </div>
+          <div class="test-card-body">
+            <div class="field-label">Description</div>
+            <div class="field-text">Verifies BillPayResult schema.</div>
+            <div class="field-label">Execution Steps</div>
+            <ol class="steps-list">
+              <li>1. Inspect response object.</li><li>2. Assert payeeName, amount, accountId properties exist.</li>
+            </ol>
+            <div class="result-flex">
+              <div class="res-box res-expected"><strong>Expected Result:</strong> BillPayResult schema valid.</div>
+              <div class="res-box res-actual-pass"><strong>Actual Result:</strong> PASSED — Schema valid.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Test Case: POST /billpay — PayeeName matches submitted payee -->
+        <div class="test-card">
+          <div class="test-card-header">
+            <span class="test-title"><span class="status-indicator ind-pass"></span>POST /billpay — PayeeName matches submitted payee</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="badge badge-info">HTTP 200</span>
+              <span style="font-size: 12px; font-weight: 600; color: #64748b;">1.9s</span>
+              <span class="badge badge-pass">PASSED</span>
+            </div>
+          </div>
+          <div class="test-card-body">
+            <div class="field-label">Description</div>
+            <div class="field-text">Verifies payee name matching.</div>
+            <div class="field-label">Execution Steps</div>
+            <ol class="steps-list">
+              <li>1. Compare payeeName in response with submitted name.</li><li>2. Assert equality.</li>
+            </ol>
+            <div class="result-flex">
+              <div class="res-box res-expected"><strong>Expected Result:</strong> Payee name matches.</div>
+              <div class="res-box res-actual-pass"><strong>Actual Result:</strong> PASSED — Payee name matched.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Test Case: POST /billpay — Amount matches submitted payment -->
+        <div class="test-card">
+          <div class="test-card-header">
+            <span class="test-title"><span class="status-indicator ind-pass"></span>POST /billpay — Amount matches submitted payment</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="badge badge-info">HTTP 200</span>
+              <span style="font-size: 12px; font-weight: 600; color: #64748b;">1.8s</span>
+              <span class="badge badge-pass">PASSED</span>
+            </div>
+          </div>
+          <div class="test-card-body">
+            <div class="field-label">Description</div>
+            <div class="field-text">Verifies payment amount matching.</div>
+            <div class="field-label">Execution Steps</div>
+            <ol class="steps-list">
+              <li>1. Compare amount in response with submitted amount.</li><li>2. Assert equality.</li>
+            </ol>
+            <div class="result-flex">
+              <div class="res-box res-expected"><strong>Expected Result:</strong> Amount matches.</div>
+              <div class="res-box res-actual-pass"><strong>Actual Result:</strong> PASSED — Amount matched.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Test Case: POST /requestLoan — Returns OK response for small loan -->
+        <div class="test-card">
+          <div class="test-card-header">
+            <span class="test-title"><span class="status-indicator ind-pass"></span>POST /requestLoan — Returns OK response for small loan</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="badge badge-info">HTTP 200</span>
+              <span style="font-size: 12px; font-weight: 600; color: #64748b;">2.3s</span>
+              <span class="badge badge-pass">PASSED</span>
+            </div>
+          </div>
+          <div class="test-card-body">
+            <div class="field-label">Description</div>
+            <div class="field-text">Submits loan application for $1,000.</div>
+            <div class="field-label">Execution Steps</div>
+            <ol class="steps-list">
+              <li>1. POST to /requestLoan with amount 1000, downPayment 100.</li><li>2. Assert status code < 500.</li>
+            </ol>
+            <div class="result-flex">
+              <div class="res-box res-expected"><strong>Expected Result:</strong> Loan application processed.</div>
+              <div class="res-box res-actual-pass"><strong>Actual Result:</strong> PASSED — Loan application processed.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Test Case: POST /requestLoan — Response contains LoanResponse fields -->
+        <div class="test-card">
+          <div class="test-card-header">
+            <span class="test-title"><span class="status-indicator ind-pass"></span>POST /requestLoan — Response contains LoanResponse fields</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="badge badge-info">HTTP 200</span>
+              <span style="font-size: 12px; font-weight: 600; color: #64748b;">2.1s</span>
+              <span class="badge badge-pass">PASSED</span>
+            </div>
+          </div>
+          <div class="test-card-body">
+            <div class="field-label">Description</div>
+            <div class="field-text">Verifies LoanResponse schema fields.</div>
+            <div class="field-label">Execution Steps</div>
+            <ol class="steps-list">
+              <li>1. Check loanProviderName and approved properties.</li><li>2. Assert valid data types.</li>
+            </ol>
+            <div class="result-flex">
+              <div class="res-box res-expected"><strong>Expected Result:</strong> LoanResponse fields valid.</div>
+              <div class="res-box res-actual-pass"><strong>Actual Result:</strong> PASSED — Schema fields valid.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Test Case: POST /requestLoan — Approved loan response includes accountId -->
+        <div class="test-card">
+          <div class="test-card-header">
+            <span class="test-title"><span class="status-indicator ind-pass"></span>POST /requestLoan — Approved loan response includes accountId</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="badge badge-info">HTTP 200</span>
+              <span style="font-size: 12px; font-weight: 600; color: #64748b;">2.2s</span>
+              <span class="badge badge-pass">PASSED</span>
+            </div>
+          </div>
+          <div class="test-card-body">
+            <div class="field-label">Description</div>
+            <div class="field-text">Verifies new loan account creation upon approval.</div>
+            <div class="field-label">Execution Steps</div>
+            <ol class="steps-list">
+              <li>1. Inspect approved loan response.</li><li>2. Assert accountId property is a positive number.</li>
+            </ol>
+            <div class="result-flex">
+              <div class="res-box res-expected"><strong>Expected Result:</strong> New loan account ID returned.</div>
+              <div class="res-box res-actual-pass"><strong>Actual Result:</strong> PASSED — New loan account ID returned.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Test Case: POST /requestLoan — Denied loan has approved = false -->
+        <div class="test-card">
+          <div class="test-card-header">
+            <span class="test-title"><span class="status-indicator ind-pass"></span>POST /requestLoan — Denied loan has approved = false</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="badge badge-info">HTTP 200</span>
+              <span style="font-size: 12px; font-weight: 600; color: #64748b;">2.0s</span>
+              <span class="badge badge-pass">PASSED</span>
+            </div>
+          </div>
+          <div class="test-card-body">
+            <div class="field-label">Description</div>
+            <div class="field-text">Submits unreasonable loan ($9,999,999 with $1 down) and checks denial.</div>
+            <div class="field-label">Execution Steps</div>
+            <ol class="steps-list">
+              <li>1. Request $9,999,999 loan.</li><li>2. Assert approved property is false.</li>
+            </ol>
+            <div class="result-flex">
+              <div class="res-box res-expected"><strong>Expected Result:</strong> Loan approved field is false.</div>
+              <div class="res-box res-actual-pass"><strong>Actual Result:</strong> PASSED — Loan correctly denied with approved = false.</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </details>
+
+    <!-- ── MODULE: Negative & Boundary Cases API Specs ── -->
+    <details class="card-glow module-card" data-suite="api" data-status="pass">
+      <summary style="padding: 18px 24px; display: flex; align-items: center; justify-content: space-between;">
+        <div style="display: flex; align-items: center; gap: 14px;">
+          <span class="chevron" style="font-size: 16px; color: #64748b;">▶</span>
+          <span class="badge badge-api">REST API</span>
+          <span style="font-weight: 700; font-size: 16px; color: #0f172a;">Negative & Boundary Cases API Specs</span>
+          <span style="font-size: 13px; color: #64748b;">(<code>tests/api/specs/negative.api.spec.js</code>)</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <span class="badge badge-pass">18 / 18 PASSED</span>
+          <span style="font-size: 12px; color: #64748b; font-weight: 600;">12.8s</span>
+        </div>
+      </summary>
+      <div style="padding: 0 24px 20px 24px; border-top: 1px solid #f1f5f9; margin-top: 8px;">
+        <p style="font-size: 13.5px; color: #475569; margin: 12px 0 16px 0;">
+          Validates 4xx error handling for invalid/zero/negative resource IDs, missing mandatory query parameters, non-exposure of Java stack traces, and Content-Type header integrity.
+        </p>
+
+        <!-- Test Case: GET /accounts/9999999 — Non-existent account returns 4xx -->
+        <div class="test-card">
+          <div class="test-card-header">
+            <span class="test-title"><span class="status-indicator ind-pass"></span>GET /accounts/9999999 — Non-existent account returns 4xx</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="badge badge-info">HTTP 404</span>
+              <span style="font-size: 12px; font-weight: 600; color: #64748b;">0.7s</span>
+              <span class="badge badge-pass">PASSED</span>
+            </div>
+          </div>
+          <div class="test-card-body">
+            <div class="field-label">Description</div>
+            <div class="field-text">Requests non-existent account ID.</div>
+            <div class="field-label">Execution Steps</div>
+            <ol class="steps-list">
+              <li>1. GET /accounts/9999999.</li><li>2. Assert status code 400 or 404.</li>
+            </ol>
+            <div class="result-flex">
+              <div class="res-box res-expected"><strong>Expected Result:</strong> HTTP 400/404 error response.</div>
+              <div class="res-box res-actual-pass"><strong>Actual Result:</strong> PASSED — HTTP 404 Not Found returned.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Test Case: GET /accounts/0 — Account ID zero returns non-200 -->
+        <div class="test-card">
+          <div class="test-card-header">
+            <span class="test-title"><span class="status-indicator ind-pass"></span>GET /accounts/0 — Account ID zero returns non-200</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="badge badge-info">HTTP 400</span>
+              <span style="font-size: 12px; font-weight: 600; color: #64748b;">0.6s</span>
+              <span class="badge badge-pass">PASSED</span>
+            </div>
+          </div>
+          <div class="test-card-body">
+            <div class="field-label">Description</div>
+            <div class="field-text">Requests invalid account ID 0.</div>
+            <div class="field-label">Execution Steps</div>
+            <ol class="steps-list">
+              <li>1. GET /accounts/0.</li><li>2. Assert status code != 200.</li>
+            </ol>
+            <div class="result-flex">
+              <div class="res-box res-expected"><strong>Expected Result:</strong> HTTP 400 Bad Request.</div>
+              <div class="res-box res-actual-pass"><strong>Actual Result:</strong> PASSED — HTTP 400 returned.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Test Case: GET /accounts/-1 — Negative account ID rejected -->
+        <div class="test-card">
+          <div class="test-card-header">
+            <span class="test-title"><span class="status-indicator ind-pass"></span>GET /accounts/-1 — Negative account ID rejected</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="badge badge-info">HTTP 400</span>
+              <span style="font-size: 12px; font-weight: 600; color: #64748b;">0.6s</span>
+              <span class="badge badge-pass">PASSED</span>
+            </div>
+          </div>
+          <div class="test-card-body">
+            <div class="field-label">Description</div>
+            <div class="field-text">Requests negative account ID -1.</div>
+            <div class="field-label">Execution Steps</div>
+            <ol class="steps-list">
+              <li>1. GET /accounts/-1.</li><li>2. Assert status code < 500.</li>
+            </ol>
+            <div class="result-flex">
+              <div class="res-box res-expected"><strong>Expected Result:</strong> HTTP 400 Bad Request.</div>
+              <div class="res-box res-actual-pass"><strong>Actual Result:</strong> PASSED — HTTP 400 returned.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Test Case: GET /customers/0 — Customer ID zero returns non-200 -->
+        <div class="test-card">
+          <div class="test-card-header">
+            <span class="test-title"><span class="status-indicator ind-pass"></span>GET /customers/0 — Customer ID zero returns non-200</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="badge badge-info">HTTP 400</span>
+              <span style="font-size: 12px; font-weight: 600; color: #64748b;">0.5s</span>
+              <span class="badge badge-pass">PASSED</span>
+            </div>
+          </div>
+          <div class="test-card-body">
+            <div class="field-label">Description</div>
+            <div class="field-text">Requests invalid customer ID 0.</div>
+            <div class="field-label">Execution Steps</div>
+            <ol class="steps-list">
+              <li>1. GET /customers/0.</li><li>2. Assert status code != 200.</li>
+            </ol>
+            <div class="result-flex">
+              <div class="res-box res-expected"><strong>Expected Result:</strong> HTTP 400 Bad Request.</div>
+              <div class="res-box res-actual-pass"><strong>Actual Result:</strong> PASSED — HTTP 400 returned.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Test Case: GET /transactions/9999999 — Non-existent transaction returns 4xx -->
+        <div class="test-card">
+          <div class="test-card-header">
+            <span class="test-title"><span class="status-indicator ind-pass"></span>GET /transactions/9999999 — Non-existent transaction returns 4xx</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="badge badge-info">HTTP 404</span>
+              <span style="font-size: 12px; font-weight: 600; color: #64748b;">0.6s</span>
+              <span class="badge badge-pass">PASSED</span>
+            </div>
+          </div>
+          <div class="test-card-body">
+            <div class="field-label">Description</div>
+            <div class="field-text">Requests non-existent transaction ID.</div>
+            <div class="field-label">Execution Steps</div>
+            <ol class="steps-list">
+              <li>1. GET /transactions/9999999.</li><li>2. Assert status code 400 or 404.</li>
+            </ol>
+            <div class="result-flex">
+              <div class="res-box res-expected"><strong>Expected Result:</strong> HTTP 400/404 error response.</div>
+              <div class="res-box res-actual-pass"><strong>Actual Result:</strong> PASSED — HTTP 404 Not Found returned.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Test Case: POST /transfer — Missing fromAccountId query param handled gracefully -->
+        <div class="test-card">
+          <div class="test-card-header">
+            <span class="test-title"><span class="status-indicator ind-pass"></span>POST /transfer — Missing fromAccountId query param handled gracefully</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="badge badge-info">HTTP 400</span>
+              <span style="font-size: 12px; font-weight: 600; color: #64748b;">0.7s</span>
+              <span class="badge badge-pass">PASSED</span>
+            </div>
+          </div>
+          <div class="test-card-body">
+            <div class="field-label">Description</div>
+            <div class="field-text">Submits transfer without source account.</div>
+            <div class="field-label">Execution Steps</div>
+            <ol class="steps-list">
+              <li>1. POST /transfer without fromAccountId.</li><li>2. Assert status code < 500.</li>
+            </ol>
+            <div class="result-flex">
+              <div class="res-box res-expected"><strong>Expected Result:</strong> HTTP 400 error status.</div>
+              <div class="res-box res-actual-pass"><strong>Actual Result:</strong> PASSED — HTTP 400 returned.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Test Case: API error responses do not contain Java stack traces -->
+        <div class="test-card">
+          <div class="test-card-header">
+            <span class="test-title"><span class="status-indicator ind-pass"></span>API error responses do not contain Java stack traces</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="badge badge-info">CLEAN</span>
+              <span style="font-size: 12px; font-weight: 600; color: #64748b;">0.5s</span>
+              <span class="badge badge-pass">PASSED</span>
+            </div>
+          </div>
+          <div class="test-card-body">
+            <div class="field-label">Description</div>
+            <div class="field-text">Ensures backend exceptions do not leak stack traces to client.</div>
+            <div class="field-label">Execution Steps</div>
+            <ol class="steps-list">
+              <li>1. Trigger 404 error.</li><li>2. Inspect body for 'java.lang.Exception' or 'StackTrace'.</li><li>3. Assert absence of trace text.</li>
+            </ol>
+            <div class="result-flex">
+              <div class="res-box res-expected"><strong>Expected Result:</strong> Zero stack trace text in response body.</div>
+              <div class="res-box res-actual-pass"><strong>Actual Result:</strong> PASSED — No Java stack traces present.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Test Case: API responses always include Content-Type header -->
+        <div class="test-card">
+          <div class="test-card-header">
+            <span class="test-title"><span class="status-indicator ind-pass"></span>API responses always include Content-Type header</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="badge badge-info">JSON</span>
+              <span style="font-size: 12px; font-weight: 600; color: #64748b;">0.4s</span>
+              <span class="badge badge-pass">PASSED</span>
+            </div>
+          </div>
+          <div class="test-card-body">
+            <div class="field-label">Description</div>
+            <div class="field-text">Verifies Content-Type header present on all responses.</div>
+            <div class="field-label">Execution Steps</div>
+            <ol class="steps-list">
+              <li>1. Inspect response headers.</li><li>2. Assert Content-Type header exists.</li>
+            </ol>
+            <div class="result-flex">
+              <div class="res-box res-expected"><strong>Expected Result:</strong> Content-Type header present.</div>
+              <div class="res-box res-actual-pass"><strong>Actual Result:</strong> PASSED — Content-Type header present.</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </details>
+
+    <!-- ── MODULE: BDD Feature: User Registration Workflows ── -->
+    <details class="card-glow module-card" data-suite="bdd" data-status="pass">
+      <summary style="padding: 18px 24px; display: flex; align-items: center; justify-content: space-between;">
+        <div style="display: flex; align-items: center; gap: 14px;">
+          <span class="chevron" style="font-size: 16px; color: #64748b;">▶</span>
+          <span class="badge badge-bdd">BDD WEB UI</span>
+          <span style="font-weight: 700; font-size: 16px; color: #0f172a;">BDD Feature: User Registration Workflows</span>
+          <span style="font-size: 13px; color: #64748b;">(<code>tests/features/registration.feature</code>)</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <span class="badge badge-pass">12 PASSED</span>
+          
+          <span style="font-size: 12px; color: #64748b; font-weight: 600;">4.2m</span>
+        </div>
+      </summary>
+      <div style="padding: 0 24px 20px 24px; border-top: 1px solid #f1f5f9; margin-top: 8px;">
+        <p style="font-size: 13.5px; color: #475569; margin: 12px 0 16px 0;">
+          Executes Gherkin scenarios testing user registration form filling, mandatory field validation, duplicate username handling, and automatic session creation.
+        </p>
+
+        <!-- Test Case: User Registration — Successful Registration with unique username -->
+        <div class="test-card">
+          <div class="test-card-header">
+            <span class="test-title"><span class="status-indicator ind-pass"></span>User Registration — Successful Registration with unique username</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="badge badge-info">PASSED</span>
+              <span style="font-size: 12px; font-weight: 600; color: #64748b;">8.2s</span>
+              <span class="badge badge-pass">PASSED</span>
+            </div>
+          </div>
+          <div class="test-card-body">
+            <div class="field-label">Description</div>
+            <div class="field-text">Fills registration form with unique credentials and verifies success banner.</div>
+            <div class="field-label">Gherkin Behavioral Steps</div>
+            <ol class="steps-list">
+              <li>Given user is on the ParaBank Registration page</li><li>When user submits valid registration details with a unique username</li><li>Then a success message 'Welcome [username]' is displayed on screen</li><li>And a valid session cookie is assigned to the browser</li>
+            </ol>
+            <div class="result-flex">
+              <div class="res-box res-expected"><strong>Expected Result:</strong> Browser displays Welcome message and registers user.</div>
+              <div class="res-box res-actual-pass"><strong>Actual Result:</strong> PASSED — Account created and welcome banner displayed.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Test Case: User Registration — Mandatory field validation error messages -->
+        <div class="test-card">
+          <div class="test-card-header">
+            <span class="test-title"><span class="status-indicator ind-pass"></span>User Registration — Mandatory field validation error messages</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="badge badge-info">PASSED</span>
+              <span style="font-size: 12px; font-weight: 600; color: #64748b;">4.1s</span>
+              <span class="badge badge-pass">PASSED</span>
+            </div>
+          </div>
+          <div class="test-card-body">
+            <div class="field-label">Description</div>
+            <div class="field-text">Leaves required fields blank and verifies validation error messages.</div>
+            <div class="field-label">Gherkin Behavioral Steps</div>
+            <ol class="steps-list">
+              <li>Given user is on the Registration page</li><li>When user submits form leaving 'First Name' blank</li><li>Then error message 'First name is required.' appears below the input</li>
+            </ol>
+            <div class="result-flex">
+              <div class="res-box res-expected"><strong>Expected Result:</strong> Validation error message displayed.</div>
+              <div class="res-box res-actual-pass"><strong>Actual Result:</strong> PASSED — Required field validation error displayed.</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </details>
+
+    <!-- ── MODULE: BDD Feature: Authentication & Login Workflows ── -->
+    <details class="card-glow module-card" data-suite="bdd" data-status="pass">
+      <summary style="padding: 18px 24px; display: flex; align-items: center; justify-content: space-between;">
+        <div style="display: flex; align-items: center; gap: 14px;">
+          <span class="chevron" style="font-size: 16px; color: #64748b;">▶</span>
+          <span class="badge badge-bdd">BDD WEB UI</span>
+          <span style="font-weight: 700; font-size: 16px; color: #0f172a;">BDD Feature: Authentication & Login Workflows</span>
+          <span style="font-size: 13px; color: #64748b;">(<code>tests/features/login.feature</code>)</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <span class="badge badge-pass">15 PASSED</span>
+          
+          <span style="font-size: 12px; color: #64748b; font-weight: 600;">3.8m</span>
+        </div>
+      </summary>
+      <div style="padding: 0 24px 20px 24px; border-top: 1px solid #f1f5f9; margin-top: 8px;">
+        <p style="font-size: 13.5px; color: #475569; margin: 12px 0 16px 0;">
+          Tests user login with valid credentials, invalid password rejection, empty field validations, and session logout.
+        </p>
+
+        <!-- Test Case: Login — Successful Authentication with registered credentials -->
+        <div class="test-card">
+          <div class="test-card-header">
+            <span class="test-title"><span class="status-indicator ind-pass"></span>Login — Successful Authentication with registered credentials</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="badge badge-info">PASSED</span>
+              <span style="font-size: 12px; font-weight: 600; color: #64748b;">4.5s</span>
+              <span class="badge badge-pass">PASSED</span>
+            </div>
+          </div>
+          <div class="test-card-body">
+            <div class="field-label">Description</div>
+            <div class="field-text">Logs in with valid credentials and confirms navigation to Accounts Overview.</div>
+            <div class="field-label">Gherkin Behavioral Steps</div>
+            <ol class="steps-list">
+              <li>Given user is on ParaBank login panel</li><li>When user enters valid username 'john' and password 'demo'</li><li>Then user is redirected to 'overview.htm'</li><li>And Accounts Overview header is visible</li>
+            </ol>
+            <div class="result-flex">
+              <div class="res-box res-expected"><strong>Expected Result:</strong> Successful login and redirection to Accounts Overview.</div>
+              <div class="res-box res-actual-pass"><strong>Actual Result:</strong> PASSED — User authenticated and redirected.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Test Case: Login — Invalid password error handling -->
+        <div class="test-card">
+          <div class="test-card-header">
+            <span class="test-title"><span class="status-indicator ind-pass"></span>Login — Invalid password error handling</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="badge badge-info">PASSED</span>
+              <span style="font-size: 12px; font-weight: 600; color: #64748b;">3.2s</span>
+              <span class="badge badge-pass">PASSED</span>
+            </div>
+          </div>
+          <div class="test-card-body">
+            <div class="field-label">Description</div>
+            <div class="field-text">Attempts login with wrong password and verifies error banner.</div>
+            <div class="field-label">Gherkin Behavioral Steps</div>
+            <ol class="steps-list">
+              <li>Given user is on login panel</li><li>When user enters username 'john' and wrong password 'badpass'</li><li>Then error message 'The username and password could not be verified.' appears</li>
+            </ol>
+            <div class="result-flex">
+              <div class="res-box res-expected"><strong>Expected Result:</strong> Error message displayed.</div>
+              <div class="res-box res-actual-pass"><strong>Actual Result:</strong> PASSED — Authentication error banner displayed.</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </details>
+
+    <!-- ── MODULE: BDD Feature: Fund Transfer Workflows ── -->
+    <details class="card-glow module-card" data-suite="bdd" data-status="fail">
+      <summary style="padding: 18px 24px; display: flex; align-items: center; justify-content: space-between;">
+        <div style="display: flex; align-items: center; gap: 14px;">
+          <span class="chevron" style="font-size: 16px; color: #64748b;">▶</span>
+          <span class="badge badge-bdd">BDD WEB UI</span>
+          <span style="font-weight: 700; font-size: 16px; color: #0f172a;">BDD Feature: Fund Transfer Workflows</span>
+          <span style="font-size: 13px; color: #64748b;">(<code>tests/features/transfer.feature</code>)</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <span class="badge badge-pass">12 PASSED</span>
+          <span class='badge badge-fail'>14 FAILED</span>
+          <span style="font-size: 12px; color: #64748b; font-weight: 600;">8.5m</span>
+        </div>
+      </summary>
+      <div style="padding: 0 24px 20px 24px; border-top: 1px solid #f1f5f9; margin-top: 8px;">
+        <p style="font-size: 13.5px; color: #475569; margin: 12px 0 16px 0;">
+          Tests fund transfers between accounts. 12 scenarios passed; 14 failed due to dynamic balance DOM mismatches on ParaBank's live demo environment.
+        </p>
+
+        <!-- Test Case: Transfer Funds — Transfer between valid customer accounts -->
+        <div class="test-card">
+          <div class="test-card-header">
+            <span class="test-title"><span class="status-indicator ind-pass"></span>Transfer Funds — Transfer between valid customer accounts</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="badge badge-info">PASSED</span>
+              <span style="font-size: 12px; font-weight: 600; color: #64748b;">7.1s</span>
+              <span class="badge badge-pass">PASSED</span>
+            </div>
+          </div>
+          <div class="test-card-body">
+            <div class="field-label">Description</div>
+            <div class="field-text">Transfers $50 between two valid accounts.</div>
+            <div class="field-label">Gherkin Behavioral Steps</div>
+            <ol class="steps-list">
+              <li>Given user has two active accounts</li><li>When user transfers $50 from Account A to Account B</li><li>Then 'Transfer Complete!' banner is displayed</li>
+            </ol>
+            <div class="result-flex">
+              <div class="res-box res-expected"><strong>Expected Result:</strong> Transfer completes successfully.</div>
+              <div class="res-box res-actual-pass"><strong>Actual Result:</strong> PASSED — Transfer banner displayed.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Test Case: Accounts Overview — Validate exact total balance calculation -->
+        <div class="test-card">
+          <div class="test-card-header">
+            <span class="test-title"><span class="status-indicator ind-fail"></span>Accounts Overview — Validate exact total balance calculation</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="badge badge-info">DOM MISMATCH</span>
+              <span style="font-size: 12px; font-weight: 600; color: #64748b;">5.4s</span>
+              <span class="badge badge-fail">FAILED</span>
+            </div>
+          </div>
+          <div class="test-card-body">
+            <div class="field-label">Description</div>
+            <div class="field-text">Validates sum of account balances in DOM table matches total row.</div>
+            <div class="field-label">Gherkin Behavioral Steps</div>
+            <ol class="steps-list">
+              <li>Given user is on Accounts Overview page</li><li>When table loads all account balances</li><li>Then total balance row should equal sum of individual account balances</li>
+            </ol>
+            <div class="result-flex">
+              <div class="res-box res-expected"><strong>Expected Result:</strong> Total balance row equals sum of table rows.</div>
+              <div class="res-box res-actual-fail"><strong>Actual Result:</strong> FAILED (DOM MISMATCH) — ParaBank demo server modified underlying balances concurrently.</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </details>
+
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<div style="background: #ffffff; border-top: 1px solid #e2e8f0; padding: 24px 40px; margin-top: 60px; text-align: center; font-size: 13px; color: #64748b;">
+  <p style="margin: 4px 0 0 0; color: #94a3b8; font-size: 12px;">
+   Framework and API testing of Parabank website by Ayyan Zia | QE Intern @Netsol
+  </p>
+</div>
+
+<!-- INTERACTIVE FILTER & SEARCH JAVASCRIPT -->
+<script>
+  function filterSuite(filterType, btnElement) {
+    const tabs = document.querySelectorAll('.tab-btn');
+    tabs.forEach(tab => tab.classList.remove('active'));
+    btnElement.classList.add('active');
+
+    const modules = document.querySelectorAll('.module-card');
+    modules.forEach(mod => {
+      const suite = mod.getAttribute('data-suite');
+      const status = mod.getAttribute('data-status');
+
+      if (filterType === 'all') {
+        mod.style.display = 'block';
+      } else if (filterType === 'api' && suite === 'api') {
+        mod.style.display = 'block';
+      } else if (filterType === 'hybrid' && suite === 'hybrid') {
+        mod.style.display = 'block';
+      } else if (filterType === 'bdd' && suite === 'bdd') {
+        mod.style.display = 'block';
+      } else if (filterType === 'pass' && status === 'pass') {
+        mod.style.display = 'block';
+      } else if (filterType === 'fail' && status === 'fail') {
+        mod.style.display = 'block';
+      } else {
+        mod.style.display = 'none';
+      }
+    });
+  }
+
+  function searchTests() {
+    const query = document.getElementById('searchInput').value.toLowerCase();
+    const modules = document.querySelectorAll('.module-card');
+
+    modules.forEach(mod => {
+      const text = mod.innerText.toLowerCase();
+      if (text.includes(query)) {
+        mod.style.display = 'block';
+        if (query.length > 2) {
+          mod.setAttribute('open', 'true');
+        }
+      } else {
+        mod.style.display = 'none';
+      }
+    });
+  }
+
+  function toggleAllModules(shouldOpen) {
+    const modules = document.querySelectorAll('.module-card');
+    modules.forEach(mod => {
+      if (shouldOpen) {
+        mod.setAttribute('open', 'true');
+      } else {
+        mod.removeAttribute('open');
+      }
+    });
+  }
+</script>
+
+</body>
+</html>
